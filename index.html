@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC Guides — Hub</title>
+<meta name="description" content="Einstiegsseite für alle Star-Citizen-Feldhandbücher: Missionen, Kataloge und Berufe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f6f8; --panel:#ffffff; --panel2:#eef1f5; --ink:#141922; --muted:#5a6472;
+    --line:#d5dbe3; --accent:#0e7c86; --accent2:#c9822a; --glow:rgba(14,124,134,.18);
+    --shadow:0 2px 10px rgba(20,25,34,.08);
+    --disp:'Exo 2',system-ui,sans-serif; --body:'Rajdhani',system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a0e14; --panel:#121822; --panel2:#0e131c; --ink:#e8edf4; --muted:#8b97a8;
+      --line:#243040; --accent:#3fd0dd; --accent2:#f0a94a; --glow:rgba(63,208,221,.16);
+      --shadow:0 4px 20px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e14; --panel:#121822; --panel2:#0e131c; --ink:#e8edf4; --muted:#8b97a8;
+    --line:#243040; --accent:#3fd0dd; --accent2:#f0a94a; --glow:rgba(63,208,221,.16);
+    --shadow:0 4px 20px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
+    font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px 64px}
+
+  /* top bar */
+  .hazard{height:6px;background:repeating-linear-gradient(45deg,var(--accent2) 0 14px,transparent 14px 28px);opacity:.9}
+  header{padding:30px 0 8px}
+  .eyebrow{font-family:var(--disp);font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);font-size:12px;margin:0 0 6px}
+  h1{font-family:var(--disp);font-weight:800;font-size:clamp(28px,5vw,44px);margin:0;line-height:1.05;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:60ch;margin:10px 0 0;font-size:16px}
+
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+  .btn{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.06em;
+    background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;
+    padding:8px 14px;cursor:pointer;transition:.15s;text-transform:uppercase}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* group heading */
+  .grp{margin:34px 0 14px;display:flex;align-items:center;gap:12px}
+  .grp .idx{font-family:var(--disp);font-weight:800;font-size:13px;color:var(--bg);
+    background:var(--accent);width:30px;height:30px;display:grid;place-items:center;border-radius:7px;flex:0 0 auto}
+  .grp h2{font-family:var(--disp);font-weight:800;font-size:19px;margin:0;letter-spacing:.02em}
+  .grp .cnt{color:var(--muted);font-size:13px;margin-left:auto;font-family:var(--disp);letter-spacing:.05em}
+
+  /* cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .card{display:flex;flex-direction:column;gap:8px;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:18px 18px 16px;text-decoration:none;color:inherit;box-shadow:var(--shadow);
+    transition:.18s;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--accent);opacity:.55;transition:.18s}
+  .card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 28px var(--glow)}
+  .card:hover::before{opacity:1;width:5px}
+  .card .ico{font-size:24px;line-height:1}
+  .card h3{font-family:var(--disp);font-weight:700;font-size:18px;margin:2px 0 0}
+  .card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.42}
+  .card .tag{margin-top:auto;padding-top:8px;font-family:var(--disp);font-size:11.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent)}
+  .card.warn::before{background:var(--accent2)}
+  .card.warn .tag{color:var(--accent2)}
+  .card.warn:hover{border-color:var(--accent2);box-shadow:0 10px 28px rgba(240,169,74,.18)}
+
+  /* lang */
+  .en{display:none}
+  [data-lang="en"] .de{display:none}
+  [data-lang="en"] .en{display:revert}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><span class="de">Feldhandbücher · Übersicht</span><span class="en">Field Handbooks · Index</span></p>
+    <h1>Star Citizen — Guide-Hub</h1>
+    <p class="lede">
+      <span class="de">Alle bisher erstellten Feldhandbücher an einem Ort. Klick auf eine Karte, um den Guide zu öffnen. Alle Dateien liegen offline in diesem Ordner.</span>
+      <span class="en">Every field handbook we've built so far, in one place. Click a card to open a guide. All files live offline in this folder.</span>
+    </p>
+    <div class="toolbar">
+      <button class="btn" id="langBtn" type="button">EN / DE</button>
+      <button class="btn" id="themeBtn" type="button"><span class="de">Hell / Dunkel</span><span class="en">Light / Dark</span></button>
+    </div>
+  </header>
+
+  <!-- MISSIONEN & LOCATIONS -->
+  <div class="grp">
+    <span class="idx">01</span>
+    <h2><span class="de">Missionen &amp; Orte</span><span class="en">Missions &amp; Locations</span></h2>
+    <span class="cnt"><span class="de">7 Guides</span><span class="en">7 guides</span></span>
+  </div>
+  <div class="grid">
+    <a class="card" href="SC_Pyro_ASD_Labs_Guide.html">
+      <span class="ico">🧪</span>
+      <h3>Pyro ASD Labs</h3>
+      <p><span class="de">Lazarus-Raid: Ablauf, Boss und Loot in den ASD-Laboren.</span><span class="en">Lazarus raid: run-through, boss and loot in the ASD labs.</span></p>
+      <span class="tag">Pyro · Raid</span>
+    </a>
+    <a class="card" href="SC_Hathor_OLP_Guide.html">
+      <span class="ico">🛰️</span>
+      <h3>Hathor OLP</h3>
+      <p><span class="de">Orbital-Laser-Plattform: Loot-Raid &amp; Laser-Mining, Standorte, Beute.</span><span class="en">Orbital laser platform: loot raid &amp; laser mining, locations, loot.</span></p>
+      <span class="tag">Hathor · Raid</span>
+      <span style="margin-top:4px;font-size:11.5px;color:var(--muted)">↔ <span class="de">verwandt: Mining (Event-Minables)</span><span class="en">related: Mining (event minables)</span></span>
+    </a>
+    <a class="card" href="SC_Onyx_Jorrit_Guide.html">
+      <span class="ico">🔎</span>
+      <h3>Onyx / Fall Jorrit</h3>
+      <p><span class="de">ASD-Ermittlung: Hockrow-Missionskette, Phasen/Wings, Wikelo-Belohnungen.</span><span class="en">ASD investigation: Hockrow mission chain, phases/wings, Wikelo rewards.</span></p>
+      <span class="tag">Stanton · Kette</span>
+    </a>
+    <a class="card" href="SC_Pyro_Contested_Zones_Guide.html">
+      <span class="ico">📡</span>
+      <h3>Pyro Contested Zones</h3>
+      <p><span class="de">Checkmate / Orbituary / Ruin: 7 Com Boards sammeln → Schiff.</span><span class="en">Checkmate / Orbituary / Ruin: collect 7 com boards → ship.</span></p>
+      <span class="tag">Pyro · CZ</span>
+    </a>
+    <a class="card" href="SC_Vanduul_Tech_Smugglers_Guide.html">
+      <span class="ico">👽</span>
+      <h3>Vanduul-Tech Smugglers</h3>
+      <p><span class="de">InterSec/Nyx: 7 Teile, Onyx-Fortsetzung, MG-Scrip-Payout.</span><span class="en">InterSec/Nyx: 7 parts, Onyx follow-up, MG scrip payout.</span></p>
+      <span class="tag">Nyx · Kette</span>
+    </a>
+    <a class="card" href="SC_Tactical_Strike_Groups_Guide.html">
+      <span class="ico">🎯</span>
+      <h3>Tactical Strike Groups</h3>
+      <p><span class="de">Koop-Op: Squad-Rollen, 5 Phasen bis Vanduul Mauler, Blueprint-Rewards.</span><span class="en">Co-op op: squad roles, 5 phases to the Vanduul Mauler, blueprint rewards.</span></p>
+      <span class="tag">Nyx · Koop</span>
+    </a>
+    <a class="card" href="SC_QV_Breaker_Stations_Guide.html">
+      <span class="ico">🪨</span>
+      <h3>QV Breaker Stations</h3>
+      <p><span class="de">Nyx-Eis-Station rebooten, Sadaryx→Linsen, Laser feuern.</span><span class="en">Reboot the Nyx ice station, Sadaryx→lenses, fire the laser.</span></p>
+      <span class="tag">Nyx · Rock Breaker</span>
+      <span style="margin-top:4px;font-size:11.5px;color:var(--muted)">↔ <span class="de">verwandt: Mining (Event-Minables)</span><span class="en">related: Mining (event minables)</span></span>
+    </a>
+  </div>
+
+  <!-- KATALOGE -->
+  <div class="grp">
+    <span class="idx">02</span>
+    <h2><span class="de">Sammel-Kataloge</span><span class="en">Reference Catalogues</span></h2>
+    <span class="cnt"><span class="de">wachsend</span><span class="en">growing</span></span>
+  </div>
+  <div class="grid">
+    <a class="card warn" href="SC_Loot_Guide.html">
+      <span class="ico">🎒</span>
+      <h3>Loot-Guide</h3>
+      <p><span class="de">Ausrüstungs-Katalog: gute Gear &amp; wo man sie bekommt. Wird iterativ gefüllt.</span><span class="en">Gear catalogue: good equipment &amp; where to get it. Filled iteratively.</span></p>
+      <span class="tag">Katalog · Gear</span>
+    </a>
+    <a class="card warn" href="SC_Loot_Locations_Guide.html">
+      <span class="ico">🗺️</span>
+      <h3>Loot-Locations</h3>
+      <p><span class="de">Fundort-Katalog: Anfahrt &amp; knifflige Stellen. Wird iterativ gefüllt.</span><span class="en">Location catalogue: approach &amp; tricky spots. Filled iteratively.</span></p>
+      <span class="tag">Katalog · Orte</span>
+    </a>
+    <a class="card warn" href="SC_Artefakte_Guide.html">
+      <span class="ico">🪙</span>
+      <h3><span class="de">Besondere Artefakte</span><span class="en">Special Artifacts</span></h3>
+      <p><span class="de">Wertvoller Sammel-Loot (Pristine/Flawed/Damaged): Lore, Fundorte, Werte. Einträge: Ingots, Medaillen &amp; Marker …</span><span class="en">Valuable collectible loot (Pristine/Flawed/Damaged): lore, locations, values. Entries: ingots, medals &amp; markers …</span></p>
+      <span class="tag">Katalog · Loot</span>
+    </a>
+  </div>
+
+  <!-- BERUFE -->
+  <div class="grp">
+    <span class="idx">03</span>
+    <h2><span class="de">Berufe &amp; Aktivitäten</span><span class="en">Careers &amp; Activities</span></h2>
+    <span class="cnt"><span class="de">4 Guides</span><span class="en">4 guides</span></span>
+  </div>
+  <div class="grid">
+    <a class="card" href="SC_Mining_Guide.html">
+      <span class="ico">⛏️</span>
+      <h3>Mining-Guide</h3>
+      <p><span class="de">Ausrüstung, Zyklus, Scan-Signaturen &amp; Aaron-Halo-Distanzen zu den 10 Bändern.</span><span class="en">Equipment, cycle, scan signatures &amp; Aaron Halo distances to all 10 bands.</span></p>
+      <span class="tag">Bergbau</span>
+      <span style="margin-top:4px;font-size:11.5px;color:var(--muted)">↔ <span class="de">verwandt: Hathor · QV Breaker (Event-Minables)</span><span class="en">related: Hathor · QV Breaker (event minables)</span></span>
+    </a>
+    <a class="card" href="SC_Salvage_Guide.html">
+      <span class="ico">🛠️</span>
+      <h3>Salvage-Guide</h3>
+      <p><span class="de">Loop (RMC/CMat/Bauteile), Ausrüstung, Wrack-Hotspots &amp; Kontrakte.</span><span class="en">Loop (RMC/CMat/components), equipment, wreck hotspots &amp; contracts.</span></p>
+      <span class="tag">Bergung</span>
+    </a>
+    <a class="card" href="SC_Hacking_Chips_Guide.html">
+      <span class="ico">🔓</span>
+      <h3><span class="de">Hacking-Chips</span><span class="en">Hacking Chips</span></h3>
+      <p><span class="de">Cryptokeys im Vergleich, was man hackt (Crime-Stat, Comm-Arrays, Türen), Bedienung &amp; Bezug.</span><span class="en">Cryptokeys compared, what to hack (crime stat, comm arrays, doors), how-to &amp; sources.</span></p>
+      <span class="tag"><span class="de">Werkzeug</span><span class="en">Tool</span></span>
+    </a>
+    <a class="card" href="SC_Nichtkaeufliche_Komponenten_Guide.html">
+      <span class="ico">🧩</span>
+      <h3><span class="de">Nichtkäufliche Komponenten</span><span class="en">Non-purchasable Components</span></h3>
+      <p><span class="de">Schilde, Cooler, Power Plants, Quantum Drives &amp; Waffen ohne Shop: Bauplan-Quellen, Auftraggeber, Event, Fundorte (4.10.2).</span><span class="en">Shields, coolers, power plants, quantum drives &amp; weapons not sold in shops: blueprint sources, mission givers, events, finds (4.10.2).</span></p>
+      <span class="tag"><span class="de">Crafting</span><span class="en">Crafting</span></span>
+    </a>
+  </div>
+
+  <div class="grp">
+    <span class="idx">DL</span>
+    <h2><span class="de">Downloads</span><span class="en">Downloads</span></h2>
+    <span class="cnt"><span class="de">PDF</span><span class="en">PDF</span></span>
+  </div>
+  <div style="padding:6px 4px 18px;font-size:15px;line-height:1.7">
+    <p><a href="pdf/SC_Guides_alle_PDF.zip"><b><span class="de">Alle Guides als ZIP (PDF, DE + EN, 7 MB)</span><span class="en">All guides as ZIP (PDF, DE + EN, 7 MB)</span></b></a></p>
+    <ul style="margin:0;padding-left:20px">
+<li><b>SC Besondere Artefakte</b> &mdash; <a href="pdf/SC_Artefakte_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Artefakte_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>SC Hacking-Chips</b> &mdash; <a href="pdf/SC_Hacking_Chips_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Hacking_Chips_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>Hathor OLP Feldhandbuch</b> &mdash; <a href="pdf/SC_Hathor_OLP_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Hathor_OLP_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>SC Loot &amp; Gear Guide</b> &mdash; <a href="pdf/SC_Loot_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Loot_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>SC Loot Locations</b> &mdash; <a href="pdf/SC_Loot_Locations_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Loot_Locations_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>SC Mining Guide</b> &mdash; <a href="pdf/SC_Mining_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Mining_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>SC Nichtkäufliche Komponenten</b> &mdash; <a href="pdf/SC_Nichtkaeufliche_Komponenten_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Nichtkaeufliche_Komponenten_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>Onyx · Fall Jorrit</b> &mdash; <a href="pdf/SC_Onyx_Jorrit_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Onyx_Jorrit_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>Pyro ASD Labs Feldhandbuch</b> &mdash; <a href="pdf/SC_Pyro_ASD_Labs_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Pyro_ASD_Labs_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>Pyro Contested Zones</b> &mdash; <a href="pdf/SC_Pyro_Contested_Zones_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Pyro_Contested_Zones_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>QV Breaker Stations</b> &mdash; <a href="pdf/SC_QV_Breaker_Stations_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_QV_Breaker_Stations_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>SC Salvage Guide</b> &mdash; <a href="pdf/SC_Salvage_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Salvage_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>Tactical Strike Groups</b> &mdash; <a href="pdf/SC_Tactical_Strike_Groups_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Tactical_Strike_Groups_Guide_EN.pdf">PDF (EN)</a></li>
+<li><b>Vanduul-Tech Smugglers</b> &mdash; <a href="pdf/SC_Vanduul_Tech_Smugglers_Guide.pdf">PDF (DE)</a> · <a href="pdf/SC_Vanduul_Tech_Smugglers_Guide_EN.pdf">PDF (EN)</a></li>
+    </ul>
+  </div>
+
+  <footer>
+    <p><span class="de">14 Guides · zweisprachig (DE/EN). Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">14 guides · bilingual (DE/EN). Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. All information without guarantee.</span></p>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var root=document.documentElement;
+    // theme
+    try{var t=localStorage.getItem('scHubTheme'); if(t) root.setAttribute('data-theme',t);}catch(e){}
+    document.getElementById('themeBtn').addEventListener('click',function(){
+      var cur=root.getAttribute('data-theme');
+      var next=cur==='dark'?'light':'dark';
+      root.setAttribute('data-theme',next);
+      try{localStorage.setItem('scHubTheme',next);}catch(e){}
+    });
+    // lang
+    try{var l=localStorage.getItem('scHubLang'); if(l==='en') root.setAttribute('data-lang','en');}catch(e){}
+    document.getElementById('langBtn').addEventListener('click',function(){
+      var en=root.getAttribute('data-lang')==='en';
+      if(en){root.removeAttribute('data-lang');root.setAttribute('lang','de');}
+      else{root.setAttribute('data-lang','en');root.setAttribute('lang','en');}
+      try{localStorage.setItem('scHubLang',en?'de':'en');}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>

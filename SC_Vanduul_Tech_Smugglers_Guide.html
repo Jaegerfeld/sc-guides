@@ -1,0 +1,349 @@
+<title>Vanduul-Tech Smugglers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#eef1ee; --panel:#ffffff; --panel2:#e5ebe5; --line:#c9d4cb;
+  --ink:#111812; --dim:#5c685e; --acid:#2f8f3a; --acid-bd:#3aa346;
+  --danger:#b3301f; --danger-bg:#f3dcd6; --intel:#256fb0; --intel-bg:#dbe8f4;
+  --stripe:rgba(47,143,58,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(20,50,25,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Oxanium',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b0f0c; --panel:#141b16; --panel2:#0f1511; --line:#28352c; --ink:#e6efe8; --dim:#9db0a2;
+    --acid:#6fe36a; --acid-bd:#3f8f3f; --danger:#f0563a; --danger-bg:#2a1310;
+    --intel:#5aa6f0; --intel-bg:#0f1f2e;
+    --stripe:rgba(111,227,106,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b0f0c; --panel:#141b16; --panel2:#0f1511; --line:#28352c; --ink:#e6efe8; --dim:#9db0a2;
+  --acid:#6fe36a; --acid-bd:#3f8f3f; --danger:#f0563a; --danger-bg:#2a1310;
+  --intel:#5aa6f0; --intel-bg:#0f1f2e;
+  --stripe:rgba(111,227,106,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.1;margin:0;font-weight:600;letter-spacing:.01em}
+a{color:var(--acid)}
+:focus-visible{outline:2px solid var(--acid);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--acid-bd) 0 16px,transparent 16px 32px);opacity:.85}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 84% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--acid);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,54px);font-weight:700;text-transform:uppercase;margin:8px 0 6px;letter-spacing:.02em}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--acid);color:#04170a}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:18px;font-weight:600;margin-top:3px}
+.ro .v.pay{color:var(--acid)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--acid);border:1px solid var(--acid-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+.card p{margin:0;color:var(--dim);font-size:14px}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--acid);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:28px;color:var(--acid);line-height:1;width:2.2ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--intel);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--acid);font-family:var(--mono);font-weight:700}
+
+.callout{border-left:4px solid var(--acid);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.intel{border-left-color:var(--intel);background:var(--intel-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.intel .lbl{color:var(--intel)} .callout .lbl.acid{color:var(--acid)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+td .n{font-family:var(--mono);font-weight:700;color:var(--acid)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (max-width:620px){.phase{gap:12px}.pnum{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Vanduul_Tech_Smugglers_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Vanduul_Tech_Smugglers_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Vanduul_Tech_Smugglers_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Vanduul_Tech_Smugglers_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>🗡</span> <span class="de">Nyx-System · InterSec Defense Solutions · Investigation</span><span class="en">Nyx System · InterSec Defense Solutions · Investigation</span></div>
+    <h1><span class="de">Vanduul-Tech Smugglers</span><span class="en">Vanduul-Tech Smugglers</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch zur InterSec-Ermittlung gegen Vanduul-Teile-Schmuggler in Nyx — die belagerte Old-QV-Station, 7 Teile, dicker Payout. Fortsetzung des Onyx/Jorrit-Falls.</span>
+      <span class="en">Field handbook for the InterSec investigation into Vanduul-parts smugglers in Nyx — the besieged Old QV station, 7 parts, a fat payout. A sequel to the Onyx/Jorrit case.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Lang · kampflastig · solo machbar</span><span class="en">Long · combat-heavy · solo-doable</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Missionsdaten">
+    <div class="ro"><div class="k">System</div><div class="v">Nyx</div></div>
+    <div class="ro"><div class="k"><span class="de">Ort</span><span class="en">Site</span></div><div class="v">Old QV Planet Services</div></div>
+    <div class="ro"><div class="k"><span class="de">Auftraggeber</span><span class="en">Giver</span></div><div class="v">InterSec</div></div>
+    <div class="ro"><div class="k">Rang</div><div class="v">Jr.–Elite Contractor</div></div>
+    <div class="ro"><div class="k">Payout</div><div class="v pay">50 MG Scrip + Loot</div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="prose">
+      <p class="de"><b>Was das ist:</b> Eine lange, kampflastige <b>Investigation-Mission</b> (Once&nbsp;Only). <b>InterSec Defense Solutions</b> jagt Schwarzmarkt-Händler, die <b>Vanduul-Teile</b> verschieben — die Spur führt zur alten <b>QV Planet Services Logistics-Station</b> in Nyx, die gerade von den <b>Vanduul belagert</b> wird. In 7 Teilen kämpfst, hackst und lootest du dich durch.</p>
+      <p class="en"><b>What this is:</b> A long, combat-heavy <b>investigation mission</b> (once only). <b>InterSec Defense Solutions</b> hunts black-market dealers moving <b>Vanduul parts</b> — the trail leads to the old <b>QV Planet Services Logistics station</b> in Nyx, currently <b>under Vanduul siege</b>. Across 7 parts you fight, hack and loot your way through.</p>
+    </div>
+    <div class="callout intel"><span class="lbl"><span class="de">Fall-Zusammenhang</span><span class="en">Case connection</span></span><span class="de">Direkte <b>Fortsetzung des Onyx/Jorrit-Falls</b>: Die geschmuggelten Vanduul-Teile stammen aus den illegalen Experimenten in ASD's Onyx-Facility. Wer den Onyx-Guide kennt, kennt das Motiv.</span><span class="en">A direct <b>sequel to the Onyx/Jorrit case</b>: the smuggled Vanduul parts come from the illegal experiments at ASD's Onyx facility. If you know the Onyx guide, you know the motive.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg — so schaltest du sie frei</span><span class="en">Getting in — how to unlock it</span></h2><p><span class="de">Missionsgetrieben, mit Ruf-Voraussetzung.</span><span class="en">Mission-driven, with a reputation gate.</span></p></div></div>
+    <div class="callout" style="border-left-color:var(--acid)"><span class="lbl acid"><span class="de">Der „Start-Knopf"</span><span class="en">The "start button"</span></span><span class="de">Baue <b>InterSec-Defense-Solutions-Ruf</b> auf, bis du <b>Junior Contractor</b> bist — dann erscheint <b>Vanduul-Tech Smugglers</b> im <b>mobiGlas → Investigation-Tab</b>. Es ist eine <b>Once-Only</b>-Mission (einmal pro Charakter) und dauert lang (Richtwert ~3&nbsp;h) — Zeit einplanen. <b>4.8-Wipe:</b> der Ruf wurde zurückgesetzt; ggf. den Rang neu erspielen, bis die Mission wieder auftaucht.</span><span class="en">Build <b>InterSec Defense Solutions reputation</b> until you're a <b>Junior Contractor</b> — then <b>Vanduul-Tech Smugglers</b> appears in <b>mobiGlas → Investigation tab</b>. It's a <b>once-only</b> mission (one per character) and it's long (~3&nbsp;h) — budget the time. <b>4.8 wipe:</b> reputation was reset; you may need to re-grind the rank before it reappears.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Der Ablauf — 7 Teile</span><span class="en">The run — 7 parts</span></h2><p><span class="de">Reihenfolge grob; die Mission segmentiert selbst in 7 Schritte.</span><span class="en">Order is approximate; the mission itself segments into 7 steps.</span></p></div></div>
+
+    <div class="phase">
+      <div class="pnum">1<small><span class="de">ANFLUG</span><span class="en">APPROACH</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Anflug auf die belagerte Station</span><span class="en">Approach the besieged station</span></h3>
+        <div class="pobj"><span class="de">Ziel: Luftraum sichern</span><span class="en">Objective: secure the airspace</span></div>
+        <ol class="steps">
+          <li class="de">Nach <b>Nyx</b> springen, Marker zur <b>Old QV Planet Services</b>-Station folgen.</li>
+          <li class="en">Jump to <b>Nyx</b>, follow the marker to the <b>Old QV Planet Services</b> station.</li>
+          <li class="de">Vor dem Landen <b>4 Vanduul-Fighter</b> ausschalten. Kampfschiff nötig.</li>
+          <li class="en">Clear <b>4 Vanduul fighters</b> before landing. A combat ship is required.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">2<small>FPS</small></div>
+      <div class="pbody">
+        <h3><span class="de">Station infiltrieren</span><span class="en">Infiltrate the station</span></h3>
+        <div class="pobj"><span class="de">Ziel: durchkämpfen</span><span class="en">Objective: fight through</span></div>
+        <ol class="steps">
+          <li class="de">Andocken und rein. Über die Mission verteilt warten insgesamt <b>~47–49 Feinde</b> — kontrolliert vorgehen, Deckung nutzen.</li>
+          <li class="en">Dock and enter. Across the mission there are <b>~47–49 hostiles</b> total — advance carefully, use cover.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">3<small>HACK</small></div>
+      <div class="pbody">
+        <h3><span class="de">Laptops hacken (Türcodes)</span><span class="en">Hack laptops (door codes)</span></h3>
+        <div class="pobj"><span class="de">Ziel: Zugang freischalten</span><span class="en">Objective: unlock access</span></div>
+        <ol class="steps">
+          <li class="de"><b>Laptops</b> spawnen an <b>zufälligen Orten</b> — sie liefern die <b>Türcodes</b>. Räume gründlich absuchen.</li>
+          <li class="en"><b>Laptops</b> spawn in <b>random locations</b> — they hold the <b>door codes</b>. Search rooms thoroughly.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">4<small><span class="de">ROHRE</span><span class="en">REPAIR</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Rohre reparieren</span><span class="en">Repair pipes</span></h3>
+        <div class="pobj"><span class="de">Ziel: Weg freimachen</span><span class="en">Objective: clear the path</span></div>
+        <ol class="steps">
+          <li class="de">Einige Passagen sind blockiert — <b>Rohre reparieren</b>, um weiterzukommen (Multitool).</li>
+          <li class="en">Some passages are blocked — <b>repair pipes</b> to proceed (multitool).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">5<small>LOOT</small></div>
+      <div class="pbody">
+        <h3><span class="de">Vanduul-Leichen looten</span><span class="en">Loot Vanduul corpses</span></h3>
+        <div class="pobj"><span class="de">Ziel: Handelsware sichern</span><span class="en">Objective: secure trade items</span></div>
+        <ol class="steps">
+          <li class="de"><b>8 lootbare Vanduul-Leichen</b> tragen <b>neue Handelsgüter</b>. Alle mitnehmen (großer Rucksack!).</li>
+          <li class="en"><b>8 lootable Vanduul corpses</b> carry <b>new trade items</b>. Grab them all (large backpack!).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">6<small><span class="de">WRACKS</span><span class="en">WRECKS</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Drei Derelicts anfliegen</span><span class="en">Hit the three derelicts</span></h3>
+        <div class="pobj"><span class="de">Ziel: Nebenstationen durchsuchen</span><span class="en">Objective: search the aux stations</span></div>
+        <ol class="steps">
+          <li class="de">Der Loop führt über <b>Station, Polaris, drei Wracks und eine Auxiliary Station</b> — an <b>jedem Wrack</b> wartet eine weitere Welle von <b>4 Vanduul-Fightern</b>. Schild/Trefferpunkte im Auge behalten.</li>
+          <li class="en">The loop spans the <b>station, a Polaris, three derelicts and an auxiliary station</b> — at <b>each wreck</b> another wave of <b>4 Vanduul fighters</b> awaits. Watch your shields/HP.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">7<small><span class="de">ENDE</span><span class="en">FINISH</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Testudo-Boxen &amp; Rückkehr</span><span class="en">Testudo boxes &amp; return</span></h3>
+        <div class="pobj"><span class="de">Ziel: Vertrag abschließen</span><span class="en">Objective: complete the contract</span></div>
+        <ol class="steps">
+          <li class="de">Auf der Brücke die <b>6 Testudo-Lootboxen</b> einsammeln (2 davon auf dem <b>unteren Deck</b>).</li>
+          <li class="en">On the bridge, collect the <b>6 testudo lootboxes</b> (2 of them on the <b>lower deck</b>).</li>
+          <li class="de">Zurück zur Station, um den <b>Vertrag abzuschließen</b> und die Belohnung zu kassieren.</li>
+          <li class="en">Return to the station to <b>complete the contract</b> and claim the reward.</li>
+        </ol>
+        <div class="callout intel"><span class="lbl"><span class="de">Wikelo-Bezug</span><span class="en">Wikelo link</span></span><span class="de">Der Payout enthält <b>MG Scrip</b> — eine der Wikelo-Währungen. Zusammen mit den Vanduul-Handelsgütern ein direkter Draht zu deinem Wikelo-Planer.</span><span class="en">The payout includes <b>MG Scrip</b> — one of the Wikelo currencies. Together with the Vanduul trade items, a direct line to your Wikelo planner.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = empfohlen.</span><span class="en">◆ = mandatory · ▣ = recommended.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🚀 <span class="de">Schiff</span><span class="en">Ship</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Kampf-taugliches Schiff</span><span class="en">Combat-rated ship</span></b><small class="de">Für die Vanduul-Fighter (4 vor der Station + 4 je Wrack). Bewährt: Distortion-Cannons + Laser-Scatter-Guns.</small><small class="en">For the Vanduul fighters (4 at the station + 4 per wreck). Proven: distortion cannons + laser scatter guns.</small></div></li>
+          <li><div><b><span class="de">Etwas Fracht/Transport</span><span class="en">Some cargo capacity</span></b><small class="de">Für Handelsgüter, Testudo-Boxen und Loot.</small><small class="en">For trade items, testudo boxes and loot.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎒 <span class="de">FPS &amp; Werkzeug</span><span class="en">FPS &amp; tools</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Gute Waffe + schwere Rüstung</span><span class="en">Solid weapon + heavy armor</span></b><small class="de">~47–49 Feinde. Genug Munition &amp; Reserve mitnehmen.</small><small class="en">~47–49 hostiles. Bring plenty of ammo &amp; a spare.</small></div></li>
+          <li class="must"><div><b><span class="de">Großer Rucksack</span><span class="en">Large backpack</span></b><small class="de">8 Leichen + 6 Testudo-Boxen + Handelsware wollen transportiert werden.</small><small class="en">8 corpses + 6 testudo boxes + trade goods need hauling.</small></div></li>
+          <li><div><b>Multitool + <span class="de">Traktorstrahl</span><span class="en">tractor beam</span></b><small class="de">Für Rohr-Reparaturen und zum Bewegen von Boxen.</small><small class="en">For pipe repairs and moving boxes.</small></div></li>
+          <li><div><b>Med-Gun / Med-Pens</b><small class="de">Lange Mission — Selbstheilung ist Pflicht.</small><small class="en">Long mission — self-healing is a must.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">$</span><div><h2><span class="de">Beute &amp; Belohnungen</span><span class="en">Loot &amp; rewards</span></h2><p><span class="de">Vertragslohn + einzigartiger Loot. Patch-abhängig.</span><span class="en">Contract pay + unique loot. Patch-dependent.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Gegenstand</span><span class="en">Item</span></th><th><span class="de">Typ</span><span class="en">Type</span></th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+        <tbody>
+          <tr><td><b><span class="de">Vertragslohn</span><span class="en">Contract pay</span></b></td><td>aUEC + Scrip</td><td><span class="de"><b>Fix: 50 MG Scrip + 100 InterSec-Ruf.</b> Die kursierenden „~2 Mio aUEC" sind der <b>Loot-Wert</b> (variabel), keine feste Auszahlung.</span><span class="en"><b>Fixed: 50 MG Scrip + 100 InterSec rep.</b> The circulating "~2M aUEC" is the <b>loot value</b> (variable), not a fixed payout.</span></td></tr>
+          <tr><td><b>BoomTube</b></td><td><span class="de">Raketenwerfer</span><span class="en">Rocket launcher</span></td><td><span class="de">Einzigartige FPS-Waffe aus dieser Mission.</span><span class="en">Unique FPS weapon from this mission.</span></td></tr>
+          <tr><td><b>Testudo Deathblow</b></td><td><span class="de">Rüstungs-Set</span><span class="en">Armor set</span></td><td><span class="de">Aus den Testudo-Boxen.</span><span class="en">From the testudo boxes.</span></td></tr>
+          <tr><td><b><span class="de">Vanduul-Handelsgüter</span><span class="en">Vanduul trade items</span></b></td><td><span class="de">Handelsware</span><span class="en">Trade goods</span></td><td><span class="n">8×</span> <span class="de">Leichen — neue verkaufbare Items.</span><span class="en">corpses — new sellable items.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Stolpersteine</span><span class="en">Common pitfalls</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Ruf zu niedrig</span><span class="en">Reputation too low</span></b><span class="de">Ohne Junior-Contractor-Rang bei InterSec taucht die Mission nicht auf.</span><span class="en">Without Junior Contractor rank at InterSec the mission won't appear.</span></div>
+      <div class="trap"><b><span class="de">Kein Kampfschiff</span><span class="en">No combat ship</span></b><span class="de">4 Fighter vor der Station + 4 je Wrack — ein Frachter allein reicht nicht.</span><span class="en">4 fighters at the station + 4 per wreck — a hauler alone won't cut it.</span></div>
+      <div class="trap"><b><span class="de">Zu wenig Inventar</span><span class="en">Too little inventory</span></b><span class="de">8 Leichen + 6 Boxen + Ware — ohne großen Rucksack lässt du Wert liegen.</span><span class="en">8 corpses + 6 boxes + goods — without a large backpack you leave value behind.</span></div>
+      <div class="trap"><b><span class="de">Zeit unterschätzt</span><span class="en">Underestimated the time</span></b><span class="de">Once-Only &amp; ~3&nbsp;h. Nicht zwischen Tür und Angel starten.</span><span class="en">Once-only &amp; ~3&nbsp;h. Don't start it on a whim.</span></div>
+      <div class="trap"><b><span class="de">Laptops übersehen</span><span class="en">Missed the laptops</span></b><span class="de">Türcodes spawnen zufällig — ohne sie kommst du nicht weiter.</span><span class="en">Door codes spawn randomly — without them you're stuck.</span></div>
+      <div class="trap"><b><span class="de">Loot verloren</span><span class="en">Lost the loot</span></b><span class="de">Bei Tod ist getragene Ware weg. Zwischendurch zum Schiff sichern.</span><span class="en">Carried goods vanish on death. Bank to the ship in between.</span></div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <!--KARTEN-ABSCHNITT weggelassen: B24-->
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Mission-API &amp; Community-Guides. Details/Werte patch-abhängig (4.4).</span><span class="en">Mission API &amp; community guides. Details/values patch-dependent (4.4).</span></p></div></div>
+    <div class="src">
+      <a href="https://api.star-citizen.wiki/missions/vanduul-tech-smugglers" target="_blank" rel="noopener">Star Citizen Wiki API — Vanduul-Tech Smugglers (Giver, Rang, Ort, Belohnung) ↗</a>
+      <a href="https://www.thexboxhub.com/star-citizen-4-4-vanduul-tech-smugglers-guide/" target="_blank" rel="noopener">TheXboxHub — 4.4 Vanduul-Tech Smugglers Guide ↗</a>
+      <a href="https://www.mmopixel.com/news/get-boomtube-rocket-launcher-and-testudo-deathblow-armor-set-star-citizen-vanduul-tech-smugglers-mission-guide" target="_blank" rel="noopener">MMOPIXEL — BoomTube &amp; Testudo Deathblow (Loot) ↗</a>
+      <a href="https://www.starzen.space/t/star-citizen-vanduul-tech-smugglers-full-walkthrough-guide/38028" target="_blank" rel="noopener">StarZen — Vanduul-Tech Smugglers Full Walkthrough ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.4 (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.4 (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · Vanduul-Tech Smugglers · Akte Nyx, o7</span>
+  <span class="en">Field handbook · Vanduul-Tech Smugglers · Nyx file, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('vts_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('vts_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('vts_theme',t):localStorage.removeItem('vts_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('vts_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>

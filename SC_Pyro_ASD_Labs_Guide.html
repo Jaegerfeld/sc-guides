@@ -1,0 +1,487 @@
+<title>Pyro ASD Labs Feldhandbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f3ece1; --panel:#fbf6ec; --panel2:#efe6d6; --line:#d8c9b2;
+  --ink:#241a12; --dim:#6f5f4d; --amber:#b46a00; --amber-bd:#c9821a;
+  --danger:#c0331d; --danger-bg:#f6dfd8; --tox:#5f7d13; --tox-bg:#e9eed3;
+  --stripe:rgba(180,106,0,.16);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(60,40,15,.08);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Chakra Petch',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17110d; --panel:#211812; --panel2:#1a130e; --line:#3a2c1f;
+    --ink:#f3e9dd; --dim:#b09a86; --amber:#ffb62e; --amber-bd:#a3712a;
+    --danger:#f0563a; --danger-bg:#301412; --tox:#a9d84a; --tox-bg:#1c2410;
+    --stripe:rgba(255,182,46,.10);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17110d; --panel:#211812; --panel2:#1a130e; --line:#3a2c1f;
+  --ink:#f3e9dd; --dim:#b09a86; --amber:#ffb62e; --amber-bd:#a3712a;
+  --danger:#f0563a; --danger-bg:#301412; --tox:#a9d84a; --tox-bg:#1c2410;
+  --stripe:rgba(255,182,46,.10);
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.55;font-weight:400}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.08;margin:0}
+a{color:var(--amber)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+/* hazard stripes */
+.hazard{height:10px;background:repeating-linear-gradient(45deg,
+  var(--amber-bd) 0 16px,transparent 16px 32px);opacity:.9}
+
+/* header */
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 90% at 85% -20%, var(--stripe), transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--amber);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.eyebrow .rad{font-size:15px}
+h1{font-size:clamp(30px,6vw,52px);font-weight:700;letter-spacing:.01em;margin:10px 0 6px}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:60ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;
+  background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--amber);color:#1a1206}
+
+/* readout strip */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:19px;font-weight:600;margin-top:3px}
+.ro .v.crit{color:var(--danger)}
+.ro .v.warn{color:var(--amber)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber);
+  border:1px solid var(--amber-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,27px);font-weight:600}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+/* generic card grid */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;font-weight:600;letter-spacing:.01em;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+.card h3 .ic{font-size:17px}
+
+/* checklist */
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--amber);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+/* phases */
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:30px;color:var(--amber);
+  line-height:1;width:2.4ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;font-weight:600;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--tox);
+  text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--amber);font-family:var(--mono);font-weight:700}
+kbd{font-family:var(--mono);font-size:12px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:5px;padding:1px 6px}
+
+/* callouts */
+.callout{border-left:4px solid var(--amber);background:var(--panel2);border-radius:0 9px 9px 0;
+  padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.tox{border-left-color:var(--tox);background:var(--tox-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)}
+.callout .lbl.amber{color:var(--amber)} .callout.tox .lbl{color:var(--tox)}
+
+/* boss diagram */
+.boss{display:grid;grid-template-columns:minmax(260px,1fr) 1.1fr;gap:20px;align-items:center}
+.boss svg{width:100%;height:auto;background:var(--panel2);border:1px solid var(--line);border-radius:12px}
+.rangekey{display:flex;flex-direction:column;gap:10px}
+.rk{display:flex;gap:11px;align-items:flex-start;font-size:14px}
+.rk .dot{width:14px;height:14px;border-radius:50%;flex:none;margin-top:3px}
+.rk b{font-family:var(--disp);font-weight:600}
+
+/* loot table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+td .qty{font-family:var(--mono);font-weight:700;color:var(--amber)}
+tbody tr:nth-child(even){background:var(--panel2)}
+
+/* mistakes */
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);
+  border-radius:0 9px 9px 0;padding:12px 14px}
+.trap b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+.trap .x{color:var(--danger);font-weight:700}
+
+/* sources / footer */
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--panel2);
+  border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+
+@media (max-width:620px){
+  .boss{grid-template-columns:1fr}
+  .phase{grid-template-columns:auto 1fr;gap:12px}
+  .pnum{font-size:24px}
+  .pnum::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Pyro_ASD_Labs_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Pyro_ASD_Labs_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Pyro_ASD_Labs_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Pyro_ASD_Labs_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span class="rad">☢</span> <span class="de">Pyro-System · ASD-Labs · Feld-Einsatz</span><span class="en">Pyro System · ASD Labs · Field Op</span></div>
+    <h1><span class="de">Lazarus-Komplexe</span><span class="en">Lazarus Complexes</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch für die ASD-Forschungsanlagen in Pyro — von der Data-Center-Infiltration auf Pyro&nbsp;IV bis zum Apex-Valakkar-Kill auf Pyro&nbsp;I. Für 2–3 Spieler.</span>
+      <span class="en">Field handbook for the ASD research facilities in Pyro — from the data-center infiltration on Pyro&nbsp;IV to the Apex Valakkar kill on Pyro&nbsp;I. For 2–3 players.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.14em"><span class="de">Assoziierte Wissenschaften &amp; Entwicklung</span><span class="en">Associated Sciences &amp; Development</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language">
+          <button id="de" aria-pressed="true">DE</button>
+          <button id="en" aria-pressed="false">EN</button>
+        </div>
+        <div class="seg" role="group" aria-label="Theme">
+          <button id="t-light" aria-pressed="false" title="Hell">☀</button>
+          <button id="t-dark" aria-pressed="false" title="Dunkel">☾</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Einsatzdaten">
+    <div class="ro"><div class="k">System</div><div class="v">Pyro</div></div>
+    <div class="ro"><div class="k"><span class="de">Ziele</span><span class="en">Targets</span></div><div class="v">Pyro I + IV</div></div>
+    <div class="ro"><div class="k">Team</div><div class="v">2–3</div></div>
+    <div class="ro"><div class="k"><span class="de">Dauer</span><span class="en">Duration</span></div><div class="v">~60–90<span style="font-size:13px"> min</span></div></div>
+    <div class="ro"><div class="k"><span class="de">Bedrohung</span><span class="en">Threat</span></div><div class="v crit"><span class="de">EXTREM</span><span class="en">EXTREME</span></div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="prose">
+      <p class="de"><b>Was das ist:</b> Die ASD-Labs kamen mit dem <b>Stormbreaker-Event (Patch&nbsp;4.2)</b> nach Pyro und wurden seither ausgebaut (u.&nbsp;a. 4.3.1). Es ist eine mehrstufige Koop-Aktivität, fast wie ein kleiner Raid: Erst infiltriert ihr ein <b>Farro Data Center auf Pyro&nbsp;IV</b>, um eine „Specimen Card" zu drucken, dann reist ihr zum <b>Lazarus-Komplex auf Pyro&nbsp;I</b>, weckt dort eine riesige Kreatur, tötet sie und erntet seltenes Material und Ausrüstung.</p>
+      <p class="en"><b>What this is:</b> The ASD Labs arrived with the <b>Stormbreaker event (patch&nbsp;4.2)</b> and have grown since (e.g. 4.3.1). It's a multi-stage co-op activity, almost a mini-raid: first you infiltrate a <b>Farro Data Center on Pyro&nbsp;IV</b> to print a "Specimen Card", then travel to the <b>Lazarus Complex on Pyro&nbsp;I</b>, wake a huge creature, kill it, and harvest rare materials and gear.</p>
+      <p class="de">Die Anlagen sind <b>nicht auf der Karte markiert</b>. Was die meisten Spieler tötet, sind nicht die Gegner — sondern die Umgebung und drei, vier Regeln, die niemand vorher kennt. Genau die stehen hier.</p>
+      <p class="en">The facilities are <b>unmarked on the map</b>. What kills most players isn't the enemies — it's the environment and three or four rules nobody knows going in. Those are exactly what's below.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg — so startest du</span><span class="en">Getting in — how to start</span></h2><p><span class="de">Keine Mission zum Annehmen. Es ist ortsbasiert.</span><span class="en">No mission to accept. It's location-based.</span></p></div></div>
+    <div class="callout tox"><span class="lbl"><span class="de">Der „Start-Knopf"</span><span class="en">The "start button"</span></span><span class="de">Es gibt <b>keinen Auftraggeber, kein mobiGlas-Annehmen, keine bekannte Ruf-Voraussetzung</b>. Du startest die Aktivität allein dadurch, dass du <b>zu einem der ~10 Farro Data Centers auf Pyro&nbsp;IV fliegst</b> und dort mit Phase&nbsp;1 loslegst.</span><span class="en">There's <b>no mission giver, no mobiGlas acceptance, no known reputation gate</b>. You begin the activity simply by <b>flying to one of the ~10 Farro Data Centers on Pyro&nbsp;IV</b> and starting phase&nbsp;1 on site.</span></div>
+    <ul class="check">
+      <li><div><b><span class="de">Ortsbasiert, kein Missionsboard</span><span class="en">Location-based, no mission board</span></b><small class="de">Eher wie ein Dungeon/POI: hinfliegen und die Objekte vor Ort bedienen — nichts wird auf der Karte markiert, du steuerst Data-Center bzw. „Lazarus"-Terminals selbst an.</small><small class="en">More like a dungeon/POI: fly there and operate the objects on site — nothing is marked on the map; you navigate to the data centers and "Lazarus" terminals yourself.</small></div></li>
+      <li><div><b><span class="de">Die Specimen Card ist der Schlüssel</span><span class="en">The Specimen Card is the key</span></b><small class="de">Erst auf Pyro&nbsp;IV im Data Center gedruckt (Phase&nbsp;1) — sie schaltet den Egg-Room &amp; Boss auf Pyro&nbsp;I überhaupt erst frei. Ohne sie geht der Rest nicht.</small><small class="en">Printed first in the Pyro&nbsp;IV data center (phase&nbsp;1) — it's what unlocks the Egg Room &amp; boss on Pyro&nbsp;I. Nothing else works without it.</small></div></li>
+      <li><div><b><span class="de">2–3 Spieler einplanen</span><span class="en">Bring 2–3 players</span></b><small class="de">Die QRF im Data Center und der Boss brauchen Feuerkraft; der ATLS-RAD-Schritt und ein Tür-Terminal verlangen sogar zwei Spieler gleichzeitig.</small><small class="en">The data-center QRF and the boss need firepower; the ATLS-RAD step and one door terminal even require two players at once.</small></div></li>
+      <li><div><b><span class="de">„Event" vs. Location</span><span class="en">"Event" vs. location</span></b><small class="de">Ursprünglich mit dem Storm-Breaker-Event (4.2) eingeführt — die Anlagen sind aber persistente Locations; die Aktivität läuft ortsbasiert (kein festes Zeitfenster laut Quellen, patch-abhängig).</small><small class="en">Introduced with the Storm Breaker event (4.2) — but the facilities are persistent locations; the activity runs location-based (no fixed time window per sources, patch-dependent).</small></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">!</span><div><h2><span class="de">Die 5 tödlichen Regeln</span><span class="en">The 5 deadly rules</span></h2><p><span class="de">Lies das, bevor du startest — hieran scheitern die meisten Runs.</span><span class="en">Read this before you launch — most runs die here.</span></p></div></div>
+    <div class="traps">
+      <div class="trap"><b>☢ <span class="de">Strahlung</span><span class="en">Radiation</span></b><span class="de">Ohne <b>Stirling Protective Suit</b> bzw. Decontamination-Pens setzt dich der Megasturm in Sekunden außer Gefecht. Der Egg-Room ist ohne Stirling gar nicht betretbar.</span><span class="en">Without a <b>Stirling Protective Suit</b> or decontamination pens the megastorm downs you in seconds. The Egg Room is impassable without the Stirling.</span></div>
+      <div class="trap"><b>⚡ <span class="de">12 km Energie-Aus</span><span class="en">Power cut at 12 km</span></b><span class="de">Über Pyro&nbsp;I <b>verlieren Schiffe ab 12&nbsp;km Höhe die Energie</b>. Nicht manuell anfliegen — nimm den automatischen Shuttle vom Transit-Hub.</span><span class="en">Over Pyro&nbsp;I <b>ships lose power at 12&nbsp;km altitude</b>. Don't fly in manually — take the automated shuttle from the transit hub.</span></div>
+      <div class="trap"><b>🛰 <span class="de">Verzerrungsfeld</span><span class="en">Distortion field</span></b><span class="de">Ein Feld legt <b>alle Fahrzeuge lahm — außer dem ATLS IKTI RAD</b>, den du erst vor Ort freischaltest.</span><span class="en">A field disables <b>every vehicle except the ATLS IKTI RAD</b>, which you unlock on site.</span></div>
+      <div class="trap"><b>🥚 <span class="de">Kein Traktorstrahl am Ei</span><span class="en">No tractor beam on the egg</span></b><span class="de">Das Ei <b class="x">nur manuell tragen</b>. Traktorstrahl → Physik-Bug, Ei fällt durch die Geometrie = Fehlschlag.</span><span class="en">Carry the egg <b class="x">by hand only</b>. Tractor beam → physics bug, egg clips through the floor = failure.</span></div>
+      <div class="trap"><b>🎯 <span class="de">Nur grüne Pusteln zählen</span><span class="en">Only green pustules count</span></b><span class="de">Beim Boss registriert <b>nur Schaden auf grüne Pusteln oder ins Maul</b>. Alles andere ist verschwendete Munition.</span><span class="en">On the boss <b>only damage to green pustules or the mouth</b> registers. Everything else is wasted ammo.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = dringend empfohlen. Vor dem Abflug in Stanton/Ruin besorgen.</span><span class="en">◆ = mandatory · ▣ = strongly recommended. Buy in Stanton/Ruin before launch.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="ic">🧑‍🚀</span> <span class="de">Anzug &amp; Schutz</span><span class="en">Suit &amp; protection</span></h3>
+        <ul class="check">
+          <li class="must"><div><b>Stirling Protective Suit</b><small class="de">Strahlungsschutz + Zugang zum Specimen-/Egg-Room. Kaufbar am Stanton Gateway oder in Ruin.</small><small class="en">Radiation protection + access to the Specimen/Egg Room. Buy at Stanton Gateway or Ruin.</small></div></li>
+          <li><div><b><span class="de">Decontamination-Pens</span><span class="en">Decontamination pens</span></b><small class="de">Pflicht, falls du stattdessen schwere Rüstung trägst — regelt die Strahlungslast.</small><small class="en">Mandatory if you wear heavy armor instead — manages your radiation load.</small></div></li>
+          <li><div><b>Med-Pens</b><small class="de">Auch um betäubte Wissenschaftler kurz „aufzuwecken" für Biometrie-Scanner.</small><small class="en">Also to briefly "wake" knocked-out scientists for biometric scanners.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🔫</span> <span class="de">Waffen &amp; Munition</span><span class="en">Weapons &amp; ammo</span></h3>
+        <ul class="check">
+          <li class="must"><div><b>LMG + <span class="de">viel Munition</span><span class="en">plenty of ammo</span></b><small class="de">Richtwert: ~<b>4.000 Schuss</b> LMG für ein 3er-Team allein für den Boss.</small><small class="en">Rule of thumb: ~<b>4,000 rounds</b> of LMG for a 3-person team, just for the boss.</small></div></li>
+          <li><div><b>Multi-Tool <span class="de">(2 Aufsätze)</span><span class="en">(2 attachments)</span></b><small class="de">Traktorstrahl-Aufsatz für Fangs, Mining-Aufsatz für Pearls.</small><small class="en">Tractor attachment for fangs, mining attachment for pearls.</small></div></li>
+          <li><div><b><span class="de">Rüstung mit Reserve</span><span class="en">Backup armor</span></b><small class="de">Respawn früh setzen (siehe Phase 2) — Tode sind einkalkuliert.</small><small class="en">Set respawn early (see phase 2) — deaths are expected.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Der Einsatz — Phase für Phase</span><span class="en">The op — phase by phase</span></h2><p><span class="de">Die Reihenfolge ist zwingend: ohne Specimen Card von Pyro IV kein Egg-Room auf Pyro I.</span><span class="en">The order is mandatory: no Specimen Card from Pyro IV, no Egg Room on Pyro I.</span></p></div></div>
+
+    <div class="phase">
+      <div class="pnum">01<small>PYRO IV</small></div>
+      <div class="pbody">
+        <h3><span class="de">Farro Data Center infiltrieren</span><span class="en">Infiltrate a Farro Data Center</span></h3>
+        <div class="pobj"><span class="de">Ziel: ASD-Keycard + Specimen Card drucken</span><span class="en">Objective: ASD key card + print the Specimen Card</span></div>
+        <ol class="steps">
+          <li class="de">Eines der Farro Data Centers auf <b>Pyro IV</b> ansteuern. Beim Notunterkunfts-Gebäude (<span class="mono">Emergency Shelter</span>) am Hof beginnen.</li>
+          <li class="en">Head to one of the Farro Data Centers on <b>Pyro IV</b>. Start at the <span class="mono">Emergency Shelter</span> by the courtyard.</li>
+          <li class="de"><b>ASD-Wartungs-Keycard</b> vom Schreibtisch im Emergency Shelter nehmen.</li>
+          <li class="en">Take the <b>ASD Maintenance Key Card</b> from the desk in the emergency shelter.</li>
+          <li class="de">Sichere Räume öffnen: NPC-Wissenschaftler <b>nicht-tödlich</b> ausschalten, zum Biometrie-Scanner ziehen, mit Med-Pen kurz aufwecken — <i>oder</i> ihre Kleidung anziehen, um Scanner zu umgehen.</li>
+          <li class="en">Open secure rooms: take down NPC scientists <b>non-lethally</b>, drag them to the biometric scanner, med-pen them awake briefly — <i>or</i> steal their clothing to bypass scanners.</li>
+          <li class="de">In <span class="mono">Data Processing</span> den <b>5-stelligen Code</b> von einem Laptop ablesen.</li>
+          <li class="en">Read the <b>5-digit code</b> off a laptop in <span class="mono">Data Processing</span>.</li>
+          <li class="de">Code in <b>Tower 01</b> eingeben → startet einen <b>3-Minuten-Druck</b>. Bei <b>50&nbsp;%</b> erneut mit der Konsole interagieren.</li>
+          <li class="en">Enter the code into <b>Tower 01</b> → starts a <b>3-minute print</b>. Interact with the console again at <b>50%</b>.</li>
+        </ol>
+        <div class="callout danger"><span class="lbl"><span class="de">Warnung</span><span class="en">Warning</span></span><span class="de">Während des Drucks spawnt eine <b>Quick Reaction Force (QRF)</b>. Einer druckt/verteidigt die Konsole, die anderen halten die Tür.</span><span class="en">A <b>Quick Reaction Force (QRF)</b> spawns during printing. One player prints/defends the console, the others hold the door.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">02<small>PYRO I</small></div>
+      <div class="pbody">
+        <h3><span class="de">Anreise zum Lazarus-Komplex</span><span class="en">Arrive at the Lazarus Complex</span></h3>
+        <div class="pobj"><span class="de">Ziel: heil ankommen &amp; Respawn setzen</span><span class="en">Objective: arrive alive &amp; set respawn</span></div>
+        <ol class="steps">
+          <li class="de">Nach <b>Pyro I</b> springen. <b>Nicht</b> unter 12&nbsp;km manuell fliegen — am Transit-/Shuttle-Bahnhof landen und den <b>automatischen Shuttle</b> nehmen (~25&nbsp;km Strecke).</li>
+          <li class="en">Jump to <b>Pyro I</b>. Do <b>not</b> fly manually below 12&nbsp;km — land at the transit/shuttle station and take the <b>automated shuttle</b> (~25&nbsp;km trip).</li>
+          <li class="de">Bei Ankunft <b>Respawn-Punkt an den äußeren Infirmary-Gebäuden setzen</b>. So kommst du nach einem Tod sicher zurück, statt den ganzen Weg zu verlieren.</li>
+          <li class="en">On arrival, <b>set your respawn point at the exterior infirmary buildings</b>. That way a death doesn't cost you the whole trip.</li>
+        </ol>
+        <div class="callout"><span class="lbl amber">Tip</span><span class="de">Der Lazarus-Komplex ist unmarkiert — such nach <b>„Lazarus"-Terminals</b>, um Shuttle-Depots zu finden.</span><span class="en">The Lazarus Complex is unmarked — look for <b>"Lazarus" terminals</b> to find the shuttle depots.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">03<small>ATLS-RAD</small></div>
+      <div class="pbody">
+        <h3><span class="de">ATLS IKTI RAD freischalten</span><span class="en">Unlock the ATLS IKTI RAD</span></h3>
+        <div class="pobj"><span class="de">Ziel: das einzige Fahrzeug, das im Feld funktioniert</span><span class="en">Objective: the only vehicle that works in the field</span></div>
+        <ol class="steps">
+          <li class="de">Mit der <b>ASD-Keycard</b> die <b>Batterie-Garage</b> öffnen.</li>
+          <li class="en">Use the <b>ASD key card</b> to open the <b>battery storage garage</b>.</li>
+          <li class="de">Batterie einsetzen — dann müssen <b>zwei Spieler gleichzeitig</b> die beiden Tür-Terminals drücken, um an den Anzug zu kommen.</li>
+          <li class="en">Install the battery — then <b>two players simultaneously</b> press the two door terminals to reach the suit.</li>
+        </ol>
+        <div class="callout tox"><span class="lbl"><span class="de">Warum wichtig</span><span class="en">Why it matters</span></span><span class="de">Der <b>ATLS IKTI RAD</b> ist gegen das Verzerrungsfeld immun und schützt vor hohen Strahlungsdosen — er ist die einzige Ausnahme im Feld und exklusiv an den ASD-Anlagen zu bekommen.</span><span class="en">The <b>ATLS IKTI RAD</b> is immune to the distortion field and shields against high radiation — the only exception in the field, and found only at the ASD facilities.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">04<small>EGG&nbsp;ROOM</small></div>
+      <div class="pbody">
+        <h3><span class="de">Specimen Cache (Egg-Room)</span><span class="en">Specimen Cache (Egg Room)</span></h3>
+        <div class="pobj"><span class="de">Ziel: das Ei „kochen"</span><span class="en">Objective: "cook" the egg</span></div>
+        <ol class="steps">
+          <li class="de"><b>Stirling Protective Suit anziehen</b> — ohne ihn kein Zutritt.</li>
+          <li class="en"><b>Put on the Stirling Protective Suit</b> — no entry without it.</li>
+          <li class="de">Die gedruckte <b>Lazarus Specimen Card</b> verwenden, um den Koch-Vorgang zu starten. Das <b>löst Alarm aus</b> und verlangt <b>eine</b> Konsolen-Interaktion während des Countdowns.</li>
+          <li class="en">Use the printed <b>Lazarus Specimen Card</b> to start the cooking process. This <b>triggers alarms</b> and requires <b>one</b> console interaction during the countdown.</li>
+        </ol>
+        <div class="callout danger"><span class="lbl"><span class="de">Timer</span><span class="en">Timer</span></span><span class="de">Das gekochte Ei hat nur <b>15 Minuten Haltbarkeit</b>. Ab jetzt läuft die Uhr — direkt weiter zu Phase 5.</span><span class="en">The cooked egg has only a <b>15-minute expiry</b>. The clock is running now — go straight to phase 5.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">05<small>CARRY</small></div>
+      <div class="pbody">
+        <h3><span class="de">Ei zum Calling Tower tragen</span><span class="en">Carry the egg to the Calling Tower</span></h3>
+        <div class="pobj"><span class="de">Ziel: das Ei heil zum Turm bringen</span><span class="en">Objective: deliver the egg intact</span></div>
+        <ol class="steps">
+          <li class="de">Das Ei <b>manuell tragen</b> — zu Fuß, in der Hand. Unterwegs spawnen <b>kleinere Würmer</b>, die dich stören; Team hält sie ab.</li>
+          <li class="en">Carry the egg <b>by hand</b>, on foot. <b>Smaller worms</b> spawn along the way to harass you; the team keeps them off.</li>
+          <li class="de">Am Calling Tower das Ei platzieren → ruft den Boss.</li>
+          <li class="en">Place the egg at the Calling Tower → summons the boss.</li>
+        </ol>
+        <div class="callout danger"><span class="lbl"><span class="de">Kritisch</span><span class="en">Critical</span></span><span class="de"><b class="mono">Kein Traktorstrahl.</b> Physik-Bugs lassen das Ei durch die Geometrie fallen und der Run ist verloren. Lieber langsam und zu Fuß.</span><span class="en"><b class="mono">No tractor beam.</b> Physics bugs drop the egg through the geometry and the run is lost. Slow and on foot wins.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">06<small>BOSS</small></div>
+      <div class="pbody">
+        <h3><span class="de">Apex Valakkar — der Boss</span><span class="en">Apex Valakkar — the boss</span></h3>
+        <div class="pobj"><span class="de">Ziel: Schwachstellen treffen, Distanz halten</span><span class="en">Objective: hit weak points, keep spacing</span></div>
+        <div class="boss">
+          <svg viewBox="0 0 300 230" role="img" aria-label="Apex Valakkar Schwachstellen und Reichweiten">
+            <defs>
+              <radialGradient id="ring" cx="50%" cy="100%" r="100%">
+                <stop offset="0%" stop-color="var(--danger)" stop-opacity="0.28"/>
+                <stop offset="60%" stop-color="var(--danger)" stop-opacity="0.05"/>
+                <stop offset="100%" stop-color="var(--danger)" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- range rings from player position (bottom center) -->
+            <circle cx="150" cy="215" r="60" fill="url(#ring)"/>
+            <path d="M90 215 A60 60 0 0 1 210 215" fill="none" stroke="var(--danger)" stroke-width="1.4" stroke-dasharray="4 4"/>
+            <path d="M18 215 A132 132 0 0 1 282 215" fill="none" stroke="var(--amber)" stroke-width="1.4" stroke-dasharray="6 5"/>
+            <text x="150" y="205" text-anchor="middle" fill="var(--danger)" font-family="var(--mono)" font-size="9" font-weight="700">150 m · INSTANT-KILL</text>
+            <text x="150" y="96" text-anchor="middle" fill="var(--amber)" font-family="var(--mono)" font-size="9" font-weight="700">750 m · BILE</text>
+            <!-- worm body -->
+            <path d="M60 150 Q110 70 150 78 Q195 86 205 130 Q210 160 178 165 Q150 168 150 140 Q150 120 168 122"
+                  fill="none" stroke="var(--ink)" stroke-width="14" stroke-linecap="round" opacity="0.55"/>
+            <!-- mouth -->
+            <circle cx="60" cy="150" r="13" fill="var(--danger-bg)" stroke="var(--danger)" stroke-width="2.5"/>
+            <text x="60" y="178" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="8"><tspan class="de">MAUL</tspan></text>
+            <!-- green pustules -->
+            <circle cx="110" cy="96" r="7" fill="var(--tox)"/>
+            <circle cx="150" cy="80" r="8" fill="var(--tox)"/>
+            <circle cx="190" cy="112" r="7" fill="var(--tox)"/>
+            <circle cx="196" cy="145" r="6" fill="var(--tox)"/>
+            <!-- player marker -->
+            <path d="M150 213 l-5 9 l10 0 z" fill="var(--amber)"/>
+            <circle cx="150" cy="215" r="3.4" fill="var(--amber)"/>
+          </svg>
+          <div class="rangekey">
+            <div class="rk"><span class="dot" style="background:var(--tox)"></span><div><b class="de">Grüne Pusteln + Maul</b><b class="en">Green pustules + mouth</b><div style="color:var(--dim);font-size:13px" class="de">Die <b>einzigen</b> Trefferzonen, die Schaden registrieren. Achte auf <b>grüne Spritzer</b> als Treffer-Bestätigung.</div><div style="color:var(--dim);font-size:13px" class="en">The <b>only</b> zones that register damage. Watch for a <b>green splash</b> to confirm hits.</div></div></div>
+            <div class="rk"><span class="dot" style="background:var(--danger)"></span><div><b class="de">150 m — Ground-Slam</b><b class="en">150 m — ground slam</b><div style="color:var(--dim);font-size:13px" class="de">Sofort-Tod im Radius. <b>Nie näher als 150&nbsp;m</b>.</div><div style="color:var(--dim);font-size:13px" class="en">Instant death within the radius. <b>Never closer than 150&nbsp;m</b>.</div></div></div>
+            <div class="rk"><span class="dot" style="background:var(--amber)"></span><div><b class="de">750 m — Bile-Spit</b><b class="en">750 m — bile spit</b><div style="color:var(--dim);font-size:13px" class="de">Fernangriff. <b>Sweet Spot: 150–750&nbsp;m</b> Abstand halten und feuern.</div><div style="color:var(--dim);font-size:13px" class="en">Ranged attack. <b>Sweet spot: hold 150–750&nbsp;m</b> and fire.</div></div></div>
+          </div>
+        </div>
+        <div class="callout tox" style="margin-top:16px"><span class="lbl"><span class="de">Munitions-Richtwert</span><span class="en">Ammo guideline</span></span><span class="de">Rechne mit ~<b>4.000 LMG-Schuss</b> für ein 3er-Team. Feuer nur, wenn eine grüne Zone frei liegt — sonst sparst du Munition.</span><span class="en">Budget ~<b>4,000 LMG rounds</b> for a trio. Fire only when a green zone is exposed — otherwise you save ammo.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">07<small>EXTRACT</small></div>
+      <div class="pbody">
+        <h3><span class="de">Ernten &amp; Extraktion</span><span class="en">Harvest &amp; extraction</span></h3>
+        <div class="pobj"><span class="de">Ziel: Loot sichern, ohne ihn zu verlieren</span><span class="en">Objective: secure loot without losing it</span></div>
+        <ol class="steps">
+          <li class="de"><b>Valakkar-Fangs (6)</b> mit dem <b>Traktorstrahl-Aufsatz</b> am Multi-Tool ernten.</li>
+          <li class="en">Harvest <b>Valakkar fangs (6)</b> with the <b>tractor attachment</b> on the multi-tool.</li>
+          <li class="de"><b>Apex-Pearls (15)</b> mit dem <b>Mining-Aufsatz</b> ernten.</li>
+          <li class="en">Harvest <b>Apex pearls (15)</b> with the <b>mining attachment</b>.</li>
+          <li class="de">Loot in die <b>Freight-Elevators</b> des Komplexes legen — Einweg-Lager, nur am Transit-Hub zugänglich. So gehen die Sachen bei einem Tod nicht verloren.</li>
+          <li class="en">Drop loot into the complex's <b>freight elevators</b> — one-way storage, accessible only at the transit hub. That protects it from a death.</li>
+        </ol>
+        <div class="callout"><span class="lbl amber">Tip</span><span class="de">Auch <b>Rüstung &amp; Waffen</b> (siehe Loot-Tabelle) findest du in den Räumen des Komplexes — beim Durchkämmen mitnehmen und ebenfalls über den Freight-Elevator ausschleusen.</span><span class="en">You'll also find <b>armor &amp; weapons</b> (see loot table) in the complex rooms — grab them while sweeping and ship them out via the freight elevator too.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">$</span><div><h2><span class="de">Beute &amp; Belohnungen</span><span class="en">Loot &amp; rewards</span></h2><p><span class="de">Was den Aufwand lohnt. Vorkommen variieren je Anlage/Patch.</span><span class="en">What makes it worth it. Drops vary by facility/patch.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th><span class="de">Gegenstand</span><span class="en">Item</span></th>
+          <th><span class="de">Typ</span><span class="en">Type</span></th>
+          <th><span class="de">Fundort / Hinweis</span><span class="en">Where / note</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td><b>ATLS IKTI RAD</b></td><td><span class="de">Power-Suit / Mech</span><span class="en">Power suit / mech</span></td><td><span class="de">Strahlungs- &amp; feld-immun; exklusiv an den ASD-Anlagen.</span><span class="en">Radiation- &amp; field-immune; exclusive to the ASD facilities.</span></td></tr>
+          <tr><td><b>Prism „Bonedust"</b></td><td><span class="de">Laser-Shotgun</span><span class="en">Laser shotgun</span></td><td><span class="de">In den Lazarus-Räumen auf Pyro I.</span><span class="en">In the Lazarus rooms on Pyro I.</span></td></tr>
+          <tr><td><b>Stirling Exploration Suit (ASD Ed.)</b></td><td><span class="de">Rüstung + Helm + Rucksack</span><span class="en">Armor + helmet + backpack</span></td><td><span class="de">Set in den Lazarus-Räumen.</span><span class="en">Set found in the Lazarus rooms.</span></td></tr>
+          <tr><td><b>Corbel <span class="de">Rüstung</span><span class="en">Armor</span></b></td><td><span class="de">Rüstungs-Set</span><span class="en">Armor set</span></td><td><span class="de">Ab 4.3.1, Research Wing „Site B"; mehrere Loot-Boxen fürs volle Set.</span><span class="en">From 4.3.1, Research Wing "Site B"; several loot boxes for the full set.</span></td></tr>
+          <tr><td><b>Valakkar Fangs</b></td><td><span class="de">Material</span><span class="en">Material</span></td><td><span class="qty">6×</span> <span class="de">— Traktorstrahl-Aufsatz.</span><span class="en">— tractor attachment.</span></td></tr>
+          <tr><td><b>Apex Pearls</b></td><td><span class="de">Material</span><span class="en">Material</span></td><td><span class="qty">15×</span> <span class="de">— Mining-Aufsatz. Auch als Wikelo-Tausch-Ware relevant.</span><span class="en">— mining attachment. Also relevant as Wikelo trade goods.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Todesfallen</span><span class="en">Common ways to die</span></h2><p><span class="de">Kurz gegengecheckt vor dem Run.</span><span class="en">Quick pre-run check.</span></p></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Manuell reingeflogen</span><span class="en">Flew in manually</span></b><span class="de">Energie-Aus bei 12&nbsp;km → Absturz. <span class="x">Immer</span> den Shuttle nehmen.</span><span class="en">Power cut at 12&nbsp;km → crash. <span class="x">Always</span> take the shuttle.</span></div>
+      <div class="trap"><b><span class="de">Ohne Stirling in den Egg-Room</span><span class="en">Egg Room without Stirling</span></b><span class="de">Kein Zutritt bzw. Strahlungstod. Anzug ist Pflicht.</span><span class="en">No access / radiation death. The suit is mandatory.</span></div>
+      <div class="trap"><b><span class="de">Traktorstrahl am Ei</span><span class="en">Tractor beam on the egg</span></b><span class="de">Ei fällt durch den Boden = Run vorbei. <span class="x">Nur</span> tragen.</span><span class="en">Egg clips through the floor = run over. <span class="x">Carry</span> only.</span></div>
+      <div class="trap"><b><span class="de">Zu nah am Boss</span><span class="en">Too close to the boss</span></b><span class="de">Ground-Slam unter 150&nbsp;m = Sofort-Tod. Abstand halten.</span><span class="en">Ground slam under 150&nbsp;m = instant death. Keep spacing.</span></div>
+      <div class="trap"><b><span class="de">Auf den Körper gefeuert</span><span class="en">Shot the body</span></b><span class="de">Kein Schaden ohne grüne Zone → Munition leer, Boss voll HP.</span><span class="en">No damage off the green zones → out of ammo, boss full HP.</span></div>
+      <div class="trap"><b><span class="de">Kein Respawn gesetzt</span><span class="en">No respawn set</span></b><span class="de">Ein Tod kostet den ganzen Anreiseweg. Früh an der Infirmary setzen.</span><span class="en">One death costs the whole trip. Set it early at the infirmary.</span></div>
+    </div>
+  </section>
+
+
+
+
+  <!--KARTEN-ABSCHNITT weggelassen: B09, B10, B11, B12-->
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Community-Guides &amp; Wiki. Details/Zahlen können sich patchweise ändern.</span><span class="en">Community guides &amp; wiki. Details/numbers may shift by patch.</span></p></div></div>
+    <div class="src">
+      <a href="https://scquickguides.com/guides/activities/lazarus/" target="_blank" rel="noopener">SC Quick Guides — Lazarus Complex Walkthrough (4.5) ↗</a>
+      <a href="https://starcitizen.tools/Lazarus_Complexes" target="_blank" rel="noopener">Star Citizen Wiki — Lazarus Complexes ↗</a>
+      <a href="https://starcitizen.tools/ATLS_IKTI_RAD" target="_blank" rel="noopener">Star Citizen Wiki — ATLS IKTI RAD ↗</a>
+      <a href="https://www.mmopixel.com/news/star-citizen-4-2-0-new-event-stormbreaker-guide" target="_blank" rel="noopener">MMOPIXEL — 4.2.0 Stormbreaker / ASD Facilities Guide ↗</a>
+      <a href="https://www.starzen.space/t/insane-rare-loot-in-pyro-i-lazarus-location-full-guide-star-citizen/35524" target="_blank" rel="noopener">StarZen — Pyro I Lazarus Loot Guide ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch&nbsp;4.x (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch&nbsp;4.x (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · Pyro ASD Labs · fliegt sicher, o7</span>
+  <span class="en">Field handbook · Pyro ASD Labs · fly safe, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  // language
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l);
+    try{localStorage.setItem('pyro_asd_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var savedL='de'; try{savedL=localStorage.getItem('pyro_asd_lang')||'de';}catch(e){}
+  setLang(savedL);
+  // theme (explicit override; default follows system)
+  function setTheme(t){
+    if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('pyro_asd_theme',t):localStorage.removeItem('pyro_asd_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var savedT=null; try{savedT=localStorage.getItem('pyro_asd_theme');}catch(e){}
+  if(savedT) setTheme(savedT);
+})();
+</script>

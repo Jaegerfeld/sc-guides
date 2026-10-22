@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC Besondere Artefakte</title>
+<meta name="description" content="Katalog wertvoller Sammel-Loot-Artefakte in Star Citizen (Pristine/Flawed/Damaged): Lore, Fundorte, Werte. Eintrag 01: UNE Ingots.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f3ea; --panel:#fffdf7; --panel2:#efe9da; --ink:#1d1a12; --muted:#6a6150;
+    --line:#ddd3bd; --accent:#9a7420; --accent2:#2f6d6a; --gold:#b98a2a;
+    --ok:#2e7d55; --bad:#b0472c; --glow:rgba(154,116,32,.18);
+    --shadow:0 2px 12px rgba(40,34,20,.08);
+    --disp:'Cinzel',Georgia,serif; --body:'Barlow',system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e0c07; --panel:#17130b; --panel2:#120f08; --ink:#f0e9d8; --muted:#a6997d;
+      --line:#352c1a; --accent:#e8b24a; --accent2:#4fd0c0; --gold:#e8b24a;
+      --ok:#5fc98a; --bad:#e8805c; --glow:rgba(232,178,74,.16);
+      --shadow:0 4px 22px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e0c07; --panel:#17130b; --panel2:#120f08; --ink:#f0e9d8; --muted:#a6997d;
+    --line:#352c1a; --accent:#e8b24a; --accent2:#4fd0c0; --gold:#e8b24a;
+    --ok:#5fc98a; --bad:#e8805c; --glow:rgba(232,178,74,.16);
+    --shadow:0 4px 22px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 18px 70px}
+  .hazard{height:6px;background:repeating-linear-gradient(45deg,var(--gold) 0 16px,transparent 16px 32px);opacity:.9}
+  header{padding:34px 0 10px}
+  .eyebrow{font-family:var(--disp);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-size:12px;margin:0 0 8px}
+  h1{font-family:var(--disp);font-weight:900;font-size:clamp(28px,5vw,46px);margin:0;line-height:1.08;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:62ch;margin:12px 0 0;font-size:16.5px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 2px}
+  .btn{font-family:var(--body);font-weight:600;font-size:13px;letter-spacing:.04em;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+
+  section{margin:30px 0 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .sec-h{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line);background:linear-gradient(0deg,transparent,var(--glow))}
+  .sec-h .idx{font-family:var(--disp);font-weight:900;font-size:15px;color:var(--bg);background:var(--accent);min-width:42px;height:42px;padding:0 8px;display:grid;place-items:center;border-radius:10px;flex:0 0 auto}
+  .sec-h h2{font-family:var(--disp);font-weight:700;font-size:21px;margin:0;letter-spacing:.02em}
+  .sec-h .sub{color:var(--muted);font-size:13.5px;margin-top:2px}
+  .sec-b{padding:18px 20px}
+  .sec-b p{margin:0 0 12px}
+  .sec-b h3{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:.03em;margin:18px 0 8px;color:var(--accent)}
+
+  .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:4px 0 14px}
+  .ro{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .ro .k{font-family:var(--body);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ro .v{font-family:var(--disp);font-weight:700;font-size:16px;margin-top:3px}
+
+  .tablewrap{overflow-x:auto;margin:8px 0 14px;border:1px solid var(--line);border-radius:10px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:440px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--body);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--panel2)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+
+  .grade{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:1px 9px;border:1px solid}
+  .g-p{color:var(--gold);border-color:var(--gold)}
+  .g-f{color:var(--accent2);border-color:var(--accent2)}
+  .g-d{color:var(--muted);border-color:var(--line)}
+
+  .callout{display:flex;gap:11px;align-items:flex-start;background:var(--panel2);border-left:4px solid var(--accent);border-radius:8px;padding:12px 14px;margin:14px 0}
+  .callout.warn{border-left-color:var(--bad)}
+  .callout.tip{border-left-color:var(--ok)}
+  .callout .lbl{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);flex:0 0 auto}
+  .callout.warn .lbl{color:var(--bad)} .callout.tip .lbl{color:var(--ok)}
+  .callout p{margin:0;font-size:14.5px}
+
+  ul{margin:4px 0 14px;padding-left:22px} li{margin:4px 0}
+  a{color:var(--accent)}
+  .en{display:none}
+  [data-lang="en"] .de{display:none}
+  [data-lang="en"] .en{display:revert}
+  footer{margin-top:34px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+  .toc a{font-family:var(--body);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:20px;padding:5px 12px;color:var(--ink)}
+  .toc a:hover{border-color:var(--accent);color:var(--accent)}
+@media print{.backlink{display:none!important}}
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+<div class="wrap">
+  <header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Artefakte_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Artefakte_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Artefakte_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Artefakte_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+    <p class="eyebrow"><span class="de">Feldhandbuch · Sammel-Loot</span><span class="en">Field Handbook · Collectible Loot</span></p>
+    <h1><span class="de">Besondere Artefakte</span><span class="en">Special Artifacts</span></h1>
+    <p class="lede">
+      <span class="de">Katalog wertvoller Fundstücke in Star Citizen — die Pristine/Flawed/Damaged-Sammlerstücke, die man lootet und verkauft (kein Crafting-Material). Wächst iterativ.</span>
+      <span class="en">A catalogue of valuable finds in Star Citizen — the Pristine/Flawed/Damaged collectibles you loot and sell (not crafting material). Grows over time.</span>
+    </p>
+    <div class="toolbar">
+      <button class="btn" id="langBtn" type="button">EN / DE</button>
+      <button class="btn" id="themeBtn" type="button"><span class="de">Hell / Dunkel</span><span class="en">Light / Dark</span></button>
+    </div>
+    <nav class="toc">
+      <a href="#s0"><span class="de">00 · Grundlagen</span><span class="en">00 · Basics</span></a>
+      <a href="#s1">01 · UNE Ingots</a>
+      <a href="#s2"><span class="de">02 · Medaillen &amp; Marker</span><span class="en">02 · Medals &amp; Markers</span></a>
+      <a href="#s3">03 · Artifact Fragments</a>
+      <a href="#s4"><span class="de">04 · Event-Trophäen</span><span class="en">04 · Event Trophies</span></a>
+      <a href="#s5"><span class="de">05 · 200-Jahre-Münze</span><span class="en">05 · 200th Anniversary Coin</span></a>
+      <a href="#s6">06 · Puglisi Collection</a>
+      <a href="#s7">07 · Headhunter Head Lamp</a>
+    </nav>
+  </header>
+
+  <!-- 00 BASICS -->
+  <section id="s0">
+    <div class="sec-h">
+      <span class="idx">00</span>
+      <div><h2><span class="de">Grundlagen: Was sind „besondere Artefakte"?</span><span class="en">Basics: what are “special artifacts”?</span></h2>
+      <div class="sub"><span class="de">Zustands-Stufen · Wert · Verkauf</span><span class="en">Condition tiers · value · selling</span></div></div>
+    </div>
+    <div class="sec-b">
+      <p><span class="de">Gemeint ist eine Familie <b>lootbarer Wertgegenstände</b> — Edelmetallbarren, Medaillen, Marker, Relikte. Sie sind <b>kein Crafting-Material</b> und keine Wikelo-Pflichtzutat (tauchen in keinem Bauplan-Rezept auf); man <b>findet</b> sie und <b>verkauft</b> sie.</span>
+      <span class="en">A family of <b>lootable valuables</b> — precious-metal bars, medals, markers, relics. They are <b>not crafting material</b> and not required Wikelo ingredients (they appear in no blueprint recipe); you <b>find</b> them and <b>sell</b> them.</span></p>
+
+      <h3><span class="de">Zustands-Stufen</span><span class="en">Condition tiers</span></h3>
+      <p><span class="de">Fast alle kommen in drei Güten. Der Wertsprung zur Topstufe ist enorm:</span>
+      <span class="en">Almost all come in three grades. The value jump to the top tier is huge:</span></p>
+      <p>
+        <span class="grade g-d">Damaged</span>&nbsp;
+        <span class="grade g-f">Flawed / Worn</span>&nbsp;
+        <span class="grade g-p">Pristine</span>
+      </p>
+      <p style="font-size:14px;color:var(--muted);margin-top:-6px"><span class="de">(Die Mittelstufe heißt je nach Objekt <b>Flawed</b> [z. B. Ingots] oder <b>Worn</b> [z. B. Medaillen].)</span><span class="en">(The middle tier is called <b>Flawed</b> on some items [e.g. ingots] or <b>Worn</b> on others [e.g. medals].)</span></p>
+      <div class="callout tip">
+        <span class="lbl">Tipp</span>
+        <p><span class="de"><b>Pristine</b> ist das Geld. Damaged/Flawed sind oft spottbillig (teils sogar beim NPC kaufbar) — gut für Sammlung/Deko, nicht für Profit.</span>
+        <span class="en"><b>Pristine</b> is where the money is. Damaged/Flawed are often dirt cheap (some even NPC-buyable) — good for collection/decor, not profit.</span></p>
+      </div>
+
+      <h3><span class="de">Wo findet man sie?</span><span class="en">Where do you find them?</span></h3>
+      <p><span class="de">Als Container-Loot an <b>verlassenen Siedlungen (Derelict Settlements)</b>, <b>Derelict Outposts</b>, in <b>Höhlen</b> und <b>Wrack-Innenräumen</b> — oft in abschließbaren Kisten/Safes. Spawn ist RNG, nicht garantiert.</span>
+      <span class="en">As container loot at <b>derelict settlements</b>, <b>derelict outposts</b>, in <b>caves</b> and <b>wreck interiors</b> — often inside lockable crates/safes. Spawns are RNG, not guaranteed.</span></p>
+
+      <h3><span class="de">Verkaufen</span><span class="en">Selling</span></h3>
+      <p><span class="de">Zwei Wege: <b>NPC-Terminal</b> (sofort, aber mit Deckel — oft 9.999.999 aUEC/Stück) oder <b>Spieler-Marktplatz</b> (UEX, meist mehr, dafür Aufwand). Preise sind markt- und patch-abhängig — live prüfen.</span>
+      <span class="en">Two routes: <b>NPC terminal</b> (instant, but capped — often 9,999,999 aUEC/unit) or the <b>player marketplace</b> (UEX, usually more, but more effort). Prices are market- and patch-dependent — check live.</span></p>
+
+      <div class="callout">
+        <span class="lbl"><span class="de">NPC-Terminal</span><span class="en">NPC terminal</span></span>
+        <p><span class="de"><b>Was:</b> In-Game-Shop-Kiosk, an dem man <b>mit dem Spiel</b> handelt (nicht Spieler-zu-Spieler). <b>Wo für Wertstücke:</b> v. a. <b>Dumper's Depot</b> (Schrott/Artefakt-Ankauf; Area18-Retail, Grim HEX), dazu Städte-Shops (Lorville/Area18/New Babbage/Orison) &amp; Checkmate (Pyro). <b>Bedienung:</b> <b>F</b> drücken → Reiter <b>Verkaufen</b> → Stück muss im <b>lokalen Inventar an diesem Ort</b> liegen → auswählen, Menge, bestätigen. (Massengut: Commodity-Terminal/TDD → Schiff wählen → Schieberegler.) <b>Merke:</b> Damaged/Flawed billig am NPC; <b>Pristine</b> meist nur Marktplatz/Wikelo.</span>
+        <span class="en"><b>What:</b> an in-game shop kiosk where you trade <b>with the game</b> (not player-to-player). <b>Where for valuables:</b> mainly <b>Dumper's Depot</b> (scrap/artifact buyer; Area18 retail, Grim HEX), plus city shops (Lorville/Area18/New Babbage/Orison) &amp; Checkmate (Pyro). <b>How:</b> press <b>F</b> → <b>Sell</b> tab → the item must be in your <b>local inventory at that location</b> → select, quantity, confirm. (Bulk: commodity terminal/TDD → pick ship → slider.) <b>Note:</b> Damaged/Flawed sell cheap to NPCs; <b>Pristine</b> is usually marketplace/Wikelo only.</span></p>
+      </div>
+
+      <h3><span class="de">Übersicht aller Einträge</span><span class="en">Overview of all entries</span></h3>
+      <div class="tablewrap"><table>
+        <thead><tr>
+          <th>#</th>
+          <th><span class="de">Eintrag</span><span class="en">Entry</span></th>
+          <th><span class="de">Natur / Beschaffung</span><span class="en">Nature / acquisition</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td><a href="#s1">01</a></td><td>UNE Ingots</td><td><span class="de">Verkaufs-Loot (NPC-Deckel + Markt)</span><span class="en">Sell-loot (NPC cap + marketplace)</span></td></tr>
+          <tr><td><a href="#s2">02</a></td><td><span class="de">Medaillen &amp; Marker</span><span class="en">Medals &amp; markers</span></td><td><span class="de">Loot → Wikelo-Abgabe / Markt</span><span class="en">Loot → Wikelo turn-in / marketplace</span></td></tr>
+          <tr><td><a href="#s3">03</a></td><td>Artifact Fragments</td><td><span class="de">Loot (Contract/Wikelo/Markt)</span><span class="en">Loot (contract/Wikelo/marketplace)</span></td></tr>
+          <tr><td><a href="#s4">04</a></td><td><span class="de">Event-Trophäen</span><span class="en">Event trophies</span></td><td><span class="de">Event-Deko, teils lootbar</span><span class="en">Event decor, partly lootable</span></td></tr>
+          <tr><td><a href="#s5">05</a></td><td><span class="de">200-Jahre-Münze</span><span class="en">200th Anniversary Coin</span></td><td><span class="de">Backer-Meilenstein (nicht erhältlich)</span><span class="en">Backer milestone (not obtainable)</span></td></tr>
+          <tr><td><a href="#s6">06</a></td><td>Puglisi Collection</td><td><span class="de">Subscriber-Flair (Deko)</span><span class="en">Subscriber flair (decor)</span></td></tr>
+          <tr><td><a href="#s7">07</a></td><td>Headhunter Head Lamp</td><td><span class="de">Event-Goodies-Deko</span><span class="en">Event-goodies decor</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- 01 INGOTS -->
+  <section id="s1">
+    <div class="sec-h">
+      <span class="idx">01</span>
+      <div><h2>UNE Gold &amp; Silver Ingots</h2>
+      <div class="sub"><span class="de">UNE-Edelmetallbarren · „Currency Bar" · Loot &amp; Verkauf</span><span class="en">UNE precious-metal bars · “currency bar” · loot &amp; sell</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Wertgegenstand (Misc)</span><span class="en">Valuable (Misc)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Metalle</span><span class="en">Metals</span></div><div class="v">Gold / Silver</div></div>
+        <div class="ro"><div class="k"><span class="de">Güten</span><span class="en">Grades</span></div><div class="v">Damaged · Flawed · Pristine</div></div>
+        <div class="ro"><div class="k"><span class="de">Crafting?</span><span class="en">Crafting?</span></div><div class="v"><span class="de">Nein</span><span class="en">No</span></div></div>
+      </div>
+
+      <p><span class="de"><b>Lore:</b> Von der <b>UNE (United Nations of Earth)</b> gegossene Gold- bzw. Silberbarren. Einst offizielles Zahlungsmittel in UNE-Regionen, wo Technikprobleme sichere/sofortige Geldtransfers verhinderten. Tragen das UNE-Logo (drei Ringe, sechs Sterne) in einer runden Vertiefung samt verzierter Prägung.</span>
+      <span class="en"><b>Lore:</b> Gold and silver bars cast by the <b>UNE (United Nations of Earth)</b>. Once official tender in UNE regions where technical issues hampered secure/instant money transfers. They carry the UNE logo (three rings, six stars) in a circular recess with an ornate textured pattern.</span></p>
+
+      <h3><span class="de">Wert &amp; Verkauf</span><span class="en">Value &amp; selling</span></h3>
+      <div class="tablewrap"><table>
+        <thead><tr>
+          <th><span class="de">Stück</span><span class="en">Item</span></th>
+          <th><span class="de">Güte</span><span class="en">Grade</span></th>
+          <th><span class="de">Wo / Richtwert</span><span class="en">Where / ballpark</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>UNE Gold Ingot</td><td><span class="grade g-p">Pristine</span></td><td><span class="de">Loot-only · NPC-Verkauf Lorville bis ~9.999.999 aUEC; Marktplatz oft mehr</span><span class="en">Loot-only · NPC sell Lorville up to ~9,999,999 aUEC; marketplace often more</span></td></tr>
+          <tr><td>UNE Silver Ingot</td><td><span class="grade g-p">Pristine</span></td><td><span class="de">Loot-only · hochwertig, unter Gold</span><span class="en">Loot-only · high value, below gold</span></td></tr>
+          <tr><td>UNE Gold Ingot</td><td><span class="grade g-f">Flawed</span></td><td><span class="de">kaufbar: Checkmate (Pyro, PYR2-L4) ~3.760 aUEC</span><span class="en">buyable: Checkmate (Pyro, PYR2-L4) ~3,760 aUEC</span></td></tr>
+          <tr><td>UNE Silver Ingot</td><td><span class="grade g-f">Flawed</span></td><td><span class="de">kaufbar: Checkmate (Pyro) ~1.750 aUEC</span><span class="en">buyable: Checkmate (Pyro) ~1,750 aUEC</span></td></tr>
+          <tr><td>UNE Gold Ingot</td><td><span class="grade g-d">Damaged</span></td><td><span class="de">kaufbar: Dumper's Depot (Area18, Grim HEX) ~1.550 aUEC</span><span class="en">buyable: Dumper's Depot (Area18, Grim HEX) ~1,550 aUEC</span></td></tr>
+          <tr><td>UNE Silver Ingot</td><td><span class="grade g-d">Damaged</span></td><td><span class="de">kaufbar: Checkmate (Pyro) ~1.469 aUEC</span><span class="en">buyable: Checkmate (Pyro) ~1,469 aUEC</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de">Nur <b>Pristine</b> ist richtig wertvoll und <b>nur per Loot</b> zu bekommen. Damaged/Flawed sind billig (teils NPC-Ware) — nicht verwechseln. Alle Preise schwanken stark (Markt + Patch), vor Verkauf <b>live prüfen</b>.</span>
+        <span class="en">Only <b>Pristine</b> is truly valuable and <b>loot-only</b>. Damaged/Flawed are cheap (some NPC stock) — don't confuse them. All prices swing hard (market + patch); <b>check live</b> before selling.</span></p>
+      </div>
+
+      <h3><span class="de">Fundorte (Pristine = Container-Loot)</span><span class="en">Where to find (Pristine = container loot)</span></h3>
+      <p><span class="de">Pristine-Barren spawnen in lootbaren Kisten/Safes an abgelegenen Orten. Gute Reviere:</span>
+      <span class="en">Pristine bars spawn in lootable crates/safes at remote sites. Good hunting grounds:</span></p>
+      <ul>
+        <li><b><span class="de">Derelict Settlements – Hurston:</span><span class="en">Derelict settlements – Hurston:</span></b> Zir Makers Point, Illo Pickers Field, Foley Weeping Cove, Cutters Rig, Rapple</li>
+        <li><b><span class="de">Derelict Settlements – microTech:</span><span class="en">Derelict settlements – microTech:</span></b> Frostbite Razor's, AG Bloodshot Ridge, Harper Point, Asor Clearing, Morlon Hills, Don Boro</li>
+        <li><b><span class="de">Weitere:</span><span class="en">Also:</span></b> <span class="de">Derelict Outposts, markierte Höhlen (StarMap / „B" im Orbit), Wrack-Innenräume, abgestürzte Schiffe — jeweils die abschließbaren Behälter durchsuchen.</span><span class="en">derelict outposts, marked caves (StarMap / “B” in orbit), wreck interiors, crashed ships — search the lockable containers in each.</span></li>
+      </ul>
+
+      <h3><span class="de">Container &amp; Farm-Mechanik</span><span class="en">Containers &amp; farm mechanics</span></h3>
+      <p><span class="de">Ingots stecken in <b>„blauen Loot-Boxen"</b> bzw. <b>systemisch generierten Behältern</b> (Kisten/Spinde/Safes), deren Inhalt ortsabhängig zufällig gewürfelt wird. Dichte Vorkommen an:</span>
+      <span class="en">Ingots sit inside <b>“blue loot boxes”</b> / <b>systemically generated containers</b> (crates/lockers/safes) whose contents are rolled randomly per location. Dense spots:</span></p>
+      <ul>
+        <li><span class="de"><b>Caterpillar-Wracks</b> &amp; <b>bewohnte Höhlen</b> — viele Behälter auf engem Raum (effizient zum Abklappern).</span><span class="en"><b>Caterpillar derelicts</b> &amp; <b>inhabited caves</b> — many containers in a small space (efficient to sweep).</span></li>
+        <li><span class="de"><b>Outposts &amp; Bunker</b>, <b>Inspiration Park</b>, sowie die o. g. Derelict Settlements — Safes/verschlossene Räume priorisieren.</span><span class="en"><b>Outposts &amp; bunkers</b>, <b>Inspiration Park</b>, plus the derelict settlements above — prioritise safes/locked rooms.</span></li>
+        <li><span class="de"><b>Wreck of the Reclaimer</b> (microTech) — bekanntes Erkundungs-Wrack mit hochwertigem Loot.</span><span class="en"><b>Wreck of the Reclaimer</b> (microTech) — a known exploration wreck with high-tier loot.</span></li>
+      </ul>
+      <p style="font-size:14px;color:var(--muted)"><span class="de">Pristine ist selten (RNG) — rechne mit vielen Behältern pro Treffer. Route: ein Revier mit vielen Containern wählen, systematisch leeren, bei Server-Reset neue Spawns.</span>
+      <span class="en">Pristine is rare (RNG) — expect many containers per hit. Route: pick a container-dense site, clear it systematically; server resets refresh spawns.</span></p>
+
+      <div class="callout tip">
+        <span class="lbl">Tipp</span>
+        <p><span class="de">Ingots sind winzig (µSCU) — passen in den Rucksack/ins Personen-Inventar, kein Schiffsladeraum nötig. Multi-Tool mit Traktorstrahl + etwas zum Kisten-Knacken mitnehmen. In Pyro/Contested Zones (Checkmate) auf PvP gefasst sein.</span>
+        <span class="en">Ingots are tiny (µSCU) — they fit in your backpack/personal inventory, no ship hold needed. Bring a multi-tool with tractor beam and a way to crack containers. In Pyro/Contested Zones (Checkmate) expect PvP.</span></p>
+      </div>
+
+      <h3><span class="de">Live-Preise &amp; Terminals</span><span class="en">Live prices &amp; terminals</span></h3>
+      <ul>
+        <li>UEX — UNE Gold Ingot (Pristine): <a href="https://uexcorp.space/items/info/name/une-gold-ingot-pristine/" target="_blank" rel="noopener">uexcorp.space</a></li>
+        <li>CStone Item-Finder: <a href="https://finder.cstone.space/Misc1/96e85b07-5573-4ed8-8832-0ba69737831c" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 02 MEDALS -->
+  <section id="s2">
+    <div class="sec-h">
+      <span class="idx">02</span>
+      <div><h2><span class="de">Medaillen &amp; Marker</span><span class="en">Medals &amp; Markers</span></h2>
+      <div class="sub"><span class="de">Historische Auszeichnungen · Wikelo-Abgabe ODER Verkauf</span><span class="en">Historic awards · Wikelo turn-in OR sell</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Wertgegenstand (Misc)</span><span class="en">Valuable (Misc)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Anzahl</span><span class="en">Count</span></div><div class="v"><span class="de">4 Auszeichnungen</span><span class="en">4 awards</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Güten</span><span class="en">Grades</span></div><div class="v">Damaged · Worn · Pristine</div></div>
+        <div class="ro"><div class="k">Wikelo</div><div class="v"><span class="de">Ja (Pristine)</span><span class="en">Yes (Pristine)</span></div></div>
+      </div>
+
+      <p><span class="de">Vier historische Militär-/Dienstauszeichnungen. Wichtiger Unterschied zu den Ingots: <b>nicht am NPC-Terminal verkaufbar</b> — nur <b>Spieler-Marktplatz</b> ODER <b>Wikelo-Abgabe</b> (die Pristine-Stücke sind Zutaten im Wikelo-Planer).</span>
+      <span class="en">Four historic military/service awards. Key difference from ingots: <b>not sellable at NPC terminals</b> — only the <b>player marketplace</b> OR <b>Wikelo turn-in</b> (the Pristine pieces are ingredients in the Wikelo planner).</span></p>
+
+      <div class="tablewrap"><table>
+        <thead><tr>
+          <th><span class="de">Auszeichnung</span><span class="en">Award</span></th>
+          <th>Lore</th>
+          <th><span class="de">Pristine-Wert (Marktplatz)</span><span class="en">Pristine value (marketplace)</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Government Cartography Agency Medal</td><td><span class="de">UPE-Orden für Entdeckung/Erkundung/Scannen neuer Systeme</span><span class="en">UPE award for discovering/exploring/scanning new systems</span></td><td><span class="de">sehr hoch, volatil (~1–16+ Mio., Ausreißer höher)</span><span class="en">very high, volatile (~1–16M+, outliers higher)</span></td></tr>
+          <tr><td>Tevarin War Service Marker</td><td><span class="de">UPE-Dienstmarke für Militär im Ersten Tevarin-Krieg</span><span class="en">UPE service marker for military in the First Tevarin War</span></td><td>~1–30 Mio.</td></tr>
+          <tr><td>UEE 6th Platoon Medal</td><td><span class="de">Militär-Orden (6. Platoon)</span><span class="en">military medal (6th Platoon)</span></td><td><span class="de">hoch</span><span class="en">high</span></td></tr>
+          <tr><td>UNE Unification War Medal</td><td><span class="de">Orden aus dem Unification War</span><span class="en">medal from the Unification War</span></td><td><span class="de">hoch</span><span class="en">high</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de">Preise sind rein spieler­getrieben und extrem schwankend (Damaged teils nur ~60k, Pristine Millionen). <b>Kein</b> NPC-Verkauf. Vor dem Loswerden abwägen: <b>Wikelo-Abgabe</b> (Belohnung/Ruf) vs. <b>Marktplatz-Verkauf</b> (aUEC).</span>
+        <span class="en">Prices are purely player-driven and swing wildly (Damaged sometimes ~60k, Pristine millions). <b>No</b> NPC sale. Before parting with one, weigh <b>Wikelo turn-in</b> (reward/rep) vs. <b>marketplace sale</b> (aUEC).</span></p>
+      </div>
+
+      <h3><span class="de">Fundorte</span><span class="en">Where to find</span></h3>
+      <ul>
+        <li><b><span class="de">Ace Pilots (bester Weg für Pristine):</span><span class="en">Ace Pilots (best route for Pristine):</span></b> <span class="de">Pristine-Medaillen droppen von Ace-Piloten in Patrouillen-/orangefarbenen Contracts. Die Mission <b>„Stand Our Ground"</b> garantiert einen Ace-Pilot-Spawn → zuverlässigster Farm (Cartography Medal + Ace Interceptor Helm). Foxwell-Patrouille ~25 % für die 6th-Platoon-Medaille.</span>
+        <span class="en">Pristine medals drop from Ace Pilots in patrol/orange contracts. The <b>“Stand Our Ground”</b> mission guarantees an Ace Pilot spawn → most reliable farm (Cartography Medal + Ace Interceptor Helmet). Foxwell patrol ~25% for the 6th Platoon Medal.</span></li>
+        <li><b><span class="de">Derelicts:</span><span class="en">Derelicts:</span></b> <span class="de">Hurston/microTech Derelict „blue hangars / red rooms" + Zufalls-Loot.</span><span class="en">Hurston/microTech derelict “blue hangars / red rooms” + random loot.</span></li>
+        <li><b>Hathor PAF Sites:</b> <span class="de">im Satellitengebäude Pristine UEE 6th Platoon Medal + Grade-C-Schilde/Kühler (siehe Hathor-Guide).</span><span class="en">satellite building drops Pristine UEE 6th Platoon Medal + Grade-C shields/coolers (see Hathor guide).</span></li>
+      </ul>
+
+      <h3><span class="de">Live-Preise &amp; Terminals</span><span class="en">Live prices &amp; terminals</span></h3>
+      <ul>
+        <li>UEX Marketplace (Government Cartography Agency Medal): <a href="https://uexcorp.space/marketplace/item/info/government-cartography-agency-medal-pristine--RRy3JHidh7/" target="_blank" rel="noopener">uexcorp.space</a></li>
+        <li>CStone Item-Finder (Tevarin War Service Marker): <a href="https://finder.cstone.space/Misc1/523efc7f-9038-4531-95ea-9719308ae63b" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 ARTIFACT FRAGMENTS -->
+  <section id="s3">
+    <div class="sec-h">
+      <span class="idx">03</span>
+      <div><h2>Artifact Fragments</h2>
+      <div class="sub"><span class="de">Hadasianische Alien-Fragmente · Contract-/Wikelo-Loot</span><span class="en">Hadasian alien fragments · contract/Wikelo loot</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Souvenir/Flair (S1)</span><span class="en">Souvenir/flair (S1)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Größen</span><span class="en">Sizes</span></div><div class="v">Small · Medium · Large</div></div>
+        <div class="ro"><div class="k"><span class="de">Güten</span><span class="en">Grades</span></div><div class="v">Damaged · Flawed · Pristine</div></div>
+        <div class="ro"><div class="k"><span class="de">Verwendung</span><span class="en">Use</span></div><div class="v"><span class="de">Contract / Wikelo</span><span class="en">contract / Wikelo</span></div></div>
+      </div>
+
+      <p><span class="de"><b>Lore:</b> <b>Hadasianische Artefakt-Fragmente</b> aus unidentifiziertem Material, unbekannten Ursprungs — mit filigranen Gravuren, die schwach <b>grün glimmen</b>, und goldfarbenen Metallbändern. Ein echtes „Alien-Artefakt" im Wortsinn.</span>
+      <span class="en"><b>Lore:</b> <b>Hadasian artifact fragments</b> of unidentified material and unknown origin — with intricate etchings that faintly <b>glow green</b> and gold-coloured metallic banding. A true “alien artifact”.</span></p>
+
+      <h3><span class="de">Größen, Volumen &amp; Wert</span><span class="en">Sizes, volume &amp; value</span></h3>
+      <div class="tablewrap"><table>
+        <thead><tr>
+          <th><span class="de">Größe</span><span class="en">Size</span></th>
+          <th><span class="de">Volumen (Pristine)</span><span class="en">Volume (Pristine)</span></th>
+          <th><span class="de">Wert / Hinweis</span><span class="en">Value / note</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Large</td><td>2.300 µSCU (0,0023 SCU)</td><td><span class="de">Pristine ~1,9 Mio. (Ø ~1,6 Mio.), Ausreißer bis 100 Mio.</span><span class="en">Pristine ~1.9M (avg ~1.6M), outliers to 100M</span></td></tr>
+          <tr><td>Medium</td><td>163 µSCU</td><td><span class="de">Pristine hoch, unter Large</span><span class="en">Pristine high, below Large</span></td></tr>
+          <tr><td>Small</td><td>74 µSCU</td><td><span class="de">Pristine geringer; Damaged NPC-verkaufbar (Dumper's Depot Area18/Grim HEX ~960 aUEC)</span><span class="en">Pristine lower; Damaged NPC-sellable (Dumper's Depot Area18/Grim HEX ~960 aUEC)</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de">Pristine ist <b>nicht</b> am NPC-Terminal verkaufbar → Spieler-Marktplatz oder (Contract-/Wikelo-)Verwendung. Nur <b>Damaged</b> hat NPC-Ankauf (Spottpreis). Werte stark schwankend — live prüfen.</span>
+        <span class="en">Pristine is <b>not</b> NPC-sellable → player marketplace or (contract/Wikelo) use. Only <b>Damaged</b> has an NPC buyer (pennies). Values swing hard — check live.</span></p>
+      </div>
+
+      <h3><span class="de">Fundorte</span><span class="en">Where to find</span></h3>
+      <ul>
+        <li><b><span class="de">QV Station (Nyx):</span><span class="en">QV Station (Nyx):</span></b> <span class="de">Large (Pristine) im <b>Warehouse</b>-Bereich — gleiche Ecke wie der QV-Breaker-Guide.</span><span class="en">Large (Pristine) in the <b>Warehouse</b> section — same corner as the QV Breaker guide.</span></li>
+        <li><b><span class="de">Vanduul-Tech-Smuggler:</span><span class="en">Vanduul tech smugglers:</span></b> <span class="de">als Contract-Loot (siehe Vanduul-Tech-Guide).</span><span class="en">as contract loot (see the Vanduul-Tech guide).</span></li>
+        <li><b><span class="de">Verlassene Outposts – Hurston:</span><span class="en">Abandoned outposts – Hurston:</span></b> <span class="de">Large/Medium Hadasian-Fragmente im Container-Loot.</span><span class="en">Large/Medium Hadasian fragments in container loot.</span></li>
+      </ul>
+
+      <h3><span class="de">Live-Preise &amp; Terminals</span><span class="en">Live prices &amp; terminals</span></h3>
+      <ul>
+        <li>SC-Wiki — Large Artifact Fragment (Pristine): <a href="https://starcitizen.tools/Large_Artifact_Fragment_(Pristine)" target="_blank" rel="noopener">starcitizen.tools</a></li>
+        <li>CStone Item-Finder: <a href="https://finder.cstone.space/Souvenirs1/b3cc386a-6dc4-46fa-bc73-238a27d080f2" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04 EVENT TROPHIES -->
+  <section id="s4">
+    <div class="sec-h">
+      <span class="idx">04</span>
+      <div><h2><span class="de">Event-Trophäen (CitizenCon / Gamescom)</span><span class="en">Event Trophies (CitizenCon / Gamescom)</span></h2>
+      <div class="sub"><span class="de">Hangar-Deko · Event/Abo/Pledge · teils seltener Loot</span><span class="en">Hangar decor · event/subscriber/pledge · partly rare loot</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Souvenir/Flair</span><span class="en">Souvenir/flair</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Nutzung</span><span class="en">Use</span></div><div class="v"><span class="de">Hangar-/Hab-Deko</span><span class="en">hangar/hab decor</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Quelle</span><span class="en">Source</span></div><div class="v"><span class="de">Event · Abo · Pledge · (Loot)</span><span class="en">event · sub · pledge · (loot)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">aUEC-Verkauf</span><span class="en">aUEC sale</span></div><div class="v"><span class="de">Nein</span><span class="en">No</span></div></div>
+      </div>
+
+      <p><span class="de"><b>Anders als Einträge 01–03:</b> Trophäen sind <b>Dekoration</b> (nur in Hangar/Hab aufstellbar), <b>kein Verkaufs-Loot</b> für aUEC. Es sind Sammlerstücke von realen CIG-Events. Optik z. B. CitizenCon 2951: gold-/silberfarbenes Gehäuse mit grünem Marmor, Jahr + CitizenCon-Logo eingraviert.</span>
+      <span class="en"><b>Unlike entries 01–03:</b> trophies are <b>decoration</b> (placeable in your hangar/hab only), <b>not sell-loot</b> for aUEC. They are collectibles from real CIG events. Look e.g. CitizenCon 2951: gold/silver casing with green marble, year + CitizenCon logo etched.</span></p>
+
+      <h3><span class="de">Wie bekommt man sie?</span><span class="en">How to get them</span></h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th><span class="de">Weg</span><span class="en">Route</span></th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td><span class="de">Event / Digital Goodies Pack</span><span class="en">Event / Digital Goodies Pack</span></td><td><span class="de">Während des Events im Pledge-Store (zeitlich begrenzt); teils Teilnehmer-Reward.</span><span class="en">During the event on the pledge store (time-limited); partly an attendee reward.</span></td></tr>
+          <tr><td><span class="de">Subscriber-Trophäe</span><span class="en">Subscriber trophy</span></td><td><span class="de">Farbige Variante, automatisch für <b>aktive Subscriber</b> zum Event; nachträglich im Subscriber-Store kauf- &amp; verschenkbar.</span><span class="en">Coloured variant, auto-granted to <b>active subscribers</b> at the event; later buyable &amp; giftable in the Subscriber Store.</span></td></tr>
+          <tr><td><span class="de">In-Game-Loot (seit 3.17)</span><span class="en">In-game loot (since 3.17)</span></td><td><span class="de">Viele <b>ältere</b> Flair-Items (v. a. vor 2023) sind seltene Loot-Drops; <b>neue</b> Flair erst nach einem <b>3-Monats-Exklusivfenster</b>.</span><span class="en">Many <b>older</b> flair items (esp. pre-2023) are rare loot drops; <b>new</b> flair only after a <b>3-month exclusivity window</b>.</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout tip">
+        <span class="lbl">Tipp</span>
+        <p><span class="de">Zum „Finden": ältere Trophäen tauchen im selben Container-Loot auf wie die übrigen Souvenirs (siehe Eintrag 00/03). Aktuelle Jahrgänge gibt's realistisch nur per Event/Abo.</span>
+        <span class="en">To “find” them: older trophies appear in the same container loot as other souvenirs (see entry 00/03). Current-year ones realistically only via event/subscription.</span></p>
+      </div>
+
+      <h3><span class="de">Bekannte Trophäen (Auswahl)</span><span class="en">Known trophies (selection)</span></h3>
+      <ul>
+        <li><b>CitizenCon:</b> 2945, 2946, 2947, 2948, 2949, 2951, 2953 <span class="de">(+ Special-Edition-/Subscriber-Varianten)</span><span class="en">(+ special-edition/subscriber variants)</span></li>
+        <li><b>Gamescom:</b> 2943, 2944, 2945, 2946 <span class="de">(+ Special Edition)</span><span class="en">(+ special edition)</span></li>
+        <li><b><span class="de">Weitere Event-Trophäen:</span><span class="en">Other event trophies:</span></b> RSI Cup, PAX, Zeus, Golden Ticket</li>
+      </ul>
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de">Grau-Markt-Shops (star-hangar, eBay) handeln Trophäen gegen <b>Echtgeld</b> — nicht über In-Game-aUEC und außerhalb der offiziellen Wege (ToS-Risiko). Offiziell &amp; sicher: Subscriber-Store-Kauf + Gifting.</span>
+        <span class="en">Grey-market shops (star-hangar, eBay) trade trophies for <b>real money</b> — not in-game aUEC and outside official channels (ToS risk). Official &amp; safe: Subscriber Store purchase + gifting.</span></p>
+      </div>
+
+      <h3><span class="de">Nachschlagen</span><span class="en">Reference</span></h3>
+      <ul>
+        <li>SC-Wiki — CitizenCon 2953 Trophy: <a href="https://starcitizen.tools/CitizenCon_2953_Trophy" target="_blank" rel="noopener">starcitizen.tools</a></li>
+        <li>CStone Item-Finder (CitizenCon 2953 Trophy): <a href="https://finder.cstone.space/Souvenirs1/33a52ab8-c96f-4eac-9609-5cfa3b8d6f81" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 05 ONE EMPIRE 200TH ANNIVERSARY COIN -->
+  <section id="s5">
+    <div class="sec-h">
+      <span class="idx">05</span>
+      <div><h2>One Empire 200th Anniversary Coin</h2>
+      <div class="sub"><span class="de">Backer-Meilenstein-Reward · „200m Challenge Coin"</span><span class="en">Backer milestone reward · “200m challenge coin”</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Flair (Backer-Reward)</span><span class="en">Flair (backer reward)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Nutzung</span><span class="en">Use</span></div><div class="v"><span class="de">Hangar-Deko (S1–2 Fläche)</span><span class="en">hangar decor (S1–2 surface)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Quelle</span><span class="en">Source</span></div><div class="v"><span class="de">$200 Mio.-Meilenstein</span><span class="en">$200M milestone</span></div></div>
+        <div class="ro"><div class="k"><span class="de">In-Game erhältlich</span><span class="en">In-game obtainable</span></div><div class="v"><span class="de">Nein</span><span class="en">No</span></div></div>
+      </div>
+
+      <p><span class="de"><b>Das exklusivste Stück im Katalog.</b> Ein <b>Backer-Reward</b>: Geschenk an <b>alle, die vor dem $200.000.000-Crowdfunding-Meilenstein</b> gepledged hatten — ein einmaliges Dankeschön. Reine Hangar-Dekoration.</span>
+      <span class="en"><b>The most exclusive piece in the catalogue.</b> A <b>backer reward</b>: a gift to <b>everyone who had pledged before the $200,000,000 crowdfunding milestone</b> — a one-off thank-you. Pure hangar decoration.</span></p>
+
+      <p><span class="de"><b>Lore:</b> Ehrt „<b>One Empire</b>", eine community-basierte Regierungsinitiative, die die Menschen der UEE seit 200 Jahren zusammenbringt. (Reale Bedeutung: markiert, dass SC 200 Mio. USD Crowdfunding erreichte.)</span>
+      <span class="en"><b>Lore:</b> Commemorates “<b>One Empire</b>”, a community-based government initiative that has brought the UEE's people together for 200 years. (Real-world: marks SC reaching $200M crowdfunding.)</span></p>
+
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de"><b>Nicht</b> kaufbar, lootbar, craftbar oder pledgebar — und <b>kein</b> In-Game-Wert (UEX listet 0 aUEC). Wer den Meilenstein-Zeitpunkt verpasst hat, bekommt ihn regulär <b>gar nicht</b> mehr. Die einzige nachträgliche „Beschaffung" wären Grau-Markt-Accountkäufe (Echtgeld, ToS-Risiko — nicht empfohlen).</span>
+        <span class="en"><b>Not</b> buyable, lootable, craftable or pledgeable — and <b>no</b> in-game value (UEX lists 0 aUEC). If you missed the milestone window, there is <b>no</b> regular way to get it. The only retroactive “route” would be grey-market account sales (real money, ToS risk — not recommended).</span></p>
+      </div>
+
+      <h3><span class="de">Nachschlagen</span><span class="en">Reference</span></h3>
+      <ul>
+        <li>SC-Wiki — One Empire 200th Anniversary Coin: <a href="https://starcitizen.tools/One_Empire_200th_Anniversary_Coin" target="_blank" rel="noopener">starcitizen.tools</a></li>
+        <li>CStone Item-Finder: <a href="https://finder.cstone.space/Misc1/3b14e482-1587-4480-ac0f-af4ccf098c50" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 PUGLISI COLLECTION -->
+  <section id="s6">
+    <div class="sec-h">
+      <span class="idx">06</span>
+      <div><h2>Puglisi Collection: Artifact</h2>
+      <div class="sub"><span class="de">Subscriber-Flair · „Museums"-Deko-Serie</span><span class="en">Subscriber flair · “museum” decor series</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Subscriber-Flair</span><span class="en">Subscriber flair</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Nutzung</span><span class="en">Use</span></div><div class="v"><span class="de">Hangar-/Hab-Deko (~0,15 m)</span><span class="en">hangar/hab decor (~0.15 m)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Quelle</span><span class="en">Source</span></div><div class="v"><span class="de">Subscriber-Store (2015er-Serie)</span><span class="en">Subscriber Store (2015 series)</span></div></div>
+        <div class="ro"><div class="k"><span class="de">aUEC-Loot</span><span class="en">aUEC loot</span></div><div class="v"><span class="de">Nein</span><span class="en">No</span></div></div>
+      </div>
+
+      <p><span class="de"><b>Was:</b> Ein Deko-Stück aus dem <b>Subscriber-Flair-Programm</b> (Klassenname <code>flair_rockcontainer</code>). Geliefert in einer <b>museumsreifen Vitrine</b>. Teil der fortlaufenden <b>Puglisi Collection</b> — einer in-fiction von Historikern/Wissenschaftlern/Entdeckern kuratierten Sammlung.</span>
+      <span class="en"><b>What:</b> A decor piece from the <b>Subscriber Flair</b> program (class name <code>flair_rockcontainer</code>), delivered in a <b>museum-quality display case</b>. Part of the ongoing <b>Puglisi Collection</b> — an in-fiction set curated by historians/scientists/explorers.</span></p>
+
+      <p><span class="de"><b>Lore:</b> „Die Puglisi Collection lädt dich ein, die Wunder des Universums zu entdecken, ohne die Welt zu verlassen." Jedes Stück kommt in einer stoßfesten Vitrine zum Präsentieren.</span>
+      <span class="en"><b>Lore:</b> “The Puglisi Collection invites you to discover the wonders of the universe without leaving home.” Each piece ships in an impact-resistant display case.</span></p>
+
+      <h3><span class="de">Wie bekommt man es?</span><span class="en">How to get it</span></h3>
+      <p><span class="de">Über den <b>Subscriber-Store</b> (Teil der 2015er Subscriber-Flair-Serie); nachträglich kauf- &amp; verschenkbar.</span>
+      <span class="en">Via the <b>Subscriber Store</b> (part of the 2015 subscriber-flair series); buyable &amp; giftable retroactively.</span></p>
+
+      <h3><span class="de">Die Puglisi-Serie (verwandte Stücke)</span><span class="en">The Puglisi series (related pieces)</span></h3>
+      <p><span class="de">Die Puglisi Collection ist eine fortlaufende Reihe „musealer" Repliken. Die drei Artefakt-Stücke:</span>
+      <span class="en">The Puglisi Collection is an ongoing line of “museum” replicas. The three artifact pieces:</span></p>
+      <div class="tablewrap"><table>
+        <thead><tr>
+          <th><span class="de">Stück</span><span class="en">Piece</span></th>
+          <th><span class="de">Abo-Monat</span><span class="en">Sub month</span></th>
+          <th>Lore</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Planet Artifact</td><td><span class="de">Mai 2015 (1. Stück)</span><span class="en">May 2015 (1st)</span></td><td><span class="de">Probe des zerstörten Planeten <b>Ellis XI</b> (Mond durch Asteroid in Zerfallsorbit, Einschlag 2943-06-06); von der Imperial Geological Society geprüft, mit Datenfile.</span><span class="en">Sample of the destroyed planet <b>Ellis XI</b> (moon knocked into a decaying orbit; impact 2943-06-06); verified by the Imperial Geological Society, with a datafile.</span></td></tr>
+          <tr><td><span class="de">Artifact (Felsbehälter)</span><span class="en">Artifact (rock container)</span></td><td><span class="de">2015er-Serie</span><span class="en">2015 series</span></td><td><span class="de">Dieses museale Fragment-Exponat in der Vitrine (dieser Eintrag).</span><span class="en">This entry's museum fragment piece in its display case.</span></td></tr>
+          <tr><td>Vasli Fragment Stone</td><td><span class="de">Sep 2015</span><span class="en">Sep 2015</span></td><td><span class="de">Steinfragment aus den <b>Quasi-Ruinen auf Terra</b> (2832 tief in Zaffre Bay entdeckt), beschriftet mit vermutlich der Sprache einer antiken Zivilisation; Replik.</span><span class="en">Stone fragment from the <b>Quasi ruins on Terra</b> (found deep in Zaffre Bay in 2832), inscribed with what is believed to be an ancient civilisation's language; a replica.</span></td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:14px;color:var(--muted)"><span class="de">Weitere Puglisi-Flair: Armor-Teile, Schädel-Exponate u. a. (monatliche Subscriber-Flair 2015/2016).</span>
+      <span class="en">More Puglisi flair: armor pieces, skull specimens, etc. (monthly subscriber flair 2015/2016).</span></p>
+
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de">Reine Dekoration, <b>kein</b> In-Game-aUEC-Wert. Offizieller Weg = Subscriber-Store (Echtgeld-Abo). Grau-Markt (star-hangar/eBay) = außerhalb offizieller Kanäle (ToS-Risiko).</span>
+        <span class="en">Pure decoration, <b>no</b> in-game aUEC value. Official route = Subscriber Store (real-money subscription). Grey-market (star-hangar/eBay) = outside official channels (ToS risk).</span></p>
+      </div>
+
+      <h3><span class="de">Nachschlagen</span><span class="en">Reference</span></h3>
+      <ul>
+        <li>SC-Wiki — Puglisi Collection: Artifact: <a href="https://starcitizen.tools/Puglisi_Collection:_Artifact" target="_blank" rel="noopener">starcitizen.tools</a></li>
+        <li>SC-Wiki — Planet Artifact: <a href="https://starcitizen.tools/Puglisi_Collection_Planet_Artifact" target="_blank" rel="noopener">starcitizen.tools</a> · Vasli Fragment: <a href="https://starcitizen.tools/Puglisi_Collection_Vasli_Fragment_Stone" target="_blank" rel="noopener">starcitizen.tools</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 07 HEADHUNTER HEAD LAMP -->
+  <section id="s7">
+    <div class="sec-h">
+      <span class="idx">07</span>
+      <div><h2>Headhunter Head Lamp</h2>
+      <div class="sub"><span class="de">CitizenCon-2953-Deko · Headhunter-Gang-Relikt</span><span class="en">CitizenCon 2953 decor · Headhunter gang relic</span></div></div>
+    </div>
+    <div class="sec-b">
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Typ</span><span class="en">Type</span></div><div class="v"><span class="de">Souvenir/Flair</span><span class="en">Souvenir/flair</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Nutzung</span><span class="en">Use</span></div><div class="v"><span class="de">Hangar-/Hab-Deko</span><span class="en">hangar/hab decor</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Quelle</span><span class="en">Source</span></div><div class="v"><span class="de">CitizenCon 2953 Goodies-Pack</span><span class="en">CitizenCon 2953 Goodies Pack</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Im Spiel</span><span class="en">In game</span></div><div class="v"><span class="de">seit 3.24.3</span><span class="en">since 3.24.3</span></div></div>
+      </div>
+
+      <p><span class="de"><b>Lore:</b> Nachbildung des ikonischen <b>Headhunter-Autoritätssiegels</b>, gefertigt bei der Beförderung eines neuen Chiefs — aus <b>vier Schädeln</b>, je einer von den vier Counselors als Treuebeweis. Symbol der neuen Autorität des Chiefs (ein makabres Relikt der Headhunter-Gang).</span>
+      <span class="en"><b>Lore:</b> A reproduction of the iconic <b>Headhunter seal of authority</b>, crafted at a new Chief's promotion — from <b>four skulls</b>, one from each of the four Counselors as a sign of loyalty. A symbol of the Chief's authority (a gruesome Headhunter-gang relic).</span></p>
+
+      <h3><span class="de">Wie bekommt man es?</span><span class="en">How to get it</span></h3>
+      <p><span class="de">War Teil des <b>CitizenCon 2953 Digital Goodies Pack</b> (Pledge-Store, Okt 2023; in-fiction 2953) — <b>nicht mehr käuflich</b>. Die Items wurden in <b>Alpha 3.24.3</b> ins Spiel gebracht. Begleit-Inhalte des Packs u. a.: CitizenCon 2953 Trophy (vgl. Eintrag 04), Deadrig Shotgun, J-5 Helmet/Markanda Undersuit (Pyrotechnic), Zeus Coin &amp; Plushie.</span>
+      <span class="en">Was part of the <b>CitizenCon 2953 Digital Goodies Pack</b> (pledge store, Oct 2023; in-fiction 2953) — <b>no longer purchasable</b>. The items were implemented in <b>Alpha 3.24.3</b>. Companion pack contents include: CitizenCon 2953 Trophy (cf. entry 04), Deadrig Shotgun, J-5 Helmet/Markanda Undersuit (Pyrotechnic), Zeus Coin &amp; Plushie.</span></p>
+      <div class="callout tip">
+        <span class="lbl">Tipp</span>
+        <p><span class="de">Reine Dekoration (kein aUEC-Loot). Wie andere ältere Event-Flair kann sie nach dem Exklusivfenster im Container-Loot auftauchen (vgl. Eintrag 04); regulärer Nachkauf ist nicht mehr möglich.</span>
+        <span class="en">Pure decoration (no aUEC loot). Like other older event flair it can appear in container loot after the exclusivity window (cf. entry 04); it can no longer be bought normally.</span></p>
+      </div>
+
+      <h3><span class="de">Nachschlagen</span><span class="en">Reference</span></h3>
+      <ul>
+        <li>SC-Wiki — Headhunter Head Lamp: <a href="https://starcitizen.tools/Headhunter_Head_Lamp" target="_blank" rel="noopener">starcitizen.tools</a></li>
+        <li>CStone Item-Finder: <a href="https://finder.cstone.space/Souvenirs1/f6b4c6f1-5e64-4775-8c07-469fc9c95cbe" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p><span class="de">Einträge 01–07 (wächst). Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Werte &amp; Fundorte patch-/marktabhängig — alle Angaben ohne Gewähr.</span>
+    <span class="en">Entries 01–07 (growing). Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. Values &amp; locations are patch/market dependent — no guarantee.</span></p>
+  </footer>
+</div>
+<script>
+  (function(){
+    var root=document.documentElement;
+    try{var th=localStorage.getItem('scArtTheme'); if(th)root.setAttribute('data-theme',th);}catch(e){}
+    try{var l=localStorage.getItem('scArtLang'); if(l==='en'){root.setAttribute('data-lang','en');root.setAttribute('lang','en');}}catch(e){}
+    document.getElementById('themeBtn').addEventListener('click',function(){
+      var n=root.getAttribute('data-theme')==='dark'?'light':'dark';
+      root.setAttribute('data-theme',n); try{localStorage.setItem('scArtTheme',n);}catch(e){}
+    });
+    document.getElementById('langBtn').addEventListener('click',function(){
+      var en=root.getAttribute('data-lang')==='en';
+      if(en){root.removeAttribute('data-lang');root.setAttribute('lang','de');}
+      else{root.setAttribute('data-lang','en');root.setAttribute('lang','en');}
+      try{localStorage.setItem('scArtLang',en?'de':'en');}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>

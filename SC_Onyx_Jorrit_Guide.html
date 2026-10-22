@@ -1,0 +1,359 @@
+<title>Onyx · Fall Jorrit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#efeef2; --panel:#ffffff; --panel2:#e7e5ee; --line:#cfccdb;
+  --ink:#16141c; --dim:#615c72; --violet:#6d4bd0; --violet-bd:#8163d6;
+  --danger:#b3301f; --danger-bg:#f4dcd7; --data:#2f7d4f; --data-bg:#dcefe0;
+  --amber:#8a6300; --amber-bg:#f2e7cf;
+  --stripe:rgba(109,75,208,.16);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(30,20,60,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Oswald',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d0e12; --panel:#17161f; --panel2:#121119; --line:#2c2939; --ink:#ece9f4; --dim:#a39cb8;
+    --violet:#a78bfa; --violet-bd:#6d4bd0; --danger:#f0674a; --danger-bg:#2a1310;
+    --data:#6ddf9a; --data-bg:#10231a; --amber:#f0c14b; --amber-bg:#241d0d;
+    --stripe:rgba(167,139,250,.12); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d0e12; --panel:#17161f; --panel2:#121119; --line:#2c2939; --ink:#ece9f4; --dim:#a39cb8;
+  --violet:#a78bfa; --violet-bd:#6d4bd0; --danger:#f0674a; --danger-bg:#2a1310;
+  --data:#6ddf9a; --data-bg:#10231a; --amber:#f0c14b; --amber-bg:#241d0d;
+  --stripe:rgba(167,139,250,.12); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.1;margin:0;font-weight:600;letter-spacing:.01em}
+a{color:var(--violet)}
+:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+.redact{background:var(--ink);color:transparent;border-radius:2px;padding:0 .35em;user-select:none}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--violet-bd) 0 16px,transparent 16px 32px);opacity:.85}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 84% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--violet);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,54px);font-weight:700;text-transform:uppercase;margin:10px 0 6px}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--violet);color:#fff}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:18px;font-weight:600;margin-top:3px}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--violet);border:1px solid var(--violet-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+/* case file */
+.casefile{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:0 12px 12px 0;padding:16px 18px;box-shadow:var(--shadow)}
+.casefile .stamp{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--danger);border:1.5px solid var(--danger);border-radius:5px;padding:2px 8px;display:inline-block;transform:rotate(-1.5deg)}
+.casefile dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:12px 0 0;font-size:14.5px}
+.casefile dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.casefile dd{margin:0}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);display:block;margin-bottom:6px}
+.card p{margin:0;color:var(--dim);font-size:14px}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--violet);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:26px;color:var(--violet);line-height:1;width:3.2ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--data);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--violet);font-family:var(--mono);font-weight:700}
+
+.callout{border-left:4px solid var(--violet);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.data{border-left-color:var(--data);background:var(--data-bg)}
+.callout.amber{border-left-color:var(--amber);background:var(--amber-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.data .lbl{color:var(--data)} .callout.amber .lbl{color:var(--amber)}
+.callout .lbl.violet{color:var(--violet)}
+.log{font-style:italic;color:var(--dim)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+td .qty{font-family:var(--mono);font-weight:700;color:var(--violet)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (max-width:620px){.phase{gap:12px}.pnum{font-size:22px}.casefile dl{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Onyx_Jorrit_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Onyx_Jorrit_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Onyx_Jorrit_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Onyx_Jorrit_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>🕵</span> <span class="de">Stanton · ASD · Hockrow Agency — Vertraulich</span><span class="en">Stanton · ASD · Hockrow Agency — Confidential</span></div>
+    <h1><span class="de">Onyx · Fall Jorrit</span><span class="en">Onyx · The Jorrit Case</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch zur ASD-Onyx-Ermittlungskette der Hockrow Agency — die „Dr.-Jerrod"-Missionen (korrekt: <b>Dr. Logan Jorrit</b>). Phasen 1–3, drei Wings, Belohnungen für Wikelo.</span>
+      <span class="en">Field handbook for the ASD Onyx investigation chain from the Hockrow Agency — the "Dr. Jerrod" missions (properly: <b>Dr. Logan Jorrit</b>). Phases 1–3, three wings, rewards for Wikelo.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Ermittlung · Story · Solo-tauglich</span><span class="en">Investigation · story · solo-friendly</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Falldaten">
+    <div class="ro"><div class="k">System</div><div class="v">Stanton</div></div>
+    <div class="ro"><div class="k"><span class="de">Auftraggeber</span><span class="en">Contract giver</span></div><div class="v">Hockrow</div></div>
+    <div class="ro"><div class="k">Start</div><div class="v">mobiGlas ▸ Investigation</div></div>
+    <div class="ro"><div class="k"><span class="de">Belohnung</span><span class="en">Reward</span></div><div class="v">ASD Secure Drives</div></div>
+    <div class="ro"><div class="k">Team</div><div class="v">1–2</div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="casefile">
+      <span class="stamp"><span class="de">Fallakte · Vertraulich</span><span class="en">Case File · Confidential</span></span>
+      <dl>
+        <dt><span class="de">Subjekt</span><span class="en">Subject</span></dt><dd><b>Dr. Logan Jorrit</b> <span class="dim de">(oft „Dr. Jerrod")</span><span class="dim en">(often "Dr. Jerrod")</span></dd>
+        <dt>Position</dt><dd><span class="de">ASD-Chef­wissenschaftler, beurlaubt</span><span class="en">ASD lead scientist, on administrative leave</span></dd>
+        <dt><span class="de">Vorwurf</span><span class="en">Allegation</span></dt><dd><span class="de">grausame, unethische Experimente an bestrahlten Tieren (Pyro I) zur Gewinnung von <b>Valakkar-Pearls</b></span><span class="en">cruel, unethical experiments on irradiated animals (Pyro I) to harvest <b>Valakkar pearls</b></span></dd>
+        <dt><span class="de">Ermittler</span><span class="en">Investigator</span></dt><dd><span class="de">Hockrow Agency — Kontakt <b>Arken Mallor</b></span><span class="en">Hockrow Agency — contact <b>Arken Mallor</b></span></dd>
+      </dl>
+    </div>
+    <p style="margin-top:16px" class="prose de">Die <b>Onyx-Anlagen</b> sind verlassene unterirdische ASD-Forschungsstationen — dieselbe Anlage <b>~120-mal geklont</b> über ganz Stanton (Hurston 40 · microTech 32 · ArcCorp 24 · Crusader 24; Code S{System}{Körper}{Nr}). Zugang nur über <b>zwei große Hangartore</b> an der Oberfläche. Du arbeitest dich durch <b>Engineering</b> (Sector A) und <b>Research</b> (Sector B, 9 Sub-Level) bis <b>Site B</b>, lädst Daten, hörst Audio-Logs — und deckst „Project Hyperion" auf. Belohnungen tauschst du bei <b>Wikelo's Emporium</b>.</p>
+    <p style="margin-top:16px" class="prose en">The <b>Onyx facilities</b> are abandoned underground ASD research stations — one facility <b>cloned ~120×</b> across Stanton (Hurston 40 · microTech 32 · ArcCorp 24 · Crusader 24; code S{system}{body}{no}). Access is via <b>two large hangar doors</b> on the surface only. You work through <b>Engineering</b> (Sector A) and <b>Research</b> (Sector B, 9 sub-levels) to <b>Site B</b>, download data, hear audio logs — and uncover "Project Hyperion". Rewards are traded at <b>Wikelo's Emporium</b>.</p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg — so startest du</span><span class="en">Getting in — how to start</span></h2><p><span class="de">Anders als ASD-Labs/Hathor: das hier ist missionsgetrieben.</span><span class="en">Unlike the ASD Labs/Hathor: this one is mission-driven.</span></p></div></div>
+    <div class="callout" style="border-left-color:var(--violet)"><span class="lbl violet"><span class="de">Der „Start-Knopf"</span><span class="en">The "start button"</span></span><span class="de">Öffne dein <b>mobiGlas → Contracts → Investigation-Tab</b> und nimm den <b>Hockrow-Agency</b>-Vertrag von <b>Arken Mallor</b> an. Erst dann bekommst du den <b>Quantum-Marker</b> zur Anlage — die Onyx-Standorte sind sonst <b>nicht direkt anfliegbar</b>.</span><span class="en">Open your <b>mobiGlas → Contracts → Investigation tab</b> and accept the <b>Hockrow Agency</b> contract from <b>Arken Mallor</b>. Only then do you get the <b>quantum marker</b> to the facility — the Onyx sites are otherwise <b>not directly reachable</b>.</span></div>
+    <div class="grid g3">
+      <div class="card"><span class="tag"><span class="de">Vertragstyp</span><span class="en">Contract type</span></span><h3>🔍 Investigation</h3><p><span class="de">Hockrow / Arken Mallor. Die Story-Kette: Daten laden, Audio-Logs, Wings erkunden.</span><span class="en">Hockrow / Arken Mallor. The story chain: download data, audio logs, explore wings.</span></p></div>
+      <div class="card"><span class="tag"><span class="de">Vertragstyp</span><span class="en">Contract type</span></span><h3>📦 Hauling</h3><p><span class="de">Redwind: Gegenstände zu den <b>Freight-Elevators</b> in den Onyx-Anlagen liefern.</span><span class="en">Redwind: deliver items to the <b>freight elevators</b> in the Onyx facilities.</span></p></div>
+      <div class="card"><span class="tag"><span class="de">Vertragstyp</span><span class="en">Contract type</span></span><h3>🎯 Mercenary</h3><p><span class="de">Eckhart / Bounty Hunters Guild: <b>Server</b> in den Anlagen zerstören, Ziele ausschalten.</span><span class="en">Eckhart / Bounty Hunters Guild: destroy <b>servers</b> in the facilities, clear targets.</span></p></div>
+    </div>
+    <div class="callout amber"><span class="lbl"><span class="de">Solo &amp; Belohnung</span><span class="en">Solo &amp; rewards</span></span><span class="de">Gut allein oder zu zweit machbar. <b>Achtung:</b> Belohnungen gehen aktuell <b>nur an den Spieler, der die Mission angenommen hat</b> — geteilte Belohnungen gibt es (noch) nicht. Im Team nimmt jeder seine eigene Mission.</span><span class="en">Doable solo or in a duo. <b>Note:</b> rewards currently go <b>only to the player who accepted the mission</b> — shared rewards aren't available (yet). In a team, everyone takes their own mission.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▤</span><div><h2><span class="de">Die drei Wings</span><span class="en">The three wings</span></h2><p><span class="de">So ist jede Onyx-Anlage aufgebaut.</span><span class="en">How every Onyx facility is laid out.</span></p></div></div>
+    <div class="grid g3">
+      <div class="card"><span class="tag">Wing 1</span><h3><span class="de">Research Labs</span><span class="en">Research Labs</span></h3><p><span class="de">Datenpunkte + <b>Audio-Logs</b>, die die Umstände der Aufgabe der Anlage erzählen. Hier lebt die Story.</span><span class="en">Data points + <b>audio logs</b> revealing why the facility was abandoned. The story lives here.</span></p></div>
+      <div class="card"><span class="tag">Wing 2</span><h3>Engineering</h3><p><span class="de">Weg durch <b>gefährliche Energiesysteme &amp; Strahlungszonen</b>. Schutz mitnehmen.</span><span class="en">Route through <b>hazardous power systems &amp; radiation zones</b>. Bring protection.</span></p></div>
+      <div class="card"><span class="tag">Wing 3</span><h3>Site B</h3><p><span class="de">Der tiefste Abschnitt: <b>Jorrits Labor</b>. Braucht die Daten aus Phase 1 &amp; 2.</span><span class="en">The deepest section: <b>Jorrit's lab</b>. Requires the Phase 1 &amp; 2 data.</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Die Ermittlungskette — Phasen</span><span class="en">The investigation chain — phases</span></h2><p><span class="de">Der Reihe nach; Phase 3 setzt Phase 1 &amp; 2 voraus.</span><span class="en">In order; phase 3 requires phases 1 &amp; 2.</span></p></div></div>
+
+    <div class="phase">
+      <div class="pnum">1<small>AKTEN</small></div>
+      <div class="pbody">
+        <h3><span class="de">Phase 1 — Akten beschaffen (P1M1–M3)</span><span class="en">Phase 1 — gather files (P1M1–M3)</span></h3>
+        <div class="pobj"><span class="de">Belohnung: 5 ASD Secure Drives</span><span class="en">Reward: 5 ASD Secure Drives</span></div>
+        <ol class="steps">
+          <li class="de"><b>P1M1</b> Personalakten am Reception-Terminal ziehen (Einstieg, wenig Gegner).</li>
+          <li class="en"><b>P1M1</b> pull personnel files at the reception terminal (intro, few enemies).</li>
+          <li class="de"><b>P1M2</b> Audio-Gerät nahe der Mitte des <b>Engineering</b>-Flügels abhören (Piraten, selten Valakkar).</li>
+          <li class="en"><b>P1M2</b> listen to the audio device mid-<b>Engineering</b> wing (pirates, rarely a Valakkar).</li>
+          <li class="de"><b>P1M3</b> Forschungsdaten im <b>Research</b>-Flügel ziehen (Marker führt; beste Volt-Zenith-Route).</li>
+          <li class="en"><b>P1M3</b> pull research data in the <b>Research</b> wing (marker leads; best Volt-Zenith route).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">2<small>DATEN</small></div>
+      <div class="pbody">
+        <h3><span class="de">Phase 2 — Daten auslesen (P2M1–M4)</span><span class="en">Phase 2 — extract data (P2M1–M4)</span></h3>
+        <div class="pobj"><span class="de">Belohnung: 10 ASD Secure Drives (+ je 1/Mission)</span><span class="en">Reward: 10 ASD Secure Drives (+1 per mission)</span></div>
+        <ol class="steps">
+          <li class="de"><b>P2M1</b> Energie-Anomalie-Daten (Boden pulsiert &lt;5 m, aus Deckung looten).</li>
+          <li class="en"><b>P2M1</b> energy-anomaly data (ground pulses &lt;5 m, loot from cover).</li>
+          <li class="de"><b>P2M2</b> Security-Konsole hacken — <b>höchste NPC-Dichte</b> (AP-Munition + Granaten).</li>
+          <li class="en"><b>P2M2</b> hack the security console — <b>highest NPC density</b> (AP ammo + grenades).</li>
+          <li class="de"><b>P2M3</b> Seismik-Daten (enge Korridore → SMG).</li>
+          <li class="en"><b>P2M3</b> seismic data (tight corridors → SMG).</li>
+          <li class="de"><b>P2M4</b> Verbrauchslogs im <b>Power-Core-Dom</b>: ⚠ <b>Strahlungspuls alle 30 s</b> — hinter Streben Alpha/Beta/Gamma takten.</li>
+          <li class="en"><b>P2M4</b> power-usage logs in the <b>power-core dome</b>: ⚠ <b>radiation pulse every 30 s</b> — cycle behind struts Alpha/Beta/Gamma.</li>
+        </ol>
+        <div class="callout"><span class="lbl violet"><span class="de">Farm-Loop</span><span class="en">Farm loop</span></span><span class="de">Nach Abschluss sind die P2-Missionen <b>wiederholbar</b> (1 Drive/Turn-in) — der Langzeit-Farm für Wikelo-Artefakte.</span><span class="en">Once cleared, the P2 missions become <b>repeatable</b> (1 drive per turn-in) — the long-term farm for Wikelo artefacts.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">3<small>HYPERION</small></div>
+      <div class="pbody">
+        <h3><span class="de">Phase 3 — Project Hyperion (Site B)</span><span class="en">Phase 3 — Project Hyperion (Site B)</span></h3>
+        <div class="pobj"><span class="de">Belohnung: ASD Compounds (2-SCU-Container)</span><span class="en">Reward: ASD Compounds (2 SCU containers)</span></div>
+        <ol class="steps">
+          <li class="de">Über den <b>SL1-Aufzug-Abzweig</b> (SL9-Atrium → SL1 → Site-B-Ast) ins Höhlensystem unter Research.</li>
+          <li class="en">Via the <b>SL1 elevator branch</b> (SL9 atrium → SL1 → Site-B spur) into the cave system below Research.</li>
+          <li class="de">Im <b>Hyperion-Labor Xenotech-Proben</b> aus Antechamber + Entsorgungsbereich bergen. (Story: Testobjekt an der Maschine ist ein entstellter Vanduul → führt zu den <a href="https://claude.ai/code/artifact/31d97efa-b270-4b23-a250-c330aa985236" target="_blank" rel="noopener">Vanduul-Tech Smugglers</a>.)</li>
+          <li class="en">Recover <b>xenotech samples</b> from the Hyperion lab's antechamber + disposal area. (Story: the test subject on the machine is a disfigured Vanduul → leads to the <a href="https://claude.ai/code/artifact/31d97efa-b270-4b23-a250-c330aa985236" target="_blank" rel="noopener">Vanduul-Tech Smugglers</a>.)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">4<small>YORMANDI</small></div>
+      <div class="pbody">
+        <h3><span class="de">Boss — Yormandi (Site C, seit 4.3.2)</span><span class="en">Boss — Yormandi (Site C, since 4.3.2)</span></h3>
+        <div class="pobj"><span class="de">Ziel: Creature-Boss in der Höhle hinter Hyperion</span><span class="en">Objective: creature boss in the cave beyond Hyperion</span></div>
+        <ol class="steps">
+          <li class="de">Nur auf der <b>Site-C-Variante</b> (mehrstöckiger Aufzugschacht am Eingang): hinter dem Hyperion-Labor, vorbei am horizontalen Cargo-Schlitten, liegt die <b>Yormandi-Höhle</b>. Arena <b>versiegelt beim Betreten</b>.</li>
+          <li class="en">Only on the <b>Site-C variant</b> (multi-storey elevator shaft at the entrance): beyond the Hyperion lab, past the horizontal cargo sled, lies the <b>Yormandi cave</b>. The arena <b>seals on entry</b>.</li>
+          <li class="de">Creature-Boss mit <b>8 Schwachstellen-Zonen</b> (seit 4.9 wieder funktionsfähig). 2-Phasen-Kampf; ein zweiter Yormandi triggert.</li>
+          <li class="en">Creature boss with <b>8 weak-spot zones</b> (working again since 4.9). Two-phase fight; a second Yormandi triggers.</li>
+        </ol>
+        <div class="callout amber"><span class="lbl"><span class="de">Wikelo-Bezug</span><span class="en">Wikelo link</span></span><span class="de">Der Yormandi droppt <b>2× Auge + 1× Zunge</b> — reine <b>Wikelo-Tauschware</b>. Dazu tauschst du <b>ASD Secure Drives &amp; Compounds</b> bei <b>Wikelo's Emporium</b> (Dasi/Hurston · Selo/Crusader · Kinga/microTech) — nicht verkaufen, aufheben! Direkt für deinen Wikelo-Planer.</span><span class="en">The Yormandi drops <b>2× eye + 1× tongue</b> — pure <b>Wikelo trade goods</b>. Plus you trade <b>ASD Secure Drives &amp; Compounds</b> at <b>Wikelo's Emporium</b> (Dasi/Hurston · Selo/Crusader · Kinga/microTech) — don't sell, keep them! Straight into your Wikelo planner.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = empfohlen.</span><span class="en">◆ = mandatory · ▣ = recommended.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🧰 <span class="de">Werkzeug &amp; Schutz</span><span class="en">Tools &amp; protection</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Voller Raumanzug + Helm + Taschenlampe</span><span class="en">Full spacesuit + helmet + flashlight</span></b><small class="de">Sauerstoff nötig; die Anlage ist dunkel.</small><small class="en">Oxygen required; the facility is dark.</small></div></li>
+          <li class="must"><div><b><span class="de">Strahlungs-Brustplatte (Pembroke/Inquisitor)</span><span class="en">Radiation chestplate (Pembroke/Inquisitor)</span></b><small class="de">Für <b>Power Core / P2M4</b> (30-s-Puls) — sonst hinter Streben Alpha/Beta/Gamma takten.</small><small class="en">For the <b>power core / P2M4</b> (30 s pulse) — otherwise cycle behind struts Alpha/Beta/Gamma.</small></div></li>
+          <li><div><b><span class="de">Multitool + Traktorstrahl · Med-Pens (5+)</span><span class="en">Multitool + tractor beam · med-pens (5+)</span></b><small class="de">Traktorstrahl fürs Loot-Handling; 3× T1-Medbed in der Lobby zum Nachheilen.</small><small class="en">Tractor beam for loot handling; 3× T1 medbeds in the lobby to top up.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🔫 <span class="de">Kampf &amp; Transport</span><span class="en">Combat &amp; transport</span></h3>
+        <ul class="check">
+          <li><div><b><span class="de">Solide FPS-Waffe + Reserve</span><span class="en">Solid FPS weapon + spare</span></b><small class="de">Gegner sind in der Investigation eher „leicht", in Mercenary-Verträgen zäher.</small><small class="en">Enemies are "light" in the investigation, tougher in mercenary contracts.</small></div></li>
+          <li><div><b><span class="de">Schiff mit etwas Fracht</span><span class="en">Ship with some cargo</span></b><small class="de">Für Hauling-Verträge &amp; um Belohnungs-Container (2 SCU) und Loot abzutransportieren.</small><small class="en">For hauling contracts &amp; to haul reward containers (2 SCU) and loot.</small></div></li>
+          <li><div><b><span class="de">Ruhiger Kopf für Logs</span><span class="en">Patience for logs</span></b><small class="de">Die Audio-Logs sind optional, aber tragen die ganze Story.</small><small class="en">The audio logs are optional but carry the whole story.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">$</span><div><h2><span class="de">Beute &amp; Belohnungen</span><span class="en">Loot &amp; rewards</span></h2><p><span class="de">Vertragslohn + Loot vor Ort. Patch-abhängig.</span><span class="en">Contract pay + on-site loot. Patch-dependent.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Gegenstand</span><span class="en">Item</span></th><th><span class="de">Quelle</span><span class="en">Source</span></th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+        <tbody>
+          <tr><td><b>ASD Secure Drives</b></td><td><span class="de">Phase 1 / 2</span><span class="en">Phase 1 / 2</span></td><td><span class="qty">5×</span> / <span class="qty">10×</span> <span class="de">— Tausch bei Wikelo.</span><span class="en">— trade at Wikelo.</span></td></tr>
+          <tr><td><b>ASD Compounds</b></td><td><span class="de">Phase 3 (Site B)</span><span class="en">Phase 3 (Site B)</span></td><td><span class="de">2-SCU-Container, Menge je nach Experiment-Ergebnis. Wikelo.</span><span class="en">2 SCU containers, amount depends on experiment outcome. Wikelo.</span></td></tr>
+          <tr><td><b><span class="de">Yormandi Augen &amp; Zunge</span><span class="en">Yormandi eyes &amp; tongue</span></b></td><td><span class="de">Boss (Site C)</span><span class="en">Boss (Site C)</span></td><td><span class="qty">2× Auge · 1× Zunge</span> — <span class="de">Wikelo-Tauschware.</span><span class="en">Wikelo trade goods.</span></td></tr>
+          <tr><td><b>ASD Lab Sample</b></td><td><span class="de">World-Spawn (seit 4.8)</span><span class="en">World spawn (since 4.8)</span></td><td><span class="de">Türkise Kryo-Phiole in <b>blauen Kisten</b> (SL8 Medical, Hyperion, Site-B-Tunnel); ~1 Mio aUEC via Hockrow „ASD Lab Sample".</span><span class="en">Turquoise cryo vial in <b>blue crates</b> (SL8 medical, Hyperion, Site-B tunnels); ~1M aUEC via Hockrow "ASD Lab Sample".</span></td></tr>
+          <tr><td><b>Volt Zenith</b> · RCMBNT · Corbel</td><td><span class="de">vor Ort</span><span class="en">on site</span></td><td><span class="de">Energie-Sniper (P1M3-Racks); RCMBNT-Artefakte T1–3; Corbel/Novikov nur Site C.</span><span class="en">Energy sniper (P1M3 racks); RCMBNT artefacts T1–3; Corbel/Novikov only on Site C.</span></td></tr>
+          <tr><td><b>ASD Geist Stealth Suit</b></td><td><span class="de">vor Ort</span><span class="en">on site</span></td><td><span class="de">In <b>orangen Loot-Boxen</b>; Stirling Exploration (ASD) am dichtesten in Site-B.</span><span class="en">In <b>orange loot boxes</b>; Stirling Exploration (ASD) densest in Site-B.</span></td></tr>
+          <tr><td><b><span class="de">Diverser Anlagen-Loot</span><span class="en">Assorted facility loot</span></b></td><td><span class="de">vor Ort</span><span class="en">on site</span></td><td><span class="de">Waffen/Rüstung/Komponenten in Räumen &amp; Boxen.</span><span class="en">Weapons/armor/components in rooms &amp; boxes.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Stolpersteine</span><span class="en">Common pitfalls</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Ohne Mission hingeflogen</span><span class="en">Flew there without the mission</span></b><span class="de">Ohne angenommenen Hockrow-Vertrag gibt es keinen Marker &amp; keinen sinnvollen Zugang.</span><span class="en">Without an accepted Hockrow contract there's no marker &amp; no real access.</span></div>
+      <div class="trap"><b><span class="de">SL2/SL3 abgesucht</span><span class="en">Searched SL2/SL3</span></b><span class="de">Diese Research-Ebenen sind <b>unzugänglich</b> — jede Türsuche ist Zeitverschwendung.</span><span class="en">These research levels are <b>inaccessible</b> — any door hunt is wasted time.</span></div>
+      <div class="trap"><b><span class="de">Strahlung im Power Core</span><span class="en">Radiation in the power core</span></b><span class="de">Puls alle 30 s. Ohne Brustplatte hinter Alpha/Beta/Gamma takten — rein, looten, raus.</span><span class="en">Pulse every 30 s. Without a chestplate, cycle behind Alpha/Beta/Gamma — in, loot, out.</span></div>
+      <div class="trap"><b><span class="de">Phase 3 zu früh</span><span class="en">Phase 3 too early</span></b><span class="de">Site B braucht die Daten aus Phase 1 &amp; 2 — erst die Kette abarbeiten.</span><span class="en">Site B needs the Phase 1 &amp; 2 data — do the chain first.</span></div>
+      <div class="trap"><b><span class="de">Auf geteilte Belohnung gehofft</span><span class="en">Expected shared rewards</span></b><span class="de">Nur der Missions-Inhaber wird belohnt. Jeder nimmt seine eigene Mission.</span><span class="en">Only the mission holder is rewarded. Everyone takes their own.</span></div>
+      <div class="trap"><b><span class="de">Belohnung nicht getauscht</span><span class="en">Didn't trade the reward</span></b><span class="de">Secure Drives / Compounds erst bei <b>Wikelo</b> einlösen.</span><span class="en">Redeem the Secure Drives / Compounds at <b>Wikelo</b>.</span></div>
+    </div>
+  </section>
+
+
+
+
+  <!--KARTEN-ABSCHNITT weggelassen: B02, B03, B04, B05, B06, B07, B08-->
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Wiki &amp; Community-Guides. Details/Werte patch-abhängig (4.3+).</span><span class="en">Wiki &amp; community guides. Details/values patch-dependent (4.3+).</span></p></div></div>
+    <div class="src">
+      <a href="https://www.tradealliance.nl/community/star-citizen/onyx-facilities-faq/" target="_blank" rel="noopener">Solar Trade Alliance — Onyx Facilities FAQ (Phasen, Belohnungen, Jorrit) ↗</a>
+      <a href="https://starcitizen.tools/Onyx_Facility_(ASD)" target="_blank" rel="noopener">Star Citizen Wiki — Onyx Facility (ASD) ↗</a>
+      <a href="https://sccodex.com/onyx-missions.html" target="_blank" rel="noopener">SC Codex — ASD Onyx Facility Missions (Hockrow Agency) ↗</a>
+      <a href="https://www.starzen.space/t/alpha-4-3-onyx-investigation-mission-guide-tips-walkthrough-star-citizen-4-3-guides/27981" target="_blank" rel="noopener">StarZen — 4.3 Onyx Investigation Mission Guide ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.3–4.9 (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.3–4.9 (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Fallakte · Onyx / Jorrit · Akte schließen, o7</span>
+  <span class="en">Case file · Onyx / Jorrit · close the file, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('onyx_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('onyx_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('onyx_theme',t):localStorage.removeItem('onyx_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('onyx_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>

@@ -1,0 +1,344 @@
+<title>Tactical Strike Groups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#eef1f5; --panel:#ffffff; --panel2:#e4e9f1; --line:#c7d1df;
+  --ink:#111721; --dim:#586475; --blue:#2861c9; --blue-bd:#3a72d6;
+  --strike:#c15a12; --strike-bg:#f4e6d6; --danger:#b3271f; --danger-bg:#f4dad6;
+  --ok:#2c7d55; --ok-bg:#dcefe4;
+  --stripe:rgba(40,97,201,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(15,35,70,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Exo 2',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b0f16; --panel:#141b26; --panel2:#0f141d; --line:#25303f; --ink:#e6ecf4; --dim:#96a4b6;
+    --blue:#5a9bff; --blue-bd:#2f5aa0; --strike:#ff9142; --strike-bg:#2a1c10;
+    --danger:#f0563a; --danger-bg:#2a1310; --ok:#5fd095; --ok-bg:#102217;
+    --stripe:rgba(90,155,255,.11); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b0f16; --panel:#141b26; --panel2:#0f141d; --line:#25303f; --ink:#e6ecf4; --dim:#96a4b6;
+  --blue:#5a9bff; --blue-bd:#2f5aa0; --strike:#ff9142; --strike-bg:#2a1c10;
+  --danger:#f0563a; --danger-bg:#2a1310; --ok:#5fd095; --ok-bg:#102217;
+  --stripe:rgba(90,155,255,.11); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.1;margin:0;font-weight:600;letter-spacing:.01em}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--blue-bd) 0 14px,var(--strike) 14px 16px,transparent 16px 30px);opacity:.9}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 84% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,54px);font-weight:700;text-transform:uppercase;margin:8px 0 6px;letter-spacing:.02em}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--blue);color:#fff}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:18px;font-weight:600;margin-top:3px}
+.ro .v.hi{color:var(--blue)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--blue);border:1px solid var(--blue-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:4px;display:flex;gap:9px;align-items:center}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--strike);display:block;margin-bottom:6px}
+.card p{margin:0;color:var(--dim);font-size:13.8px}
+.card .ships{margin:8px 0 0;font-family:var(--mono);font-size:12.5px;color:var(--ink);line-height:1.5}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--blue);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:30px;color:var(--blue);line-height:1;width:2.6ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--strike);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--blue);font-family:var(--mono);font-weight:700}
+
+.callout{border-left:4px solid var(--blue);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.strike{border-left-color:var(--strike);background:var(--strike-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.strike .lbl{color:var(--strike)} .callout .lbl.blue{color:var(--blue)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (max-width:620px){.phase{gap:12px}.pnum{font-size:24px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Tactical_Strike_Groups_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Tactical_Strike_Groups_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Tactical_Strike_Groups_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Tactical_Strike_Groups_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>🎯</span> <span class="de">Nyx-System · InterSec · Koop-Flotten-Operation</span><span class="en">Nyx System · InterSec · Co-op Fleet Operation</span></div>
+    <h1><span class="de">Tactical Strike Groups</span><span class="en">Tactical Strike Groups</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch zu SCs erster reiner <b>Koop-Schiffskampf-Operation</b> (4.8): 5 Phasen, Rollen-Squadron, von der Idris-Verteidigung bis zum Vanduul-Mauler. Belohnung: Crafting-Blueprints.</span>
+      <span class="en">Field handbook for SC's first dedicated <b>co-op ship-combat operation</b> (4.8): 5 phases, a role-based squadron, from Idris defense to the Vanduul Mauler. Reward: crafting blueprints.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Squadron · Rollen · Koordination</span><span class="en">Squadron · roles · coordination</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Operationsdaten">
+    <div class="ro"><div class="k">System</div><div class="v">Nyx</div></div>
+    <div class="ro"><div class="k"><span class="de">Ort</span><span class="en">Site</span></div><div class="v">QV Extraction Station</div></div>
+    <div class="ro"><div class="k"><span class="de">Auftraggeber</span><span class="en">Giver</span></div><div class="v">InterSec</div></div>
+    <div class="ro"><div class="k">Squad</div><div class="v hi">7+ (4–5)</div></div>
+    <div class="ro"><div class="k"><span class="de">Belohnung</span><span class="en">Reward</span></div><div class="v">Blueprints</div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="prose">
+      <p class="de"><b>Was das ist:</b> Die erste dedizierte <b>Koop-Schiffskampf-Operation</b> in Star Citizen — eine mehrphasige Mission um <b>Rollenspezialisierung</b> und Team-Koordination. <b>InterSec Defense Solutions</b> lässt einen abgestürzten People's-Alliance-Piloten aus einer QV-Extraction-Station in <b>Nyx</b> retten. Ausgelegt für ein <b>Squadron aus 7+ Schiffen</b> verschiedener Klassen; mit <b>4–5 gut koordinierten</b> Piloten machbar.</p>
+      <p class="en"><b>What this is:</b> Star Citizen's first dedicated <b>co-op ship-combat operation</b> — a multi-phase mission built on <b>role specialisation</b> and team coordination. <b>InterSec Defense Solutions</b> tasks you with rescuing a downed People's Alliance pilot from a QV extraction station in <b>Nyx</b>. Designed for a <b>squadron of 7+ ships</b> of varied classes; doable with <b>4–5 coordinated</b> pilots.</p>
+    </div>
+    <div class="callout danger"><span class="lbl"><span class="de">Pflicht: Ballistik</span><span class="en">Mandatory: ballistics</span></span><span class="de"><b>Ballistische Waffen &amp; Raketen sind Pflicht</b> (spätestens Phase 2): Energiewaffen können die gepanzerten Türen/Relais <b>nicht</b> beschädigen. Ohne Ballistik steckt die ganze Gruppe fest.</span><span class="en"><b>Ballistic weapons &amp; missiles are mandatory</b> (by phase 2 at latest): energy weapons <b>cannot</b> damage the armored doors/relays. Without ballistics the whole group stalls.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg — so schaltest du sie frei</span><span class="en">Getting in — how to unlock it</span></h2><p><span class="de">Missionsgetrieben, mit Ruf-Voraussetzung.</span><span class="en">Mission-driven, with a reputation gate.</span></p></div></div>
+    <div class="callout" style="border-left-color:var(--blue)"><span class="lbl blue"><span class="de">Der „Start-Knopf"</span><span class="en">The "start button"</span></span><span class="de">Erreiche <b>Contractor-Rang bei InterSec Defense Solutions</b> (in Nyx). Dann im <b>mobiGlas → Contracts → Mercenary-Tab</b> den Vertrag <b>„Tactical Strike Group Needed"</b> annehmen. Vorher die Gruppe zusammenstellen &amp; Rollen verteilen.</span><span class="en">Reach <b>Contractor rank with InterSec Defense Solutions</b> (in Nyx). Then, in <b>mobiGlas → Contracts → Mercenary tab</b>, accept the <b>"Tactical Strike Group Needed"</b> contract. Assemble the group &amp; assign roles first.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">⛴</span><div><h2><span class="de">Squadron-Zusammenstellung</span><span class="en">Squadron composition</span></h2><p><span class="de">Nach Rolle. Mindestens eine Idris/Polaris als Anker hilft enorm.</span><span class="en">By role. At least one Idris/Polaris as an anchor helps a lot.</span></p></div></div>
+    <div class="grid g3">
+      <div class="card"><span class="tag"><span class="de">Rolle</span><span class="en">Role</span></span><h3><span class="de">Jäger</span><span class="en">Fighters</span></h3><p><span class="de">Power-Cores &amp; Trench-Run, Luftunterstützung.</span><span class="en">Power cores &amp; trench run, air support.</span></p><div class="ships">Gladius · Arrow · Buccaneer · F7 · F8</div></div>
+      <div class="card"><span class="tag"><span class="de">Rolle</span><span class="en">Role</span></span><h3><span class="de">Sub-Capital / Militär</span><span class="en">Sub-capital / military</span></h3><p><span class="de">Luftüberlegenheit &amp; Sturm auf die Relais.</span><span class="en">Air superiority &amp; the relay assault.</span></p><div class="ships">Perseus · Paladin · Constellation Andromeda · Corsair</div></div>
+      <div class="card"><span class="tag"><span class="de">Rolle</span><span class="en">Role</span></span><h3><span class="de">Capital</span><span class="en">Capital</span></h3><p><span class="de">Support, Rearm/Repair-Anker &amp; Endkampf.</span><span class="en">Support, rearm/repair anchor &amp; the finale.</span></p><div class="ships">Polaris · Idris</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Die 5 Phasen</span><span class="en">The 5 phases</span></h2><p><span class="de">Der Reihe nach; die Idris „Tranquility" dient durchgehend als Rearm/Repair.</span><span class="en">In order; the Idris "Tranquility" serves as rearm/repair throughout.</span></p></div></div>
+
+    <div class="phase">
+      <div class="pnum">01<small><span class="de">IDRIS</span><span class="en">IDRIS</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Idris „Tranquility" verteidigen</span><span class="en">Defend the Idris "Tranquility"</span></h3>
+        <div class="pobj"><span class="de">Ziel: alle Jäger-Wellen abwehren</span><span class="en">Objective: repel all fighter waves</span></div>
+        <ol class="steps">
+          <li class="de">Die befreundete <b>Idris</b> gegen aufeinanderfolgende Jäger-Wellen schützen. Sie bietet die ganze Op über <b>Rearm/Repair</b>.</li>
+          <li class="en">Protect the friendly <b>Idris</b> against successive fighter waves. It provides <b>rearm/repair</b> for the whole op.</li>
+          <li class="de">Gegner u. a.: F7C Mk II, Paladin, Ares Ion, Perseus, Buccaneer, Constellation, Scorpius, Corsair.</li>
+          <li class="en">Enemies incl.: F7C Mk II, Paladin, Ares Ion, Perseus, Buccaneer, Constellation, Scorpius, Corsair.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">02<small><span class="de">RELAIS</span><span class="en">RELAYS</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Power-Relais stürmen</span><span class="en">Power relay assault</span></h3>
+        <div class="pobj"><span class="de">Ziel: 4 gepanzerte Türen + Türme</span><span class="en">Objective: 4 armored doors + turrets</span></div>
+        <ol class="steps">
+          <li class="de"><b>4 verstärkte Metalltüren</b> vor den Power-Relais mit <b>Ballistik</b> zerstören (Energie wirkt nicht!).</li>
+          <li class="en">Destroy the <b>4 reinforced metal doors</b> covering the power relays with <b>ballistics</b> (energy does nothing!).</li>
+          <li class="de"><b>3–4 Anti-Capital-Türme</b> an den Streben und nahe dem zentralen Tank ausschalten.</li>
+          <li class="en">Neutralize the <b>3–4 anti-capital turrets</b> on the struts and near the central tank.</li>
+          <li class="de">Zwischen den Angriffen zur Idris zum <b>Reparieren/Nachladen</b>.</li>
+          <li class="en">Return to the Idris between assaults to <b>repair/rearm</b>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">03<small><span class="de">TRENCH</span><span class="en">TRENCH</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Trench-Run &amp; Kern</span><span class="en">Trench run &amp; core</span></h3>
+        <div class="pobj"><span class="de">Ziel: 18 Kühler + Zentralkern</span><span class="en">Objective: 18 coolers + central core</span></div>
+        <ol class="steps">
+          <li class="de">Mit <b>leichten Jägern</b> durch die engen Asteroiden-Tunnel. <b>18 Kühleinheiten</b> zerstören (je 6 an Gate A, B, C), dann den <b>Zentralkern</b>.</li>
+          <li class="en">Take <b>light fighters</b> through the narrow asteroid tunnels. Destroy <b>18 cooling units</b> (6 each at Gate A, B, C), then the <b>central core</b>.</li>
+          <li class="de"><b>Verzerrungsfelder</b> legen Komponenten lahm — Devise: <b>„schnell rein, Ziel erfassen, im Vorbeiflug feuern, sofort raus"</b>.</li>
+          <li class="en"><b>Distortion fields</b> disable components — mantra: <b>"enter fast, acquire target, fire as you pass, exit immediately"</b>.</li>
+          <li class="de">Nach dem Kern greift eine <b>zweite Welle</b> (Capitals + schwere Jäger) die Idris an.</li>
+          <li class="en">After the core, a <b>second wave</b> (capitals + heavy fighters) attacks the Idris.</li>
+        </ol>
+        <div class="callout strike"><span class="lbl"><span class="de">Gate-Zuteilung</span><span class="en">Gate assignment</span></span><span class="de">Piloten fest auf Gate A/B/C aufteilen — sonst Stau in den Tunneln.</span><span class="en">Assign pilots to Gate A/B/C — otherwise the tunnels clog up.</span></span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">04<small>FPS</small></div>
+      <div class="pbody">
+        <h3><span class="de">Piloten-Rettung (zu Fuß)</span><span class="en">Pilot rescue (on foot)</span></h3>
+        <div class="pobj"><span class="de">Ziel: Piloten befreien &amp; extrahieren</span><span class="en">Objective: free &amp; extract the pilot</span></div>
+        <ol class="steps">
+          <li class="de">Über ein Landepad in die Station. Mind. <b>2 Operator</b>. Über eine <b>Leiter ins Lüftungssystem</b> zum versiegelten Sicherheitsraum.</li>
+          <li class="en">Into the station via a landing pad. Min. <b>2 operators</b>. Use a <b>ladder into the ventilation</b> to reach the sealed security room.</li>
+          <li class="de">Am <b>Sicherheits-Terminal</b> den gefangenen UEE-Piloten freischalten. Loot unterwegs: <b>Virgil-Flightsuits</b>, Helme, Komponenten in Seiten-Hangars.</li>
+          <li class="en">Activate the <b>security terminal</b> to release the captured UEE pilot. Loot en route: <b>Virgil flightsuits</b>, helmets, components in side hangars.</li>
+          <li class="de">Bei der Extraktion die <b>Freelancer des Piloten</b> gegen Vanduul-Jäger schützen.</li>
+          <li class="en">During extraction, protect the <b>pilot's Freelancer</b> against Vanduul fighters.</li>
+        </ol>
+        <div class="callout"><span class="lbl blue"><span class="de">Aufstellung</span><span class="en">Setup</span></span><span class="de">Eskort-Jäger draußen lassen, um das Extraktions-Schiff zu decken, während das FPS-Team drinnen ist.</span><span class="en">Keep escort fighters outside to cover the extraction vessel while the FPS team is inside.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">05<small>MAULER</small></div>
+      <div class="pbody">
+        <h3><span class="de">Vanduul Mauler (Boss)</span><span class="en">Vanduul Mauler (boss)</span></h3>
+        <div class="pobj"><span class="de">Ziel: Capital-Boss zerstören</span><span class="en">Objective: destroy the capital boss</span></div>
+        <ol class="steps">
+          <li class="de">Ein <b>Vanduul-Mauler</b> (Capital-Kreuzer) fängt die Extraktion ab. Gesamte Feuerkraft bündeln.</li>
+          <li class="en">A <b>Vanduul Mauler</b> (capital cruiser) intercepts the extraction. Concentrate all firepower.</li>
+          <li class="de"><b>Capitals:</b> anhaltendes, konzentriertes Feuer auf kurze Distanz. <b>Jäger:</b> Vanduul-Jäger neutralisieren + Zusatzschaden am Mauler.</li>
+          <li class="en"><b>Capitals:</b> sustained concentrated fire at close range. <b>Fighters:</b> neutralize Vanduul fighters + secondary damage to the Mauler.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = empfohlen.</span><span class="en">◆ = mandatory · ▣ = recommended.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🚀 <span class="de">Schiffs-Bewaffnung</span><span class="en">Ship weapons</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Ballistik: Kanonen/Gatlings/Torps/Raketen</span><span class="en">Ballistics: cannons/gatlings/torps/missiles</span></b><small class="de">Für Phase 2 zwingend — reine Energie-Loadouts scheitern.</small><small class="en">Mandatory for phase 2 — energy-only loadouts fail.</small></div></li>
+          <li><div><b><span class="de">Leichte Jäger für den Trench</span><span class="en">Light fighters for the trench</span></b><small class="de">Wendig genug für die engen Tunnel &amp; Verzerrungsfelder.</small><small class="en">Agile enough for the tight tunnels &amp; distortion fields.</small></div></li>
+          <li><div><b><span class="de">Idris/Polaris als Anker</span><span class="en">Idris/Polaris anchor</span></b><small class="de">Rearm/Repair &amp; schwere Feuerkraft für den Mauler.</small><small class="en">Rearm/repair &amp; heavy firepower for the Mauler.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎒 <span class="de">FPS-Ausrüstung</span><span class="en">FPS gear</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Rüstung + Primärwaffe</span><span class="en">Armor + primary</span></b><small class="de">Schwer (Pembroke, Morozov) oder Medium (Artimex, DustUp); Gallant Rifle / Pulverizer LMG.</small><small class="en">Heavy (Pembroke, Morozov) or medium (Artimex, DustUp); Gallant Rifle / Pulverizer LMG.</small></div></li>
+          <li><div><b><span class="de">Seitenwaffe + Munition</span><span class="en">Sidearm + ammo</span></b><small class="de">Coda-Pistole o. ä.; Standard-Rucksack + Reserve-Munition.</small><small class="en">Coda pistol or similar; standard backpack + spare ammo.</small></div></li>
+          <li><div><b>Med-Pens</b><small class="de">3–5 (Hemozal) Minimum für Phase 4.</small><small class="en">3–5 (Hemozal) minimum for phase 4.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">$</span><div><h2><span class="de">Belohnungen — Blueprints</span><span class="en">Rewards — blueprints</span></h2><p><span class="de">Pro Abschluss 1 zufälliger Blueprint aus einem der Pools (permanent, craftbar). Mehrere Runs nötig.</span><span class="en">One random blueprint per completion from either pool (permanent, craftable). Multiple runs needed.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pool</th><th><span class="de">Kategorie</span><span class="en">Category</span></th><th>Blueprints</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td><span class="de">Ausrüstung</span><span class="en">Equipment</span></td><td><span class="de">Racing-Flightsuits (Whitehot, Blackfire, Blueflame) &amp; passende Helme · Tailwind-Helme (Thunderstruck, Frostshock, Airwolf, Blue Skies) · Novia-Armbrust (Base, Nighthunter, Ghostmaker, Wildshot)</span><span class="en">Racing flight suits (Whitehot, Blackfire, Blueflame) &amp; matching helmets · Tailwind helmets (Thunderstruck, Frostshock, Airwolf, Blue Skies) · Novia crossbow (Base, Nighthunter, Ghostmaker, Wildshot)</span></td></tr>
+          <tr><td><b>2</b></td><td><span class="de">Schiffs-Komponenten</span><span class="en">Ship components</span></td><td>Omnisky II / VI / IX / XII / XV / XVIII · <span class="de">Kraftwerke</span><span class="en">Power plants</span> JS-300, JS-400, Quadracell MX</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Stolpersteine</span><span class="en">Common pitfalls</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Keine Ballistik</span><span class="en">No ballistics</span></b><span class="de">Energiewaffen öffnen die Relais-Türen nicht → Phase 2 unmöglich. Vorher prüfen!</span><span class="en">Energy weapons can't open the relay doors → phase 2 impossible. Check beforehand!</span></div>
+      <div class="trap"><b><span class="de">Rollen unklar</span><span class="en">Unclear roles</span></b><span class="de">Vor dem Start Rollen &amp; Gate-Zuteilung festlegen — sonst Chaos.</span><span class="en">Assign roles &amp; gates before launch — otherwise chaos.</span></div>
+      <div class="trap"><b><span class="de">Trench-Stau</span><span class="en">Trench congestion</span></b><span class="de">Alle in einen Tunnel = Kollisionen. A/B/C aufteilen.</span><span class="en">Everyone in one tunnel = collisions. Split A/B/C.</span></div>
+      <div class="trap"><b><span class="de">Extraktions-Schiff ungedeckt</span><span class="en">Extraction ship uncovered</span></b><span class="de">In Phase 4 muss die Freelancer des Piloten überleben — Eskorte draußen lassen.</span><span class="en">In phase 4 the pilot's Freelancer must survive — keep an escort outside.</span></div>
+      <div class="trap"><b><span class="de">Idris fällt</span><span class="en">Idris falls</span></b><span class="de">Ohne Rearm/Repair-Anker bricht die Op zusammen. Immer jemand zur Deckung.</span><span class="en">Without the rearm/repair anchor the op collapses. Always keep it covered.</span></div>
+      <div class="trap"><b><span class="de">Nur 1 Run erwartet</span><span class="en">Expected 1 run</span></b><span class="de">Blueprints sind Zufall — für alle braucht es viele Durchläufe.</span><span class="en">Blueprints are random — collecting all takes many runs.</span></div>
+    </div>
+  </section>
+
+
+  <!--KARTEN-ABSCHNITT weggelassen: B22, B23-->
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Wiki &amp; Community-Guides. Details/Werte patch-abhängig (4.8).</span><span class="en">Wiki &amp; community guides. Details/values patch-dependent (4.8).</span></p></div></div>
+    <div class="src">
+      <a href="https://citizen-starter-guide.com/tactical-strike-groups-guide/" target="_blank" rel="noopener">Citizen Starter Guide — Tactical Strike Groups (All 5 Phases) ↗</a>
+      <a href="https://starcitizen.tools/Tactical_Strike_Group" target="_blank" rel="noopener">Star Citizen Wiki — Tactical Strike Group ↗</a>
+      <a href="https://www.mmopixel.com/news/star-citizen-4-8-new-tsg-mission-tunnel-trench-run-guide" target="_blank" rel="noopener">MMOPIXEL — 4.8 TSG Tunnel/Trench Run Guide ↗</a>
+      <a href="https://expcarry.com/star-citizen-tactical-strike" target="_blank" rel="noopener">ExpCarry — Tactical Strike Group Rewards ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.8 (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.8 (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · Tactical Strike Groups · haltet die Formation, o7</span>
+  <span class="en">Field handbook · Tactical Strike Groups · hold formation, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('tsg_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('tsg_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('tsg_theme',t):localStorage.removeItem('tsg_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('tsg_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>

@@ -1,0 +1,444 @@
+<title>Hathor OLP Feldhandbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#eef2f4; --panel:#ffffff; --panel2:#e6edf1; --line:#c9d6de;
+  --ink:#101a20; --dim:#5a6a74; --cyan:#0d7f92; --cyan-bd:#1594a8;
+  --danger:#c0331d; --danger-bg:#f6ddd6; --warn:#9a6600; --warn-bg:#f6ecd4;
+  --tox:#5c7a12; --tox-bg:#e9eed2;
+  --stripe:rgba(13,127,146,.16);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(20,50,60,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Saira',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1418; --panel:#161e24; --panel2:#111a1f; --line:#28353d;
+    --ink:#e6eef2; --dim:#93a6b0; --cyan:#2ec8dc; --cyan-bd:#1d7d8c;
+    --danger:#f0563a; --danger-bg:#2c1512; --warn:#f5b429; --warn-bg:#2a2210;
+    --tox:#a9d84a; --tox-bg:#1a2410;
+    --stripe:rgba(46,200,220,.10);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1418; --panel:#161e24; --panel2:#111a1f; --line:#28353d;
+  --ink:#e6eef2; --dim:#93a6b0; --cyan:#2ec8dc; --cyan-bd:#1d7d8c;
+  --danger:#f0563a; --danger-bg:#2c1512; --warn:#f5b429; --warn-bg:#2a2210;
+  --tox:#a9d84a; --tox-bg:#1a2410;
+  --stripe:rgba(46,200,220,.10);
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.08;margin:0}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--cyan-bd) 0 16px,transparent 16px 32px);opacity:.9}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 82% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.eyebrow .rad{font-size:15px}
+h1{font-size:clamp(30px,6vw,54px);font-weight:700;letter-spacing:.005em;margin:10px 0 6px}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--cyan);color:#04171b}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:19px;font-weight:600;margin-top:3px}
+.ro .v.crit{color:var(--danger)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan);border:1px solid var(--cyan-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,27px);font-weight:600}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+.intro-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:center}
+.intro-grid svg{width:100%;height:auto;background:var(--panel2);border:1px solid var(--line);border-radius:12px}
+@media(max-width:640px){.intro-grid{grid-template-columns:1fr}}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;font-weight:600;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+.card h3 .ic{font-size:17px}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);display:block;margin-bottom:6px}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--cyan);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:30px;color:var(--cyan);line-height:1;width:2.4ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;font-weight:600;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--tox);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--cyan);font-family:var(--mono);font-weight:700}
+
+.callout{border-left:4px solid var(--cyan);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.callout.tox{border-left-color:var(--tox);background:var(--tox-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.warn .lbl{color:var(--warn)}
+.callout .lbl.cyan{color:var(--cyan)} .callout.tox .lbl{color:var(--tox)}
+
+.sites{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.site{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px;box-shadow:var(--shadow)}
+.site .moon{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.site h3{font-size:17px;font-weight:600;margin:3px 0 8px}
+.site ul{margin:0;padding-left:16px;color:var(--dim);font-size:13.5px;display:flex;flex-direction:column;gap:3px}
+.site b{color:var(--ink)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+.trap .x{color:var(--danger);font-weight:700}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+
+@media (max-width:620px){.phase{grid-template-columns:auto 1fr;gap:12px}.pnum{font-size:24px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Hathor_OLP_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Hathor_OLP_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Hathor_OLP_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Hathor_OLP_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span class="rad">✦</span> <span class="de">Stanton · Hathor Group · Orbital-Laser-Plattformen</span><span class="en">Stanton · Hathor Group · Orbital Laser Platforms</span></div>
+    <h1><span class="de">Hathor OLP</span><span class="en">Hathor OLP</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch für die Hathor-Orbital-Laser-Plattformen über Aberdeen &amp; Daymar — Loot-Raid in einer Contested Zone <b>und</b> die Orbital-Laser-Mining-Kette. Für 1–3 Spieler.</span>
+      <span class="en">Field handbook for the Hathor orbital laser platforms above Aberdeen &amp; Daymar — a contested-zone loot raid <b>and</b> the orbital-laser mining chain. For 1–3 players.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Hochrisiko · Hochertrag · PvPvE</span><span class="en">High risk · high reward · PvPvE</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language">
+          <button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button>
+        </div>
+        <div class="seg" role="group" aria-label="Theme">
+          <button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Einsatzdaten">
+    <div class="ro"><div class="k">System</div><div class="v">Stanton</div></div>
+    <div class="ro"><div class="k"><span class="de">Orte</span><span class="en">Sites</span></div><div class="v">Aberdeen · Daymar</div></div>
+    <div class="ro"><div class="k">Team</div><div class="v">1–3</div></div>
+    <div class="ro"><div class="k">Typ</div><div class="v">Contested Zone</div></div>
+    <div class="ro"><div class="k"><span class="de">Risiko</span><span class="en">Risk</span></div><div class="v crit">HOCH</div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="intro-grid">
+      <div class="prose">
+        <p class="de"><b>Was das ist:</b> Die <b>Hathor Group</b> war ein (in-fiction längst aufgelöster) Bergbau-Konzern. Ihr Werkzeug: <b>Orbital-Laser-Plattformen (OLP)</b>, die aus der Umlaufbahn Mining-Laser auf Monde feuerten und die Oberfläche aufbrachen. Heute sind diese Plattformen <b>umkämpfte Loot-Anlagen</b> mit einigen der besten Beutestücke im Spiel.</p>
+        <p class="en"><b>What this is:</b> The <b>Hathor Group</b> was a (lore-wise long-dissolved) mining conglomerate. Its tool: <b>orbital laser platforms (OLPs)</b> that fired mining lasers from orbit onto moons, cracking the surface open. Today these platforms are <b>contested loot facilities</b> holding some of the best gear in the game.</p>
+        <p class="de">Zu jeder OLP gehören drei stark befestigte <b>Planetary Alignment Facilities (PAF)</b> am Boden, die den Laser ausrichten. Der Laser legt beim Feuern Höhlen frei — u.&nbsp;a. mit <b>Carinite</b> (relevant fürs Wikelo-Handeln).</p>
+        <p class="en">Each OLP has three heavily fortified <b>Planetary Alignment Facilities (PAF)</b> on the ground that aim the laser. Firing it exposes caves — including <b>Carinite</b> (relevant for Wikelo trading).</p>
+        <div class="callout"><span class="lbl"><span class="de">Siehe auch</span><span class="en">See also</span></span><span class="de">Carinite &amp; weitere standortgebundene Erze (Saldynium, Jaclium) im Überblick → <a href="https://claude.ai/artifact/5rYaujKtzEucSpehXbSitP#eventminables" target="_blank" rel="noopener">Event-Minables im Mining-Guide ↗</a></span><span class="en">Carinite &amp; other location-locked ores (saldynium, jaclium) at a glance → <a href="https://claude.ai/artifact/5rYaujKtzEucSpehXbSitP#eventminables" target="_blank" rel="noopener">event minables in the Mining guide ↗</a></span></div>
+      </div>
+      <svg viewBox="0 0 260 230" role="img" aria-label="Schema: Orbital-Laser-Plattform über einem Mond, PAF am Boden">
+        <!-- OLP platform in orbit -->
+        <rect x="96" y="20" width="68" height="15" rx="3" fill="var(--panel)" stroke="var(--cyan)" stroke-width="2"/>
+        <rect x="112" y="12" width="36" height="9" rx="2" fill="var(--cyan)" opacity="0.5"/>
+        <text x="130" y="49" text-anchor="middle" fill="var(--cyan)" font-family="var(--mono)" font-size="9" font-weight="700">OLP · ORBIT</text>
+        <!-- laser beam -->
+        <rect x="126" y="35" width="8" height="150" fill="var(--danger)" opacity="0.28"/>
+        <rect x="128.5" y="35" width="3" height="150" fill="var(--danger)"/>
+        <text x="146" y="120" fill="var(--danger)" font-family="var(--mono)" font-size="8.5" font-weight="700"><tspan class="de">LASER</tspan><tspan class="en">LASER</tspan></text>
+        <!-- toxic haze -->
+        <rect x="0" y="176" width="260" height="16" fill="var(--tox)" opacity="0.16"/>
+        <text x="8" y="172" fill="var(--tox)" font-family="var(--mono)" font-size="8"><tspan class="de">TOXISCHE ATMO</tspan><tspan class="en">TOXIC ATMO</tspan></text>
+        <!-- moon surface -->
+        <path d="M-10 230 Q130 180 270 230 Z" fill="var(--panel2)" stroke="var(--line)" stroke-width="1.5"/>
+        <!-- impact crater -->
+        <ellipse cx="130" cy="196" rx="26" ry="7" fill="var(--danger)" opacity="0.18"/>
+        <!-- PAF ground marker -->
+        <rect x="122" y="188" width="16" height="10" rx="2" fill="var(--panel)" stroke="var(--cyan)" stroke-width="1.6"/>
+        <text x="130" y="220" text-anchor="middle" fill="var(--cyan)" font-family="var(--mono)" font-size="9" font-weight="700">PAF ×3 · <tspan class="de">BODEN</tspan><tspan class="en">GROUND</tspan></text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg — so startest du</span><span class="en">Getting in — how to start</span></h2><p><span class="de">Keine Mission zum Annehmen. Du fliegst hin.</span><span class="en">No mission to accept. You just fly in.</span></p></div></div>
+    <div class="callout cyan" style="border-left-color:var(--cyan)"><span class="lbl cyan"><span class="de">Der „Start-Knopf"</span><span class="en">The "start button"</span></span><span class="de">Contested Zones sind <b>ortsbasiert &amp; selbst-initiiert</b> — kein Auftraggeber, kein mobiGlas-Annehmen. Du wählst eine OLP über <b>Aberdeen</b> oder <b>Daymar</b> als Quantum-Ziel, fliegst hin und legst los. Achtung: es ist eine <b>PvPvE-Zone</b> — andere Spieler können jederzeit auftauchen.</span><span class="en">Contested zones are <b>location-based &amp; self-initiated</b> — no mission giver, no mobiGlas acceptance. Pick an OLP above <b>Aberdeen</b> or <b>Daymar</b> as a quantum target, fly in, and start. Note: it's a <b>PvPvE zone</b> — other players can show up at any time.</span></div>
+    <div class="grid g2">
+      <div class="card"><span class="tag"><span class="de">Weg A</span><span class="en">Track A</span></span><h3><span class="ic">📦</span> <span class="de">Loot-Raid</span><span class="en">Loot raid</span></h3><p style="margin:0;color:var(--dim);font-size:14px" class="de">Plattform stürmen, NPC-Wellen ausschalten, mit <b>Access-Cards</b> gesicherte Tresore öffnen und Top-Gear mitnehmen. Der schnellere, wiederholbare Farm.</p><p style="margin:0;color:var(--dim);font-size:14px" class="en">Storm the platform, clear NPC waves, open secured vaults with <b>access cards</b>, and grab top-tier gear. The faster, repeatable farm.</p></div>
+      <div class="card"><span class="tag"><span class="de">Weg B</span><span class="en">Track B</span></span><h3><span class="ic">🛰</span> <span class="de">Laser-Mining-Kette</span><span class="en">Laser mining chain</span></h3><p style="margin:0;color:var(--dim);font-size:14px" class="de">Boden-PAFs mit <b>Alignment Blades</b> ausrichten, je eine <b>Batterie</b> zur OLP bringen, <b>Aktivierungs-Keycard</b> holen und im <b>Control Bunker</b> feuern → legt eine Erz-Höhle frei.</p><p style="margin:0;color:var(--dim);font-size:14px" class="en">Align the ground PAFs with <b>alignment blades</b>, bring a <b>battery</b> from each up to the OLP, get the <b>activation keycard</b>, and fire from the <b>Control Bunker</b> → reveals an ore cave.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">!</span><div><h2><span class="de">Die tödlichen Regeln</span><span class="en">The deadly rules</span></h2><p><span class="de">Lies das zuerst — hieran verliert man Ausrüstung und Zeit.</span><span class="en">Read this first — this is where you lose gear and time.</span></p></div></div>
+    <div class="traps">
+      <div class="trap"><b>🕳 <span class="de">Kein EVA / kein Absprung</span><span class="en">No EVA / no jumping off</span></b><span class="de">Von der Plattform springen = <b class="x">tödlicher Sturz</b> in Aberdeens toxische Atmosphäre. Nur über Landepads rein und raus.</span><span class="en">Jumping off the platform = <b class="x">fatal fall</b> into Aberdeen's toxic atmosphere. In and out via landing pads only.</span></div>
+      <div class="trap"><b>💀 <span class="de">Tod = Gear weg</span><span class="en">Death = gear gone</span></b><span class="de">Bei Tod verlierst du <b>angelegte UND getragene</b> Ausrüstung/Loot. Nichts Unersetzliches mitnehmen; Loot früh sichern.</span><span class="en">On death you lose <b>equipped AND carried</b> gear/loot. Bring nothing irreplaceable; bank loot early.</span></div>
+      <div class="trap"><b>🎯 <span class="de">Türme beim Anflug</span><span class="en">Turrets on approach</span></b><span class="de">Plattform-Geschütze zerlegen Schiffe. <b>Langsam &amp; tief</b> anfliegen, im Türme-Schatten landen.</span><span class="en">Platform turrets shred ships. Approach <b>slow &amp; low</b> and land in the turrets' blind spot.</span></div>
+      <div class="trap"><b>🚪 <span class="de">Türen hinter dir schließen</span><span class="en">Close doors behind you</span></b><span class="de">Offene Türen = NPC-Hinterhalt von hinten. Konsequent schließen.</span><span class="en">Open doors = NPC ambush from behind. Close them consistently.</span></div>
+      <div class="trap"><b>👥 <span class="de">Andere Spieler</span><span class="en">Other players</span></b><span class="de">PvPvE: die dickste Beute zieht Piraten an. Auf vollen Servern lauern Spieler an den Landepads.</span><span class="en">PvPvE: the fattest loot draws pirates. On busy servers players camp the pads.</span></div>
+      <div class="trap"><b>⚙ <span class="de">Patch-abhängig</span><span class="en">Patch-dependent</span></b><span class="de">Layout, Loot &amp; Laser-Schritte ändern sich patchweise. Vor dem Run kurz gegenchecken.</span><span class="en">Layout, loot &amp; laser steps shift per patch. Sanity-check before a run.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = empfohlen.</span><span class="en">◆ = mandatory · ▣ = recommended.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="ic">🚀</span> <span class="de">Schiff &amp; Anzug</span><span class="en">Ship &amp; suit</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Kleines, wendiges Schiff mit Bett</span><span class="en">Small agile ship with a bed</span></b><small class="de">z. B. Pisces (Medical): schnell, wendig, Bett für schnellen Respawn + Stauraum für Loot.</small><small class="en">e.g. the Pisces (Medical): fast, agile, a bed for quick respawn + storage for loot.</small></div></li>
+          <li><div><b><span class="de">Mittlere Rüstung</span><span class="en">Medium armor</span></b><small class="de">Über schwerer Rüstung — mehr Tempo zählt hier mehr als Panzerung.</small><small class="en">Over heavy armor — speed matters more than plating here.</small></div></li>
+          <li><div><b><span class="de">Nichts Unersetzliches</span><span class="en">Nothing irreplaceable</span></b><small class="de">Du kannst alles verlieren. Wegwerf-Loadout einplanen.</small><small class="en">You can lose everything. Plan a throwaway loadout.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🔫</span> <span class="de">Waffen &amp; Verbrauch</span><span class="en">Weapons &amp; consumables</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Zuverlässige AR/SMG + viel Munition</span><span class="en">Reliable AR/SMG + lots of ammo</span></b><small class="de">Richtwert: <b>15–20 Magazine</b> pro Waffe — die NPC-Wellen sind zäh.</small><small class="en">Rule of thumb: <b>15–20 mags</b> per weapon — the NPC waves are relentless.</small></div></li>
+          <li><div><b>Med-Pens / <span class="de">Heilung</span><span class="en">healing</span></b><small class="de">FPS-Gefechte sind lang; ohne Nachschub gehst du zwischen den Wellen ein.</small><small class="en">FPS fights are long; without supplies you die between waves.</small></div></li>
+          <li><div><b><span class="de">Für Weg B: Mining-Ausrüstung</span><span class="en">For track B: mining kit</span></b><small class="de">Mining-Multitool bzw. Mining-Schiff, um das freigelegte Carinite abzubauen.</small><small class="en">Mining multi-tool or a mining ship to extract the exposed Carinite.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">◎</span><div><h2><span class="de">Die Standorte</span><span class="en">The sites</span></h2><p><span class="de">Vier OLPs, je mit drei PAF-Bodenanlagen darunter. Unmarkiert erkunden.</span><span class="en">Four OLPs, each with three PAF ground facilities below. Explore unmarked.</span></p></div></div>
+    <div class="sites">
+      <div class="site"><div class="moon">Aberdeen <span class="de">(Hurston-Mond)</span><span class="en">(Hurston moon)</span></div><h3>Ruptura OLP</h3><ul><li><span class="de">Niedriger Aberdeen-Orbit</span><span class="en">Low Aberdeen orbit</span></li><li><b>Ruptura PAF-I / II / III</b> <span class="de">am Boden</span><span class="en">on the ground</span></li></ul></div>
+      <div class="site"><div class="moon">Aberdeen <span class="de">(Hurston-Mond)</span><span class="en">(Hurston moon)</span></div><h3>Vivere OLP</h3><ul><li><span class="de">Niedriger Aberdeen-Orbit</span><span class="en">Low Aberdeen orbit</span></li><li><b>Vivere PAF-I / II / III</b> <span class="de">am Boden</span><span class="en">on the ground</span></li></ul></div>
+      <div class="site"><div class="moon">Daymar <span class="de">(Crusader-Mond)</span><span class="en">(Crusader moon)</span></div><h3>Lamina OLP</h3><ul><li><span class="de">Niedriger Daymar-Orbit</span><span class="en">Low Daymar orbit</span></li><li><b>Lamina PAF-I / II / III</b> <span class="de">am Boden</span><span class="en">on the ground</span></li></ul></div>
+      <div class="site"><div class="moon">Daymar <span class="de">(Crusader-Mond)</span><span class="en">(Crusader moon)</span></div><h3>Attritus OLP</h3><ul><li><span class="de">Niedriger Daymar-Orbit</span><span class="en">Low Daymar orbit</span></li><li><b>Attritus PAF-I / II / III</b> <span class="de">am Boden</span><span class="en">on the ground</span></li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Weg A — Loot-Raid, Schritt für Schritt</span><span class="en">Track A — loot raid, step by step</span></h2></div></div>
+
+    <div class="phase">
+      <div class="pnum">01<small><span class="de">ANFLUG</span><span class="en">APPROACH</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Anflug &amp; Landung</span><span class="en">Approach &amp; landing</span></h3>
+        <div class="pobj"><span class="de">Ziel: heil auf dem Pad</span><span class="en">Objective: land intact</span></div>
+        <ol class="steps">
+          <li class="de">OLP über Aberdeen/Daymar als Quantum-Ziel wählen. <b>Langsam &amp; tief</b> heran, um den Plattform-Geschützen zu entgehen.</li>
+          <li class="en">Quantum to an OLP above Aberdeen/Daymar. Come in <b>slow &amp; low</b> to avoid the platform turrets.</li>
+          <li class="de">Auf einem Landepad aufsetzen. <b>Medium/Large-Pads</b> erlauben Rearm/Refuel/Repair — praktisch als Basis.</li>
+          <li class="en">Set down on a landing pad. <b>Medium/large pads</b> allow rearm/refuel/repair — handy as a base.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">02<small><span class="de">RÄUMEN</span><span class="en">CLEAR</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">NPC-Wellen räumen</span><span class="en">Clear the NPC waves</span></h3>
+        <div class="pobj"><span class="de">Ziel: Raum für Raum sichern</span><span class="en">Objective: secure room by room</span></div>
+        <ol class="steps">
+          <li class="de">Kontrolliert vorrücken, <b>Türen hinter dir schließen</b> — sonst kommen NPCs von hinten nach.</li>
+          <li class="en">Advance in a controlled way, <b>close doors behind you</b> — otherwise NPCs flank you from behind.</li>
+          <li class="de">Wache-NPCs ausschalten. Das Räumen triggert teils <b>stärkere „Special"-Wachen</b> mit besserem Loot.</li>
+          <li class="en">Take out guard NPCs. Clearing them can trigger tougher <b>"special" guards</b> that carry better loot.</li>
+        </ol>
+        <div class="callout warn"><span class="lbl"><span class="de">Achtung Spieler</span><span class="en">Watch for players</span></span><span class="de">Bleib nah an deinem Schiff/Respawn. Auf vollen Servern lauern Piraten genau hier.</span><span class="en">Stay near your ship/respawn. On busy servers pirates camp exactly here.</span></div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">03<small><span class="de">CARDS</span><span class="en">CARDS</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Access-Cards &amp; Tresore</span><span class="en">Access cards &amp; vaults</span></h3>
+        <div class="pobj"><span class="de">Ziel: gesicherte Bereiche öffnen</span><span class="en">Objective: open secured areas</span></div>
+        <ol class="steps">
+          <li class="de">Auf den Wachen/Leichen &amp; in Räumen findest du <b>rote Access-Cards</b>. Damit öffnest du gesicherte Türen &amp; <b>Tresore</b> mit dem besten Loot.</li>
+          <li class="en">On guards/bodies &amp; in rooms you find <b>red access cards</b>. Use them to open secured doors &amp; <b>vaults</b> with the best loot.</li>
+          <li class="de">Loot-Boxen systematisch abklappern. Karten sorgfältig verwalten — sie sind der Schlüssel zur Eskalation.</li>
+          <li class="en">Work loot boxes systematically. Manage the cards carefully — they're the key to escalating.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">04<small><span class="de">SICHERN</span><span class="en">BANK</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Sichern &amp; Extraktion</span><span class="en">Bank &amp; extract</span></h3>
+        <div class="pobj"><span class="de">Ziel: Beute rausbringen</span><span class="en">Objective: get the loot out</span></div>
+        <ol class="steps">
+          <li class="de">Loot <b>früh und oft</b> zum Schiff bringen — nicht alles bis zum Schluss mit dir herumtragen (Tod = alles weg).</li>
+          <li class="en">Move loot to your ship <b>early and often</b> — don't carry it all until the end (death = all gone).</li>
+          <li class="de">Manche Plattformen haben ein <b>Handels-Terminal</b> zum Direktverkauf von Ressourcen.</li>
+          <li class="en">Some platforms have a <b>trading terminal</b> to sell resources on the spot.</li>
+          <li class="de">Sauber ausfliegen — wieder <b>tief</b>, um Türme &amp; campende Spieler zu meiden.</li>
+          <li class="en">Fly out clean — again <b>stay low</b> to dodge turrets &amp; camping players.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Weg B — Laser feuern (Mining-Kette)</span><span class="en">Track B — fire the laser (mining chain)</span></h2><p><span class="de">5 POIs je Anlage: 3 PAF-Bodenantennen, die OLP und der unmarkierte Control Bunker.</span><span class="en">5 POIs per facility: 3 PAF ground antennas, the OLP, and the unmarked Control Bunker.</span></p></div></div>
+    <div class="phase">
+      <div class="pnum">B1<small>PAF ×3</small></div>
+      <div class="pbody">
+        <h3><span class="de">Alle 3 PAFs ausrichten</span><span class="en">Align all 3 PAFs</span></h3>
+        <div class="pobj"><span class="de">Ziel: je PAF eine Batterie</span><span class="en">Objective: one battery per PAF</span></div>
+        <ol class="steps">
+          <li class="de">An jedem PAF aus <b>Druckern</b> in den umliegenden Gebäuden <b>rote Keycards</b> ziehen (einer steht oft im Schüssel-Gebäude selbst). <span class="mono">Rot = Blade-Räume · Blau = Loot/Garagen.</span></li>
+          <li class="en">At each PAF, print <b>red keycards</b> from <b>printers</b> in the surrounding buildings (one is often in the dish building itself). <span class="mono">Red = blade rooms · blue = loot/garages.</span></li>
+          <li class="de">Hinter den <b>roten Türen</b> die <b>3 Alignment Blades</b> holen (auf Tisch/Wand neben einer gelben Lampe).</li>
+          <li class="en">Behind the <b>red doors</b>, grab the <b>3 Alignment Blades</b> (on a table/wall near a yellow lamp).</li>
+          <li class="de">Die 3 Blades in die Konsole an der <b>aufgerissenen Wand</b> stecken — nach jedem Blade kurz warten, bis die Schüssel arbeitet.</li>
+          <li class="en">Insert the 3 blades into the console on the <b>torn-up wall</b> — wait after each blade while the dish works.</li>
+          <li class="de">Danach öffnet das große <b>gelbe Garagentor</b> gegenüber → flache <b>orange Batterie</b> mitnehmen. <b>An allen 3 PAFs</b> wiederholen.</li>
+          <li class="en">Then the big <b>yellow garage door</b> opposite opens → take the flat <b>orange battery</b>. Repeat at <b>all 3 PAFs</b>.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pnum">B2<small>OLP</small></div>
+      <div class="pbody">
+        <h3><span class="de">Batterien setzen &amp; Keycard holen</span><span class="en">Install batteries &amp; get the keycard</span></h3>
+        <div class="pobj"><span class="de">Ziel: Laser-Aktivierungs-Keycard</span><span class="en">Objective: laser activation keycard</span></div>
+        <ol class="steps">
+          <li class="de">Zur OLP hochfliegen. Die 3 Batterien in die <b>orangen Generatoren</b> auf den großen Landepads setzen (2 pro Pad; manche sind schon versorgt — such die mit <b>hochstehender oranger Klappe</b>).</li>
+          <li class="en">Fly up to the OLP. Install the 3 batteries in the <b>orange generators</b> on the large landing pads (2 per pad; some may be powered already — look for the ones with the <b>orange flap up</b>).</li>
+          <li class="de">In den <b>Platform-Control-Raum</b>: wenn alles passt, erscheint mittig ein <b>roter Knopf</b> → drücken und die <b>Laser-Aktivierungs-Keycard</b> nehmen.</li>
+          <li class="en">Go to the <b>Platform Control room</b>: if all is well, a <b>red button</b> appears in the center → press it and take the <b>Laser Activation Keycard</b>.</li>
+        </ol>
+        <div class="callout warn"><span class="lbl"><span class="de">Gegner &amp; Timing</span><span class="en">Enemies &amp; timing</span></span><span class="de">Überall <b>starke NPC-Gegenwehr</b>; NPCs respawnen nach ~15 min, Keycard-Drucker haben ~15 min Cooldown. Ein <b>oranger Drucker</b> an der OLP öffnet zusätzlich einen Loot-Lagerraum.</span><span class="en">Heavy <b>NPC resistance</b> throughout; NPCs respawn after ~15 min, keycard printers have a ~15 min cooldown. An <b>orange printer</b> at the OLP also opens a loot storage room.</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pnum">B3<small>BUNKER</small></div>
+      <div class="pbody">
+        <h3><span class="de">Im Control Bunker feuern</span><span class="en">Fire from the Control Bunker</span></h3>
+        <div class="pobj"><span class="de">Ziel: Laser abfeuern</span><span class="en">Objective: fire the laser</span></div>
+        <ol class="steps">
+          <li class="de">Zum <b>Control Bunker</b> hinunter — <b>nicht auf der Karte markiert</b>, ~1 km von „Ground Zero" (fast direkt unter der OLP).</li>
+          <li class="en">Fly down to the <b>Control Bunker</b> — <b>not marked on the map</b>, ~1 km from ground zero (almost directly below the OLP).</li>
+          <li class="de"><b>Laser-Aktivierungs-Keycard</b> in die Konsole stecken, den <b>großen roten Knopf</b> drücken → der Laser feuert und legt eine <b>Höhle</b> frei.</li>
+          <li class="en">Insert the <b>Laser Activation Keycard</b> into the console, press the <b>big red button</b> → the laser fires and reveals a <b>cave</b>.</li>
+        </ol>
+        <div class="callout tox"><span class="lbl"><span class="de">Ausbeute — ehrlicher Hinweis</span><span class="en">Payoff — honest note</span></span><span class="de">Der Laser legt eine Höhle frei, die sich nach einiger Zeit wieder schließt. In diesen Höhlen findet sich <b>Carinite</b> (Wikelo-Tauschware → dein Wikelo-Planer). <b>Aber:</b> zum Launch (4.1) waren die Höhlen noch <b>leer</b> (Harvestables in Arbeit). Ob Erz vorhanden ist, ist <b>patch-abhängig</b> — im aktuellen Build prüfen.</span><span class="en">The laser reveals a cave that closes again after a while. These caves contain <b>Carinite</b> (Wikelo trade good → your Wikelo planner). <b>But:</b> at launch (4.1) the caves were still <b>empty</b> (harvestables WIP). Whether ore is present is <b>patch-dependent</b> — check your current build.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">$</span><div><h2><span class="de">Beute &amp; Belohnungen</span><span class="en">Loot &amp; rewards</span></h2><p><span class="de">Vorkommen variieren je Plattform/Patch.</span><span class="en">Drops vary by platform/patch.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Gegenstand</span><span class="en">Item</span></th><th><span class="de">Typ</span><span class="en">Type</span></th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+        <tbody>
+          <tr><td><b><span class="de">Militär-Komponenten</span><span class="en">Military components</span></b></td><td><span class="de">Schiffs-Teile</span><span class="en">Ship parts</span></td><td><span class="de">Hochwertige Grade-A/-Militär-Komponenten.</span><span class="en">High-value grade-A/military components.</span></td></tr>
+          <tr><td><b>Stealth Shields</b></td><td><span class="de">Komponente</span><span class="en">Component</span></td><td><span class="de">Begehrt fürs PvP.</span><span class="en">Sought-after for PvP.</span></td></tr>
+          <tr><td><b><span class="de">Rüstung &amp; Waffen</span><span class="en">Armor &amp; weapons</span></b></td><td>FPS</td><td><span class="de">u.&nbsp;a. „Volt"-Waffen; in Räumen &amp; Tresoren.</span><span class="en">incl. "Volt" weapons; in rooms &amp; vaults.</span></td></tr>
+          <tr><td><b><span class="de">Beschädigte Medaillen</span><span class="en">Damaged medals</span></b></td><td><span class="de">Material</span><span class="en">Material</span></td><td><span class="de">Für Crafting/Upgrades.</span><span class="en">For crafting/upgrades.</span></td></tr>
+          <tr><td><b><span class="de">Rote Access-Cards</span><span class="en">Red access cards</span></b></td><td><span class="de">Schlüssel</span><span class="en">Key</span></td><td><span class="de">Öffnen gesicherte Bereiche &amp; Tresore.</span><span class="en">Open secured areas &amp; vaults.</span></td></tr>
+          <tr><td><b>Carinite</b></td><td><span class="de">Erz</span><span class="en">Ore</span></td><td><span class="de">Aus laser-freigelegten Höhlen (Weg B). Wikelo-Tauschware. <b>Vorkommen patch-abhängig</b> (zum Launch leer).</span><span class="en">From laser-exposed caves (track B). Wikelo trade good. <b>Presence patch-dependent</b> (empty at launch).</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Todesfallen</span><span class="en">Common ways to die</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Abgesprungen / EVA</span><span class="en">Jumped off / EVA</span></b><span class="de">Sturz in die toxische Atmo = Tod. Nur über Pads.</span><span class="en">Fall into toxic atmo = death. Pads only.</span></div>
+      <div class="trap"><b><span class="de">Zu schnell angeflogen</span><span class="en">Approached too fast</span></b><span class="de">Türme zerlegen dich. Langsam &amp; tief.</span><span class="en">Turrets shred you. Slow &amp; low.</span></div>
+      <div class="trap"><b><span class="de">Alles mitgeschleppt</span><span class="en">Carried everything</span></b><span class="de">Ein Tod → gesamter Loot weg. Früh sichern.</span><span class="en">One death → all loot gone. Bank early.</span></div>
+      <div class="trap"><b><span class="de">Türen offen gelassen</span><span class="en">Left doors open</span></b><span class="de">NPC-Hinterhalt von hinten. Immer schließen.</span><span class="en">NPC ambush from behind. Always close.</span></div>
+      <div class="trap"><b><span class="de">Teures Gear getragen</span><span class="en">Wore expensive gear</span></b><span class="de">Verlierst du bei Tod. Wegwerf-Loadout.</span><span class="en">Lost on death. Throwaway loadout.</span></div>
+      <div class="trap"><b><span class="de">Solo auf vollem Server</span><span class="en">Solo on a busy server</span></b><span class="de">Kein Wiederbeleben, leichte Beute für Spieler. Zu zweit/dritt sicherer.</span><span class="en">No revives, easy prey for players. Safer in a duo/trio.</span></div>
+    </div>
+  </section>
+
+
+  <!--KARTEN-ABSCHNITT weggelassen: B01-->
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Wiki &amp; Community-Guides. Details/Werte patch-abhängig.</span><span class="en">Wiki &amp; community guides. Details/values are patch-dependent.</span></p></div></div>
+    <div class="src">
+      <a href="https://robertsspaceindustries.com/spectrum/community/SC/forum/4/thread/hathor-orbital-mining-platforms-how-to-fire-the-la" target="_blank" rel="noopener">RSI Spectrum — Hathor: How to Fire the Laser (Schritt-für-Schritt, Wayfinder Drax) ↗</a>
+      <a href="https://robertsspaceindustries.com/community-hub/post/hathor-laser-one-page-guide-V4mCVfAgVSXbc" target="_blank" rel="noopener">Community Hub — Hathor Laser One-Page Guide (MrKraken, grafisch) ↗</a>
+      <a href="https://starcitizen.tools/Ruptura_OLP" target="_blank" rel="noopener">SC Wiki — Ruptura OLP (Aberdeen) ↗</a>
+      <a href="https://starcitizen.tools/Vivere_OLP" target="_blank" rel="noopener">SC Wiki — Vivere OLP (Aberdeen) ↗</a>
+      <a href="https://starcitizen.tools/Attritus_OLP" target="_blank" rel="noopener">SC Wiki — Attritus OLP (Daymar) ↗</a>
+      <a href="https://www.starzen.space/t/complete-guide-to-looting-hathor-sites-in-star-citizen/27520" target="_blank" rel="noopener">StarZen — Complete Guide to Looting Hathor Sites ↗</a>
+      <a href="https://www.mmopixel.com/news/star-citizen-4-1-orbital-laser-for-mining-guide" target="_blank" rel="noopener">MMOPIXEL — 4.1 Orbital Laser for Mining (Keycards/Batteries/Align) ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.x (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.x (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · Hathor OLP · fliegt tief, sterbt arm, o7</span>
+  <span class="en">Field handbook · Hathor OLP · fly low, die poor, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('hathor_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('hathor_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('hathor_theme',t):localStorage.removeItem('hathor_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('hathor_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>
