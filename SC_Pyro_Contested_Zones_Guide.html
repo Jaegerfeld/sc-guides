@@ -1,0 +1,378 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pyro Contested Zones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f2eeec; --panel:#ffffff; --panel2:#eae4e1; --line:#d3c8c3;
+  --ink:#1a1512; --dim:#6a5f59; --ember:#c1401d; --ember-bd:#d15a2c;
+  --danger:#a5271a; --danger-bg:#f4dbd5; --key-blue:#2f6bc0; --key-red:#c1401d; --key-green:#3f8a45; --fuse:#9a6a12;
+  --stripe:rgba(193,64,29,.16);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(60,25,15,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Rajdhani',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14100e; --panel:#1e1815; --panel2:#171210; --line:#372b25; --ink:#f0e7e2; --dim:#b3a49b;
+    --ember:#ff6a3d; --ember-bd:#a34423; --danger:#f0563a; --danger-bg:#2c1310;
+    --key-blue:#5aa0f0; --key-red:#ff6a3d; --key-green:#6cd873; --fuse:#e8b23e;
+    --stripe:rgba(255,106,61,.11); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14100e; --panel:#1e1815; --panel2:#171210; --line:#372b25; --ink:#f0e7e2; --dim:#b3a49b;
+  --ember:#ff6a3d; --ember-bd:#a34423; --danger:#f0563a; --danger-bg:#2c1310;
+  --key-blue:#5aa0f0; --key-red:#ff6a3d; --key-green:#6cd873; --fuse:#e8b23e;
+  --stripe:rgba(255,106,61,.11); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.08;margin:0;font-weight:600;letter-spacing:.01em}
+a{color:var(--ember)}
+:focus-visible{outline:2px solid var(--ember);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--ember-bd) 0 16px,transparent 16px 32px);opacity:.9}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 84% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ember);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(32px,6.4vw,56px);font-weight:700;text-transform:uppercase;margin:8px 0 6px;letter-spacing:.02em}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ember);color:#fff}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:18px;font-weight:600;margin-top:3px}
+.ro .v.crit{color:var(--danger)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ember);border:1px solid var(--ember-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:17px;margin-bottom:4px;display:flex;gap:9px;align-items:center}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);display:block;margin-bottom:6px}
+.card p{margin:0;color:var(--dim);font-size:13.8px}
+.card ul{margin:8px 0 0;padding-left:16px;color:var(--dim);font-size:13.5px;display:flex;flex-direction:column;gap:3px}
+.card ul b{color:var(--ink)}
+
+/* keycard legend */
+.legend{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.lk{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.lk .sw{width:16px;height:22px;border-radius:3px;flex:none;margin-top:1px;border:1px solid rgba(0,0,0,.25)}
+.lk b{font-family:var(--disp);font-weight:600;font-size:15px;display:block}
+.lk small{color:var(--dim);font-size:12.7px;line-height:1.4}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--ember);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.callout{border-left:4px solid var(--ember);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout .lbl.ember{color:var(--ember)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+td .n{font-family:var(--mono);font-weight:700;color:var(--ember)}
+.pill{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:20px;border:1px solid;white-space:nowrap}
+.pill.blue{color:var(--key-blue);border-color:var(--key-blue)}
+.pill.red{color:var(--key-red);border-color:var(--key-red)}
+.pill.green{color:var(--key-green);border-color:var(--key-green)}
+.pill.fuse{color:var(--fuse);border-color:var(--fuse)}
+
+/* phases */
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:28px;color:var(--ember);line-height:1;width:2.4ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--ember);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--ember);font-family:var(--mono);font-weight:700}
+
+/* pipe mapping */
+.pipes{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:6px}
+.pipe{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 14px;text-align:center}
+.pipe .pl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.pipe .bd{font-family:var(--disp);font-weight:700;font-size:22px;color:var(--ember);margin:4px 0}
+.pipe .lights{display:flex;gap:5px;justify-content:center;margin-top:8px}
+.pipe .lights i{width:9px;height:9px;border-radius:50%;background:var(--key-green)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (max-width:620px){.phase{gap:12px}.pnum{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Pyro_Contested_Zones_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Pyro_Contested_Zones_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Pyro_Contested_Zones_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Pyro_Contested_Zones_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>♟</span> <span class="de">Pyro-System · PvPvE · Contested Zones</span><span class="en">Pyro System · PvPvE · Contested Zones</span></div>
+    <h1><span class="de">Pyro Contested Zones</span><span class="en">Pyro Contested Zones</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch zur Contested-Zone-Reihe in Pyro — Checkmate, Orbituary &amp; Ruin. Ziel: <b>7 Com Boards</b> sammeln und im Executive Hangar gegen ein <b>Schiff</b> eintauschen. Team dringend empfohlen.</span>
+      <span class="en">Field handbook for the Pyro contested-zone series — Checkmate, Orbituary &amp; Ruin. Goal: collect <b>7 Comm Boards</b> and trade them at the Executive Hangar for a <b>ship</b>. A team is strongly advised.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Freies Feuer · sehr hohes PvP-Risiko</span><span class="en">Free-fire · very high PvP risk</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Einsatzdaten">
+    <div class="ro"><div class="k">System</div><div class="v">Pyro</div></div>
+    <div class="ro"><div class="k"><span class="de">Stationen</span><span class="en">Stations</span></div><div class="v">Checkmate · Orbituary · Ruin</div></div>
+    <div class="ro"><div class="k"><span class="de">Ziel</span><span class="en">Goal</span></div><div class="v">7 Com Boards → <span class="de">Schiff</span><span class="en">ship</span></div></div>
+    <div class="ro"><div class="k">Team</div><div class="v">3–4</div></div>
+    <div class="ro"><div class="k"><span class="de">Risiko</span><span class="en">Risk</span></div><div class="v crit"><span class="de">SEHR HOCH</span><span class="en">VERY HIGH</span></div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="prose">
+      <p class="de"><b>Was das ist:</b> Contested Zones sind <b>frei-Feuer-PvPvE-Zonen</b> auf drei Pyro-Stationen. Du kämpfst gegen NPCs <b>und andere Spieler</b> um seltene FPS-Ausrüstung, Grade-A-Komponenten — und um die <b>7 Com(m) Boards</b>, die zusammen ein Schiff freischalten.</p>
+      <p class="en"><b>What this is:</b> Contested zones are <b>free-fire PvPvE zones</b> on three Pyro stations. You fight NPCs <b>and other players</b> for rare FPS gear, grade-A components — and for the <b>7 Comm Boards</b> that together unlock a ship.</p>
+      <p class="de">Der Fortschritt läuft über <b>farbcodierte Türen</b>: Blau (Security) → Rot (Supervisor) → Fuse-Türen. Die Boards liegen hinter den schwersten davon. Endstation ist der <b>Executive Hangar</b>, wo du die Boards gegen ein Schiff eintauschst.</p>
+      <p class="en">Progress runs through <b>color-coded doors</b>: blue (security) → red (supervisor) → fuse doors. The boards sit behind the hardest of these. The endpoint is the <b>Executive Hangar</b>, where you trade the boards for a ship.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg &amp; Türen-Kunde</span><span class="en">Getting in &amp; door lore</span></h2><p><span class="de">Ortsbasiert — hinfliegen. Der Schlüssel ist das Türsystem.</span><span class="en">Location-based — just fly in. The key is the door system.</span></p></div></div>
+    <div class="callout" style="border-left-color:var(--ember)"><span class="lbl ember"><span class="de">Der „Start-Knopf"</span><span class="en">The "start button"</span></span><span class="de">Keine Missionsannahme nötig: eine der drei Stationen als Quantum-Ziel wählen und andocken. Die Sammel-Aufgabe <b>„Collect 7 Comm Boards"</b> läuft ortsbasiert. Es ist <b>freies Feuer</b> — jeder andere Spieler kann Gegner sein.</span><span class="en">No mission needed: pick one of the three stations as a quantum target and dock. The <b>"Collect 7 Comm Boards"</b> objective is location-based. It's <b>free fire</b> — any other player can be hostile.</span></div>
+    <div class="legend">
+      <div class="lk"><span class="sw" style="background:var(--key-blue)"></span><div><b><span class="de">Blaue Tür</span><span class="en">Blue door</span></b><small class="de"><b>Security-Keycard</b> — an Kartendruckern <b>in der Zone selbst</b> druckbar.</small><small class="en"><b>Security keycard</b> — printed at card printers <b>inside the zone</b>.</small></div></div>
+      <div class="lk"><span class="sw" style="background:var(--key-red)"></span><div><b><span class="de">Rote Tür</span><span class="en">Red door</span></b><small class="de"><b>Supervisor-Keycard</b> — nur an den <b>Supervisor-Terminals PYAM-SUPVISR-3-4 &amp; 3-5</b> (am Pyro-III-Outpost, auch „PYRO03 L4/L5") druckbar, 30-min-Cooldown. Führt zu den besten Räumen.</small><small class="en"><b>Supervisor keycard</b> — only printed at the <b>Supervisor terminals PYAM-SUPVISR-3-4 &amp; 3-5</b> (Pyro III outpost, a.k.a. "PYRO03 L4/L5"), 30-min cooldown. Leads to the best rooms.</small></div></div>
+      <div class="lk"><span class="sw" style="background:var(--fuse)"></span><div><b>Fuse-Tür</b><small class="de">Mit einer <b>Fuse</b> (gesalvaged/gekauft) öffnen. Klemmt sie, mit dem <b>Traktorstrahl</b> wie Fracht bewegen.</small><small class="en">Open with a <b>Fuse</b> (salvaged/bought). If it jams, nudge it with a <b>tractor beam</b> like cargo.</small></div></div>
+      <div class="lk"><span class="sw" style="background:var(--fuse)"></span><div><b><span class="de">Timer-Tür</span><span class="en">Timer door</span></b><small class="de">Nur in <b>Ruin</b> (Zugang zum Vault): öffnet ~<b>1 Min</b>, bleibt dann ~<b>20 Min</b> zu. Fenster abpassen.</small><small class="en">Ruin only (entry to the Vault): opens ~<b>1 min</b>, then stays shut ~<b>20 min</b>. Time your run.</small></div></div>
+      <div class="lk"><span class="sw" style="background:linear-gradient(135deg,#e8b23e,#c98a12)"></span><div><b><span class="de">Gold-Keycards (Ruin)</span><span class="en">Gold keycards (Ruin)</span></b><small class="de">Die Ruin-Vault-Sektoren <b>Crypt</b>, <b>Last Resort</b> &amp; <b>Wasteland</b> haben je einen eigenen Gold-Key (auf der Karte als „…&nbsp;Key" markiert), der die jeweilige Sektor-Tür öffnet.</small><small class="en">The Ruin Vault sectors <b>Crypt</b>, <b>Last Resort</b> &amp; <b>Wasteland</b> each have their own gold key (marked "…&nbsp;Key" on the map) that opens that sector's door.</small></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">◎</span><div><h2><span class="de">Die drei Stationen</span><span class="en">The three stations</span></h2></div></div>
+    <div class="grid g3">
+      <div class="card"><span class="tag">Pyro · Boards 1–3</span><h3><span class="de">Checkmate Station</span><span class="en">Checkmate Station</span></h3><p><span class="de">Meiste Boards. Kartendrucker vor Ort.</span><span class="en">Most boards. Card printers on site.</span></p><ul><li><b>3 Com Boards</b> <span class="de">(Board 1 im Nord-Sektor hinter blauer+roter Tür; Boards 2 &amp; 3 im West-Cluster am Freight Elevator, blauer Zugang)</span><span class="en">(Board 1 in the north sector behind blue+red doors; Boards 2 &amp; 3 in the west cluster by the freight elevator, blue access)</span></li></ul></div>
+      <div class="card"><span class="tag">Pyro · Boards 4 &amp; 7</span><h3><span class="de">Orbituary Station</span><span class="en">Orbituary Station</span></h3><p><span class="de">Kompakter, viel hinter roten Türen.</span><span class="en">Tighter, lots behind red doors.</span></p><ul><li><b>2 Com Boards</b> <span class="de">(Board 4 bei der Loot Zone/Fuse-Tür; Board 7 im Nordost-Hangar hinter blauer+roter Tür)</span><span class="en">(Board 4 by the Loot Zone/fuse door; Board 7 in the north-east hangar behind blue+red doors)</span></li></ul></div>
+      <div class="card"><span class="tag">Pyro · Boards 5 &amp; 6</span><h3><span class="de">Ruin Station</span><span class="en">Ruin Station</span></h3><p><span class="de">Sektoren: „The Wasteland", „The Last Resort", „The Crypt" (Gold-Keys) + <b>Timer-Tür</b> zum <b>Vault</b>.</span><span class="en">Sectors: "The Wasteland", "The Last Resort", "The Crypt" (gold keys) + a <b>timer door</b> to the <b>Vault</b>.</span></p><ul><li><b>2 Com Boards</b> <span class="de">(Boards 5 &amp; 6 im <b>Vault</b> — hinter der Timer-Tür, nahe Crypt-Tür bzw. Freight Elevator)</span><span class="en">(Boards 5 &amp; 6 in the <b>Vault</b> — past the timer door, near the Crypt door resp. the freight elevator)</span></li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▤</span><div><h2><span class="de">Com-Board-Tracker (7)</span><span class="en">Comm Board tracker (7)</span></h2><p><span class="de">Alle sieben auf einen Blick — hakst du dich durch.</span><span class="en">All seven at a glance — work your way through.</span></p></div></div>
+    <div class="callout"><span class="lbl ember"><span class="de">Begriff</span><span class="en">Term</span></span><span class="de"><b>Com Board = Compboard</b> — auf den Community-Karten unten als <b>„Tablet 1–7"</b> beschriftet. Gleiche Sache, nur anderer Name.</span><span class="en"><b>Comm Board = Compboard</b> — labelled <b>"Tablet 1–7"</b> on the community maps below. Same thing, different name.</span></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>#</th><th><span class="de">Station</span><span class="en">Station</span></th><th><span class="de">Ort (siehe Karten)</span><span class="en">Location (see maps)</span></th><th><span class="de">Zugang</span><span class="en">Access</span></th></tr></thead>
+        <tbody>
+          <tr><td><span class="n">1</span></td><td><b>Checkmate</b></td><td><span class="de">Nord-Sektor, beim Extract</span><span class="en">North sector, near Extract</span></td><td><span class="pill blue">Blau</span> + <span class="pill red">Rot</span></td></tr>
+          <tr><td><span class="n">2</span></td><td><b>Checkmate</b></td><td><span class="de">West-Cluster (Freight Elevator), unten</span><span class="en">West cluster (freight elevator), lower</span></td><td><span class="pill blue">Blau / Blue</span></td></tr>
+          <tr><td><span class="n">3</span></td><td><b>Checkmate</b></td><td><span class="de">West-Cluster (Freight Elevator), oben</span><span class="en">West cluster (freight elevator), upper</span></td><td><span class="pill blue">Blau / Blue</span></td></tr>
+          <tr><td><span class="n">4</span></td><td><b>Orbituary</b></td><td><span class="de">Loot Zone (West), bei Fuse-Tür</span><span class="en">Loot Zone (west), by a fuse door</span></td><td><span class="pill red">Rot</span> + <span class="pill fuse">Fuse</span></td></tr>
+          <tr><td><span class="n">5</span></td><td><b>Ruin</b> <span class="de">(Vault)</span><span class="en">(Vault)</span></td><td><span class="de">Vault, nahe Crypt-Tür (Süd)</span><span class="en">Vault, near the Crypt door (south)</span></td><td><span class="pill fuse"><span class="de">Timer</span><span class="en">Timer</span></span> + <span class="pill fuse">Gold</span></td></tr>
+          <tr><td><span class="n">6</span></td><td><b>Ruin</b> <span class="de">(Vault)</span><span class="en">(Vault)</span></td><td><span class="de">Vault, oben am Freight Elevator</span><span class="en">Vault, top by the freight elevator</span></td><td><span class="pill fuse"><span class="de">Timer</span><span class="en">Timer</span></span> + <span class="pill fuse">Gold</span></td></tr>
+          <tr><td><span class="n">7</span></td><td><b>Orbituary</b></td><td><span class="de">Nordost-Hangar, beim Extract</span><span class="en">North-east hangar, near Extract</span></td><td><span class="pill blue">Blau</span> + <span class="pill red">Rot</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><span class="lbl ember"><span class="de">Reihenfolge-Tipp</span><span class="en">Order tip</span></span><span class="de">Rote Keycards zuerst besorgen (Supervisor-Terminals, 30-min-Cooldown, nur 2 pro Session nutzbar an Checkmate &amp; Orbituary). Dann Checkmate → Orbituary → Ruin abarbeiten. Boards <b>früh zum Schiff</b> bringen — bei Tod sind sie weg.</span><span class="en">Get red keycards first (Supervisor terminals, 30-min cooldown, only 2 per session usable at Checkmate &amp; Orbituary). Then work Checkmate → Orbituary → Ruin. Take boards <b>to your ship early</b> — a death loses them.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">★</span><div><h2><span class="de">Einlösen: Executive Hangar</span><span class="en">Redeem: Executive Hangar</span></h2><p><span class="de">Alle 7 Boards → ein Schiff. Timing ist alles.</span><span class="en">All 7 boards → one ship. Timing is everything.</span></p></div></div>
+    <div class="phase">
+      <div class="pnum">1<small>PYAM</small></div>
+      <div class="pbody">
+        <h3><span class="de">Aktive Basis finden (PYAM-EXHANG-0-1)</span><span class="en">Find the active base (PYAM-EXHANG-0-1)</span></h3>
+        <div class="pobj"><span class="de">3 Asteroiden-Basen · nur 1 aktiv</span><span class="en">3 asteroid bases · only 1 active</span></div>
+        <ol class="steps">
+          <li class="de">Die Einlöse-Stationen heißen <b>PYAM-EXHANG-0-1</b>: drei kleine <b>Asteroiden-Basen nahe der Pyro-Sonne</b> (südwestlich des Sterns). Immer nur <b>eine</b> ist zur Zeit aktiv.</li>
+          <li class="en">The redemption sites are <b>PYAM-EXHANG-0-1</b>: three small <b>asteroid bases near the Pyro sun</b> (south-west of the star). Only <b>one</b> is active at a time.</li>
+          <li class="de">Hinfliegen, in der Nähe <b>aussteigen (EVA)</b> und zum Hangar-Eingang schweben — der Zugang wird von außen über <b>Status-Lichter</b> gesteuert (Phase 2).</li>
+          <li class="en">Fly over, <b>EVA out</b> nearby and float to the hangar entrance — access is gated from outside by <b>status lights</b> (phase 2).</li>
+        </ol>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pnum">2<small>LIGHTS</small></div>
+      <div class="pbody">
+        <h3><span class="de">Status-Lichter lesen</span><span class="en">Read the status lights</span></h3>
+        <div class="pobj"><span class="de">Offen: ≥ 1 grün UND kein rot</span><span class="en">Open: ≥ 1 green AND none red</span></div>
+        <div class="pipes">
+          <div class="pipe"><div class="pl"><span class="de">Status-Panel</span><span class="en">Status panel</span></div><div class="bd">5 <span class="de">Lichter</span><span class="en">lights</span></div><div class="lights"><i></i><i></i><i></i><i style="background:#555"></i><i style="background:#555"></i></div></div>
+        </div>
+        <ol class="steps">
+          <li class="de">Am Hangar hängt ein Panel mit <b>5 Status-Lichtern</b>. Der Hangar lässt sich nur öffnen, wenn <b>mindestens eines grün</b> ist und <b>keines rot</b>.</li>
+          <li class="en">The hangar has a panel of <b>5 status lights</b>. It only opens when <b>at least one is green</b> and <b>none is red</b>.</li>
+          <li class="de">Aufladen: etwa <b>alle 24 Min ein Licht mehr grün</b> (bis ~2 h „voll"). Sobald geöffnet, verliert es ~<b>alle 12 Min ein Grün</b> → nutzbares Fenster ~1 h.</li>
+          <li class="en">Charging: roughly <b>one more light turns green every 24 min</b> (up to ~2 h "full"). Once open it loses <b>one green every ~12 min</b> → usable window ~1 h.</li>
+        </ol>
+        <div class="callout danger"><span class="lbl"><span class="de">Rotes Licht = gesperrt</span><span class="en">Red light = locked</span></span><span class="de">Ist auch nur <b>ein Licht rot</b>, bleibt der Hangar zu — dann diese Basis überspringen oder warten, bis es wieder grün/aus wird.</span><span class="en">If even <b>one light is red</b>, the hangar stays shut — skip this base or wait for it to cycle back to green/off.</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pnum">3<small>BOARDS</small></div>
+      <div class="pbody">
+        <h3><span class="de">7 Boards einsetzen &amp; Schiff wählen</span><span class="en">Insert 7 boards &amp; pick a ship</span></h3>
+        <div class="pobj"><span class="de">1 von 8 Executive-Schiffen</span><span class="en">1 of 8 Executive ships</span></div>
+        <ol class="steps">
+          <li class="de">Im Inneren alle <b>7 Com Boards</b> in die Konsole einsetzen. Danach <b>ein</b> Schiff aus der Liste wählen — dazu gibt es <b>seltene FPS-Waffen</b> und <b>Grade-A-Komponenten</b>.</li>
+          <li class="en">Inside, insert all <b>7 Comm Boards</b> into the console. Then choose <b>one</b> ship from the list — plus <b>rare FPS weapons</b> and <b>grade-A components</b>.</li>
+        </ol>
+        <div class="grid g3" style="margin-top:10px">
+          <div class="card" style="padding:12px 14px"><span class="tag"><span class="de">Militär/Stealth</span><span class="en">Military/stealth</span></span><ul style="font-size:13px"><li>F7A Hornet Mk II Executive</li><li>F8C Lightning Executive</li><li>RSI Scorpius <span class="de">(Wikelo War Special)</span><span class="en">(Wikelo War Special)</span></li></ul></div>
+          <div class="card" style="padding:12px 14px"><span class="tag">Multi/Cargo</span><ul style="font-size:13px"><li>RSI Corsair Executive</li><li>Drake Cutlass Black Executive</li><li>Gatac Syulen Executive</li></ul></div>
+          <div class="card" style="padding:12px 14px"><span class="tag">RSI / Mirai</span><ul style="font-size:13px"><li>RSI Meteor Executive</li><li>Mirai Guardian MX <span class="de">(Wikelo War Special)</span><span class="en">(Wikelo War Special)</span></li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="pnum">4<small>ASOP</small></div>
+      <div class="pbody">
+        <h3><span class="de">Schiff am ASOP abholen</span><span class="en">Retrieve the ship at ASOP</span></h3>
+        <div class="pobj"><span class="de">Hangar schließt nach 10 Min</span><span class="en">Hangar closes after 10 min</span></div>
+        <ol class="steps">
+          <li class="de">Das gewählte Schiff wird am <b>ASOP-Terminal</b> der Basis angefordert — der Hangar öffnet sich, <b>schließt aber nach ~10 Minuten</b> wieder. Also zügig ausfliegen.</li>
+          <li class="en">Request the chosen ship at the base's <b>ASOP terminal</b> — the hangar opens, but <b>closes again after ~10 minutes</b>. Fly it out promptly.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = empfohlen. Teamwork ist hier Pflicht.</span><span class="en">◆ = mandatory · ▣ = recommended. Teamwork is mandatory here.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🛡 <span class="de">Schutz &amp; Kampf</span><span class="en">Protection &amp; combat</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Schwere Rüstung</span><span class="en">Heavy armor</span></b><small class="de">Torso/Kopf essenziell; leichte Beinrüstung für Tempo ok.</small><small class="en">Torso/head essential; light leg armor for speed is fine.</small></div></li>
+          <li class="must"><div><b><span class="de">Primärwaffe + min. 200 Schuss</span><span class="en">Primary + min. 200 rounds</span></b><small class="de">z. B. PR-4. NPCs und Spieler halten viel aus.</small><small class="en">e.g. PR-4. NPCs and players take a lot.</small></div></li>
+          <li><div><b>Med-Gun + Med-Pens</b><small class="de">Gegenseitiges Heilen entscheidet Gefechte.</small><small class="en">Mutual healing decides fights.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧰 <span class="de">Werkzeug &amp; Logistik</span><span class="en">Tools &amp; logistics</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Multitool mit Traktorstrahl</span><span class="en">Multitool with tractor beam</span></b><small class="de">Für klemmende Fuse-Türen (wie Fracht bewegen) &amp; Loot-Transport.</small><small class="en">For jammed fuse doors (move like cargo) &amp; loot hauling.</small></div></li>
+          <li><div><b>Fuses</b><small class="de">Gesalvaged oder gekauft — für die Fuse-Türen (v. a. Ruin).</small><small class="en">Salvaged or bought — for the fuse doors (esp. Ruin).</small></div></li>
+          <li><div><b><span class="de">Getränke &amp; ruhiges Schiff-Parken</span><span class="en">Beverages &amp; safe ship parking</span></b><small class="de">Hydration nicht vergessen; Schiff sicher abstellen (kein Drift/Schaden).</small><small class="en">Don't forget hydration; park the ship safely (no drift/damage).</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">$</span><div><h2><span class="de">Beute &amp; Belohnungen</span><span class="en">Loot &amp; rewards</span></h2><p><span class="de">Neben den Boards gibt's Top-Gear. Patch-abhängig.</span><span class="en">Besides the boards, top-tier gear. Patch-dependent.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Gegenstand</span><span class="en">Item</span></th><th><span class="de">Typ</span><span class="en">Type</span></th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+        <tbody>
+          <tr><td><b><span class="de">Schiff (1 von 8)</span><span class="en">Ship (1 of 8)</span></b></td><td><span class="de">Endbelohnung</span><span class="en">End reward</span></td><td><span class="de">Für alle 7 Com Boards, am Executive Hangar (PYAM-EXHANG-0-1); „Executive"-Variante + Top-Komponenten.</span><span class="en">For all 7 Comm Boards, at the Executive Hangar (PYAM-EXHANG-0-1); "Executive" variant + high-grade components.</span></td></tr>
+          <tr><td><b><span class="de">Seltene FPS-Waffen</span><span class="en">Rare FPS weapons</span></b></td><td>FPS</td><td><span class="de">z. B. Granatwerfer &amp; Railguns mit verbesserten Werten.</span><span class="en">e.g. grenade launchers &amp; railguns with upgraded stats.</span></td></tr>
+          <tr><td><b>Grade-A <span class="de">Komponenten</span><span class="en">components</span></b></td><td><span class="de">Schiffs-Teile</span><span class="en">Ship parts</span></td><td><span class="de">Hochwertig; u. a. in den Hangars.</span><span class="en">High-value; incl. in the hangars.</span></td></tr>
+          <tr><td><b>Com Boards</b></td><td><span class="de">Quest-Item</span><span class="en">Quest item</span></td><td><span class="n">7×</span> <span class="de">— die eigentliche „Reihe".</span><span class="en">— the actual "series".</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Todesfallen</span><span class="en">Common ways to die</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Solo reingegangen</span><span class="en">Went in solo</span></b><span class="de">Kein Wiederbeleben, leichte Beute. Team ist quasi Pflicht.</span><span class="en">No revives, easy prey. A team is basically mandatory.</span></div>
+      <div class="trap"><b><span class="de">Boards mitgeschleppt</span><span class="en">Carried the boards</span></b><span class="de">Bei Tod weg. Früh &amp; oft zum Schiff sichern.</span><span class="en">Lost on death. Bank to ship early &amp; often.</span></div>
+      <div class="trap"><b><span class="de">Rote Keycard vergessen</span><span class="en">Forgot the red keycard</span></b><span class="de">Ohne Supervisor-Karte kein Zugang zu den meisten Boards. 30-min-Cooldown einplanen.</span><span class="en">Without a supervisor card, no access to most boards. Plan for the 30-min cooldown.</span></div>
+      <div class="trap"><b><span class="de">Status-Fenster verpasst</span><span class="en">Missed the status window</span></b><span class="de">Hangar-Lichter laufen ab (rot/aus). Erst alle 7 Boards komplett, dann zur aktiven Basis — mit grünem Panel.</span><span class="en">Hangar lights expire (red/off). Finish all 7 boards first, then head to the active base with a green panel.</span></div>
+      <div class="trap"><b><span class="de">Engineering-Tür-Falle</span><span class="en">Engineering-door trap</span></b><span class="de">Die Engineering-Tür (Alarm, ~30-min-Zyklus) <b>tötet jeden, der beim Schließen drin ist</b>. Nie beim Schließen im Raum stehen.</span><span class="en">The engineering door (alarm, ~30-min cycle) <b>kills anyone inside when it shuts</b>. Never be in the room as it closes.</span></div>
+      <div class="trap"><b><span class="de">Timer-Tür verpennt (Ruin)</span><span class="en">Blew the timer door (Ruin)</span></b><span class="de">Vault-Timer-Tür ist nur ~1 Min offen, dann ~20 Min zu. Vorher bereitstehen.</span><span class="en">The Vault timer door is only open ~1 min, then shut ~20 min. Be ready before it opens.</span></div>
+      <div class="trap"><b><span class="de">Schiff schlecht geparkt</span><span class="en">Parked the ship badly</span></b><span class="de">Drift/Schaden/Klau. Sicher abstellen, jemand deckt es ggf.</span><span class="en">Drift/damage/theft. Park safe; have someone watch it.</span></div>
+      <div class="trap"><b><span class="de">Fuse-Tür klemmt</span><span class="en">Fuse door jams</span></b><span class="de">Bug: mit Traktorstrahl wie Fracht aufziehen.</span><span class="en">Bug: pull it open with the tractor beam like cargo.</span></div>
+    </div>
+  </section>
+
+  <!--KARTEN-ABSCHNITT weggelassen: B13, B14, B15-->
+
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Wiki &amp; Community-Guides. Details/Werte patch-abhängig (4.0+).</span><span class="en">Wiki &amp; community guides. Details/values patch-dependent (4.0+).</span></p></div></div>
+    <div class="src">
+      <a href="https://www.tradealliance.nl/community/star-citizen/guide-contested-zones-in-sc-4-0/" target="_blank" rel="noopener">Solar Trade Alliance — Guide: Contested Zones in SC 4.0 (Stationen, Keys, Boards, Pipes) ↗</a>
+      <a href="https://starcitizen.tools/Contested_Zones" target="_blank" rel="noopener">Star Citizen Wiki — Contested Zones ↗</a>
+      <a href="https://starcitizen.tools/Guide:Executive_Hangars" target="_blank" rel="noopener">Star Citizen Wiki — Guide: Executive Hangars ↗</a>
+      <a href="https://survivortohero.com/spacecutlet-sc-4-0-preview-contested-zones-quick-start-guide/" target="_blank" rel="noopener">Survivor To Hero — Pyro Contested Zones Quick Start ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.10.2 (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.10.2 (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · Pyro Contested Zones · nimm die Boards, o7</span>
+  <span class="en">Field handbook · Pyro Contested Zones · grab the boards, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('pyrocz_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('pyrocz_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('pyrocz_theme',t):localStorage.removeItem('pyrocz_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('pyrocz_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>

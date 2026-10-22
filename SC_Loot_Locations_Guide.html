@@ -1,0 +1,362 @@
+<title>SC Loot Locations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f1f0f3; --panel:#ffffff; --panel2:#e7e5ec; --line:#d2cdd9;
+  --ink:#161320; --dim:#645d70; --mark:#c23a7f; --mark-bd:#d6478f;
+  --danger:#b3271f; --danger-bg:#f4dad9; --warn:#8a6300; --warn-bg:#f2e7cf; --ok:#2c7d55;
+  --stripe:rgba(194,58,127,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(40,20,45,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Jost',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#100e14; --panel:#191722; --panel2:#141119; --line:#2d2838; --ink:#ece8f2; --dim:#a49bb2;
+    --mark:#ef73ad; --mark-bd:#8a2d5c; --danger:#f0563a; --danger-bg:#2a1310;
+    --warn:#f0c14b; --warn-bg:#241d0d; --ok:#5fd095;
+    --stripe:rgba(239,115,173,.11); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#100e14; --panel:#191722; --panel2:#141119; --line:#2d2838; --ink:#ece8f2; --dim:#a49bb2;
+  --mark:#ef73ad; --mark-bd:#8a2d5c; --danger:#f0563a; --danger-bg:#2a1310;
+  --warn:#f0c14b; --warn-bg:#241d0d; --ok:#5fd095;
+  --stripe:rgba(239,115,173,.11); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.14;margin:0;font-weight:600}
+a{color:var(--mark)}
+:focus-visible{outline:2px solid var(--mark);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 85% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:28px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--mark);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,50px);font-weight:700;margin:10px 0 6px;letter-spacing:.01em}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:64ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--mark);color:#fff}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.toc a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:20px;padding:4px 12px;color:var(--ink);background:var(--panel)}
+
+section{padding:28px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--mark);border:1px solid var(--mark-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.6vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}.prose{max-width:66ch}
+
+.loc-h{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.loc-h .meta{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.04em;margin-top:4px}
+.pin{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mark);border:1px solid var(--mark-bd);border-radius:6px;padding:3px 9px;white-space:nowrap}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:16px 0 20px}
+.ro{background:var(--panel);padding:12px 14px}
+.ro .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:16px;font-weight:600;margin-top:3px}
+.ro .v.warn{color:var(--warn)}
+
+h3.sub{font-family:var(--disp);font-size:17px;font-weight:600;margin:20px 0 8px;display:flex;align-items:center;gap:8px}
+h3.sub .ic{font-size:16px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--mark);font-family:var(--mono);font-weight:700}
+
+.diff{display:flex;flex-direction:column;gap:12px}
+.d{display:grid;grid-template-columns:auto 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--mark);border-radius:0 10px 10px 0;padding:13px 15px;box-shadow:var(--shadow)}
+.d .num{font-family:var(--disp);font-weight:700;font-size:20px;color:var(--mark);line-height:1.1}
+.d h4{margin:0 0 4px;font-family:var(--disp);font-size:15.5px;font-weight:600}
+.d p{margin:0;font-size:13.8px;color:var(--dim)}
+.d p b{color:var(--ink)}
+
+.callout{border-left:4px solid var(--mark);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.warn .lbl{color:var(--warn)} .callout .lbl.mark{color:var(--mark)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0} tbody tr:nth-child(even){background:var(--panel2)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+.next{color:var(--dim);font-size:14px;font-style:italic}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (max-width:620px){.d{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Loot_Locations_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Loot_Locations_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Loot_Locations_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Loot_Locations_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>📍</span> <span class="de">Star Citizen · Loot-Fundorte · Anfahrt &amp; knifflige Stellen</span><span class="en">Star Citizen · loot locations · access &amp; tricky spots</span></div>
+    <h1><span class="de">SC Loot-Locations</span><span class="en">SC Loot Locations</span></h1>
+    <p class="lede">
+      <span class="de">Eine wachsende Sammlung von Loot-Fundorten — mit genauer Anfahrt und Anleitung zu den schwierigen Stellen. Erste Location: <b>Ghost Hollow</b>.</span>
+      <span class="en">A growing collection of loot locations — with precise access and instructions for the tricky spots. First location: <b>Ghost Hollow</b>.</span>
+    </p>
+    <div class="topbar">
+      <div class="toc"><a href="#ghosthollow">📍 Ghost Hollow (microTech)</a><a href="#pyro4-derelict">📍 Derelict Outpost (Pyro IV)</a><a href="#cryastro">📍 Cry-Astro Plants (microTech)</a></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="ghosthollow" style="border-top:0">
+    <div class="sec-h"><span class="idx">01</span><div><h2>Ghost Hollow</h2><p><span class="de">Abgestürztes Aegis-Reclaimer-Wrack auf microTech — unmarkiert, Nine-Tails-besetzt.</span><span class="en">Crashed Aegis Reclaimer on microTech — unmarked, Nine Tails-occupied.</span></p></div></div>
+
+    <div class="loc-h">
+      <div class="meta"><span class="de">Stanton · microTech · Landmark/Siedlung · seit Alpha 3.17.2</span><span class="en">Stanton · microTech · landmark/settlement · since Alpha 3.17.2</span></div>
+      <span class="pin">PvE + PvP</span>
+    </div>
+
+    <div class="readout" aria-label="Eckdaten">
+      <div class="ro"><div class="k">System</div><div class="v">Stanton</div></div>
+      <div class="ro"><div class="k"><span class="de">Körper</span><span class="en">Body</span></div><div class="v">microTech</div></div>
+      <div class="ro"><div class="k"><span class="de">Zugang</span><span class="en">Access</span></div><div class="v">OM3 → N (352)</div></div>
+      <div class="ro"><div class="k"><span class="de">Gefahr</span><span class="en">Hazard</span></div><div class="v warn"><span class="de">Kälte · Nacht</span><span class="en">Cold · night</span></div></div>
+      <div class="ro"><div class="k"><span class="de">Gegner</span><span class="en">Enemies</span></div><div class="v">Nine Tails</div></div>
+    </div>
+
+    <p class="prose de"><b>Was das ist:</b> Ein Aegis <b>Reclaimer</b>, der in bewaldetes microTech-Terrain gestürzt ist; die Nine Tails haben in und um das Wrack eine kleine Siedlung errichtet. Eine der best-designten Locations im Spiel — <b>versteckter Loot + kleine Rätsel</b>, ein Respawn-Punkt mit Waffen/Rüstung, und ein PvP-Payout-Event über die Comm-Array. Nichts davon ist auf der Karte markiert (außer eine Mission bringt dich her).</p>
+    <p class="prose en"><b>What this is:</b> An Aegis <b>Reclaimer</b> crashed into forested microTech terrain; the Nine Tails have built a small settlement in and around the wreck. One of the best-designed locations in the game — <b>hidden loot + minor puzzles</b>, a respawn point with weapons/armor, and a PvP payout event via the comm array. None of it is map-marked (unless a mission takes you there).</p>
+
+    <h3 class="sub"><span class="ic">🧭</span> <span class="de">Anreise (die erste Hürde)</span><span class="en">Getting there (the first hurdle)</span></h3>
+    <ol class="steps">
+      <li class="de"><b>Einfachster Weg:</b> eine Mission annehmen, die hierher führt — z. B. <b>„Remove Illegal Occupants"</b> oder Bounty-Hunter-Aufträge → liefert einen Quantum-Marker.</li>
+      <li class="en"><b>Easiest way:</b> take a mission that leads here — e.g. <b>"Remove Illegal Occupants"</b> or bounty-hunting contracts → gives a quantum marker.</li>
+      <li class="de"><b>Selbst finden:</b> zu <b>Orbital Marker 3 (OM3)</b> von microTech quanten. Von dort nach <b>Norden</b> ausrichten (<b>Vektor 352</b> außerhalb der Atmosphäre).</li>
+      <li class="en"><b>Find it yourself:</b> quantum to <b>Orbital Marker 3 (OM3)</b> of microTech. From there face <b>North</b> (<b>Vector 352</b> outside atmosphere).</li>
+      <li class="de">Einen <b>verschneiten Berg mit einer schneefreien Fläche</b> daneben suchen. Ghost Hollow liegt <b>rechts neben dem schneebedeckten Gipfel</b>; die <b>Krater-/Schleifspur</b> des Wracks führt hin.</li>
+      <li class="en">Look for a <b>snowy mountain with a snow-free patch</b> beside it. Ghost Hollow sits <b>to the right of the snowed peak</b>; the wreck's <b>crater/gouge trail</b> leads to it.</li>
+    </ol>
+
+    <h3 class="sub"><span class="ic">⚠</span> <span class="de">Schwierige Stellen — Anleitung</span><span class="en">Tricky spots — how to handle them</span></h3>
+    <div class="diff">
+      <div class="d"><div class="num">1</div><div><h4><span class="de">Ankommen ohne Marker</span><span class="en">Arriving without a marker</span></h4><p><span class="de">Ohne Mission gibt es <b>keinen QT-Marker</b>. Nimm im Anflug zwei Landmarken (schneefreie Fläche + Gipfel) zum Kreuzpeilen, und flieg die letzte Strecke <b>manuell &amp; langsam</b> — das Wrack liegt in einer Senke und ist leicht zu überfliegen.</span><span class="en">Without a mission there's <b>no QT marker</b>. Cross-reference two landmarks on approach (snow-free patch + peak) and fly the last stretch <b>manually &amp; slow</b> — the wreck sits in a hollow and is easy to overshoot.</span></p></div></div>
+      <div class="d"><div class="num">2</div><div><h4><span class="de">Kälte &amp; Dunkelheit</span><span class="en">Cold &amp; darkness</span></h4><p><span class="de">microTech ist <b>kalt</b>; nachts ist Ghost Hollow <b>stockdunkel</b>. Warmer Anzug/Helm + <b>Taschenlampe</b>. Tag-Anflug macht Loot &amp; Gegner viel leichter erkennbar.</span><span class="en">microTech is <b>cold</b>; at night Ghost Hollow is <b>pitch black</b>. Warm suit/helmet + <b>flashlight</b>. A daytime approach makes loot &amp; enemies far easier to spot.</span></p></div></div>
+      <div class="d"><div class="num">3</div><div><h4><span class="de">Nine-Tails-Besatzung</span><span class="en">Nine Tails occupation</span></h4><p><span class="de">Die Siedlung ist <b>bewacht</b> (NPCs in Zelten, auf dem Wrack, in den Decks). Von <b>erhöhter Position</b> / dem Waldrand ausdünnen, nicht in die Mitte rennen. Reserve-Munition mitnehmen.</span><span class="en">The settlement is <b>guarded</b> (NPCs in tents, on the wreck, in the decks). Thin them out from <b>high ground</b> / the treeline, don't rush the center. Bring spare ammo.</span></p></div></div>
+      <div class="d"><div class="num">4</div><div><h4><span class="de">Ins Wrack-Innere (Vertikalität)</span><span class="en">Into the wreck interior (verticality)</span></h4><p><span class="de">Der Reclaimer ist <b>aufgerissen und verkippt</b> — ein Teil des Loots liegt in den <b>schräg liegenden Decks</b> und im Bauch des Schiffs. Über Bruchkanten/Trümmer klettern; auf Fall-Kanten achten (kein EVA innen). Vorsichtig durch die kollabierten Ebenen, nicht springen ins Dunkle.</span><span class="en">The Reclaimer is <b>torn open and tilted</b> — some loot is in the <b>slanted decks</b> and the ship's belly. Climb over break-edges/debris; mind the drop-offs (no EVA inside). Move carefully through the collapsed levels, don't jump into the dark.</span></p></div></div>
+      <div class="d"><div class="num">5</div><div><h4><span class="de">Versteckte Boxen &amp; kleine Rätsel</span><span class="en">Hidden boxes &amp; minor puzzles</span></h4><p><span class="de">Loot ist über <b>Zelte, das Camp und das Wrack</b> verteilt; einige Kisten sind <b>versteckt</b> und ein paar Stellen haben kleine „Rätsel" (Umwege/Kletterpfade). Alles absuchen — auch abseits des Hauptwegs. Der genaue Box-für-Box-Rundgang ist patch-abhängig; die verlinkten Videos zeigen ihn visuell.</span><span class="en">Loot is spread across <b>tents, the camp and the wreck</b>; some crates are <b>hidden</b> and a few spots have minor "puzzles" (detours/climb paths). Sweep everything — including off the main path. The exact box-by-box route is patch-dependent; the linked videos show it visually.</span></p></div></div>
+    </div>
+
+    <h3 class="sub"><span class="ic">💰</span> <span class="de">Comm-Array-Hack (PvP-Payout)</span><span class="en">Comm-array hack (PvP payout)</span></h3>
+    <div class="callout danger"><span class="lbl"><span class="de">Achtung: macht die Location „heiß"</span><span class="en">Warning: turns the location "hot"</span></span><span class="de">Für den großen Credit-Payout musst du am <b>Terminal</b> den <b>Comm-Array</b> (im Orbit über microTech) <b>hacken</b>. Sobald der Prozess läuft, wird das <b>ganze System benachrichtigt</b> — andere Spieler reisen an und kämpfen um die Terminal-Kontrolle. Willst du nur looten: <b>nicht hacken</b> und leise bleiben. Willst du den Payout: auf PvP einstellen.</span><span class="en">For the big credit payout you must <b>hack the comm array</b> (orbiting microTech) at the <b>terminal</b>. Once it starts, the <b>whole system is notified</b> — other players travel in and fight for terminal control. Want to just loot? <b>Don't hack</b> and stay quiet. Want the payout? Expect PvP.</span></div>
+
+    <h3 class="sub"><span class="ic">🎒</span> <span class="de">Loot &amp; Respawn</span><span class="en">Loot &amp; respawn</span></h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Was</span><span class="en">What</span></th><th><span class="de">Wo</span><span class="en">Where</span></th></tr></thead>
+        <tbody>
+          <tr><td><b><span class="de">Rüstungen &amp; Waffen</span><span class="en">Armor &amp; weapons</span></b></td><td><span class="de">Zelte, Camp, Wrack-Decks; ein <b>Respawn-Punkt mit Waffen &amp; Rüstung</b> ist vor Ort.</span><span class="en">Tents, camp, wreck decks; a <b>respawn point with weapons &amp; armor</b> is on site.</span></td></tr>
+          <tr><td><b><span class="de">Kisten / Verbrauchsgüter</span><span class="en">Crates / consumables</span></b></td><td><span class="de">Verteilt, teils versteckt — auch im Wrack-Inneren.</span><span class="en">Scattered, some hidden — including inside the wreck.</span></td></tr>
+          <tr><td><b><span class="de">Credits (Payout)</span><span class="en">Credits (payout)</span></b></td><td><span class="de">Über den Comm-Array-Hack/Terminal (PvP).</span><span class="en">Via the comm-array hack/terminal (PvP).</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub"><span class="ic">✅</span> <span class="de">Kurz-Tipps</span><span class="en">Quick tips</span></h3>
+    <ul class="steps">
+      <li class="de">Bei Tag anfliegen; Taschenlampe + warmer Anzug trotzdem dabei.</li>
+      <li class="en">Approach by day; still bring a flashlight + warm suit.</li>
+      <li class="de">Erst die NPCs aus Distanz ausdünnen, dann in Ruhe looten.</li>
+      <li class="en">Thin out NPCs from range first, then loot in peace.</li>
+      <li class="de">Schiff etwas abseits &amp; sicher parken (PvP-Anreise nach einem Hack).</li>
+      <li class="en">Park your ship a little away &amp; safe (PvP inbound after a hack).</li>
+      <li class="de">Nur looten wollen? Comm-Array <b>nicht</b> hacken.</li>
+      <li class="en">Just looting? <b>Don't</b> hack the comm array.</li>
+    </ul>
+
+    <div class="callout"><span class="lbl mark"><span class="de">Video-Rundgang</span><span class="en">Video walkthrough</span></span><span class="de">Den exakten Box-für-Box-Weg durchs Wrack zeigen am besten: <a href="https://www.youtube.com/watch?v=Q9MwpLVGEaw" target="_blank" rel="noopener">SaltEMike – „The Ultimate Ghost Hollow Guide"</a> und <a href="https://www.youtube.com/watch?v=GOeXAiYPS0k" target="_blank" rel="noopener">„Beginner's Guide to Looting – Ghost Hollow"</a>.</span><span class="en">The exact box-by-box route through the wreck is best seen in: <a href="https://www.youtube.com/watch?v=Q9MwpLVGEaw" target="_blank" rel="noopener">SaltEMike – "The Ultimate Ghost Hollow Guide"</a> and <a href="https://www.youtube.com/watch?v=GOeXAiYPS0k" target="_blank" rel="noopener">"Beginner's Guide to Looting – Ghost Hollow"</a>.</span></div>
+
+    <p class="next" style="margin-top:18px"><span class="de">▸ Nächste Location folgt — sag mir, welcher Fundort als Nächstes rein soll.</span><span class="en">▸ Next location to come — tell me which spot should go in next.</span></p>
+  </section>
+
+  <section id="pyro4-derelict">
+    <div class="sec-h"><span class="idx">02</span><div><h2><span class="de">Derelict Outpost — Pyro IV (Terminus)</span><span class="en">Derelict Outpost — Pyro IV (Terminus)</span></h2><p><span class="de">Verlassene, unmarkierte Outposts auf einer gesetzlosen Eiswelt.</span><span class="en">Abandoned, unmarked outposts on a lawless ice world.</span></p></div></div>
+
+    <div class="loc-h">
+      <div class="meta"><span class="de">Pyro · Terminus · verlassene Boden-Outposts · unmarkiert</span><span class="en">Pyro · Terminus · abandoned surface outposts · unmarked</span></div>
+      <span class="pin">PvPvE · <span class="de">gesetzlos</span><span class="en">lawless</span></span>
+    </div>
+
+    <div class="readout" aria-label="Eckdaten">
+      <div class="ro"><div class="k">System</div><div class="v">Pyro</div></div>
+      <div class="ro"><div class="k"><span class="de">Körper</span><span class="en">Body</span></div><div class="v">Terminus</div></div>
+      <div class="ro"><div class="k">Typ</div><div class="v"><span class="de">Derelict Outpost</span><span class="en">Derelict outpost</span></div></div>
+      <div class="ro"><div class="k"><span class="de">Gefahr</span><span class="en">Hazard</span></div><div class="v warn"><span class="de">−120 °C · Methan</span><span class="en">−120 °C · methane</span></div></div>
+      <div class="ro"><div class="k"><span class="de">Gegner</span><span class="en">Enemies</span></div><div class="v"><span class="de">Outlaws / PvP</span><span class="en">Outlaws / PvP</span></div></div>
+    </div>
+
+    <p class="prose de"><b>Was das ist:</b> Terminus (Pyro IV) ist eine karge, eiskalte Outlaw-Welt. Über die Oberfläche verstreut liegen <b>verlassene Outposts</b> — teils unmarkiert — mit <b>Loot-Crates</b> (Waffen, Rüstungsteile, Multi-Tools, Med-Vorräte). Kein Auftrag nötig, aber <b>stark RNG-abhängig</b> und in Pyro herrscht <b>freies Feuer</b>.</p>
+    <p class="prose en"><b>What this is:</b> Terminus (Pyro IV) is a barren, freezing outlaw world. Scattered across the surface are <b>abandoned outposts</b> — some unmarked — with <b>loot crates</b> (weapons, armor pieces, multi-tools, medical supplies). No mission needed, but <b>heavily RNG-based</b>, and Pyro is <b>free fire</b>.</p>
+    <div class="callout"><span class="lbl mark"><span class="de">Nummerierung</span><span class="en">Numbering</span></span><span class="de">In-Game/Community läuft Terminus als <b>Pyro IV</b>; das Wiki-Infobox nennt es teils „Pyro VI" (die Nummerierung war zeitweise uneinheitlich). Gemeint ist dieselbe Welt mit Ruin Station im Orbit.</span><span class="en">In-game/community, Terminus is <b>Pyro IV</b>; the wiki infobox sometimes says "Pyro VI" (numbering has been inconsistent). Same world — Ruin Station in orbit.</span></div>
+
+    <h3 class="sub"><span class="ic">🧭</span> <span class="de">Anreise &amp; Finden</span><span class="en">Getting there &amp; finding them</span></h3>
+    <ol class="steps">
+      <li class="de">Nach <b>Terminus</b> quanten. Die <b>markierten</b> Siedlungen (z. B. Last Landings, Rough Landing, Canard View) sind bewohnt/Headhunters — die <b>verlassenen Outposts</b> sind die unmarkierten dazwischen.</li>
+      <li class="en">Quantum to <b>Terminus</b>. The <b>marked</b> settlements (e.g. Last Landings, Rough Landing, Canard View) are inhabited/Headhunters — the <b>abandoned outposts</b> are the unmarked ones in between.</li>
+      <li class="de">Unmarkierte Outposts tauchen erst <b>bei Annäherung</b> auf: tief &amp; systematisch über die Oberfläche fliegen, oder eine Mission (Bounty/Clear) als Wegweiser nutzen.</li>
+      <li class="en">Unmarked outposts only appear <b>on approach</b>: fly low &amp; systematically over the surface, or use a mission (bounty/clear) as a pointer.</li>
+    </ol>
+
+    <h3 class="sub"><span class="ic">⚠</span> <span class="de">Schwierige Stellen — Anleitung</span><span class="en">Tricky spots — how to handle them</span></h3>
+    <div class="diff">
+      <div class="d"><div class="num">1</div><div><h4><span class="de">Extreme Kälte &amp; Methan</span><span class="en">Extreme cold &amp; methane</span></h4><p><span class="de">In Stürmen bis <b>−120 °C</b>, Methan-Atmosphäre. <b>Kälte-/Umweltanzug + Helm (Sauerstoff)</b> zwingend; Temperatur im Auge behalten, nicht zu lange draußen bleiben. Nachts zusätzlich Taschenlampe.</span><span class="en">Storms hit <b>−120 °C</b>, methane atmosphere. <b>Cold/environment suit + helmet (oxygen)</b> is mandatory; watch your temperature, don't linger outside. At night add a flashlight.</span></p></div></div>
+      <div class="d"><div class="num">2</div><div><h4><span class="de">Gesetzlos — Outlaws &amp; PvP</span><span class="en">Lawless — outlaws &amp; PvP</span></h4><p><span class="de">Pyro hat <b>keine Sicherheit</b>: NPC-Outlaws vor Ort und <b>andere Spieler</b> jederzeit. Schiff nicht offen stehen lassen, Rückzug einplanen, nichts Unersetzliches tragen.</span><span class="en">Pyro has <b>no security</b>: NPC outlaws on site and <b>other players</b> any time. Don't leave your ship exposed, plan an exit, carry nothing irreplaceable.</span></p></div></div>
+      <div class="d"><div class="num">3</div><div><h4><span class="de">Leergeräumt &amp; RNG</span><span class="en">Picked clean &amp; RNG</span></h4><p><span class="de">Beliebte Outposts sind oft <b>schon geplündert</b>, und der Loot ist <b>stark zufällig</b>. Lösung: <b>mehrere Outposts</b> abklappern und bei Bedarf <b>Server-Hopping</b> (Region wechseln / neu einloggen) für frische Crates. Off-Peak spielen hilft.</span><span class="en">Popular outposts are often <b>already looted</b>, and loot is <b>heavily random</b>. Fix: sweep <b>several outposts</b> and, if needed, <b>server-hop</b> (switch region / relog) for fresh crates. Off-peak helps.</span></p></div></div>
+      <div class="d"><div class="num">4</div><div><h4><span class="de">Landung auf kargem Terrain</span><span class="en">Landing on rough terrain</span></h4><p><span class="de">Kein richtiges Pad an unmarkierten Outposts — auf ebener Fläche nah, aber nicht <b>im</b> Outpost landen (Kollision/Diebstahl). Fahrwerk/Neigung beachten, Schiff im Blick behalten.</span><span class="en">No proper pad at unmarked outposts — land on flat ground nearby, but not <b>inside</b> the outpost (collision/theft). Mind gear/incline, keep the ship in view.</span></p></div></div>
+    </div>
+
+    <h3 class="sub"><span class="ic">🎒</span> <span class="de">Loot</span><span class="en">Loot</span></h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Was</span><span class="en">What</span></th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+        <tbody>
+          <tr><td><b><span class="de">FPS-Waffen</span><span class="en">FPS weapons</span></b></td><td><span class="de">u. a. P6-Scharfschützengewehr; Railgun (selten).</span><span class="en">incl. P6 sniper rifle; railgun (rare).</span></td></tr>
+          <tr><td><b><span class="de">Rüstungsteile</span><span class="en">Armor pieces</span></b></td><td><span class="de">Diverse Sets aus Equipment-Crates (RNG).</span><span class="en">Various sets from equipment crates (RNG).</span></td></tr>
+          <tr><td><b>Multi-Tools · <span class="de">Med-Vorräte</span><span class="en">med supplies</span></b></td><td><span class="de">Nützliches Verbrauchsmaterial.</span><span class="en">Handy consumables.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub"><span class="ic">✅</span> <span class="de">Kurz-Tipps</span><span class="en">Quick tips</span></h3>
+    <ul class="steps">
+      <li class="de">Kälte-/Umweltanzug + Sauerstoff-Helm; Temperatur beobachten.</li>
+      <li class="en">Cold/environment suit + oxygen helmet; watch temperature.</li>
+      <li class="de">Mehrere Outposts pro Trip; bei leeren Crates Server-Hop.</li>
+      <li class="en">Several outposts per trip; server-hop when crates are empty.</li>
+      <li class="de">Off-Peak &amp; Solo/kleine Gruppe = weniger PvP-Konkurrenz.</li>
+      <li class="en">Off-peak &amp; solo/small group = less PvP competition.</li>
+      <li class="de">Nichts Unersetzliches mitnehmen — Pyro ist gesetzlos.</li>
+      <li class="en">Carry nothing irreplaceable — Pyro is lawless.</li>
+    </ul>
+
+    <div class="callout warn"><span class="lbl"><span class="de">Ehrlicher Hinweis</span><span class="en">Honest note</span></span><span class="de">„Derelict Outpost" ist ein <b>generischer, unmarkierter POI-Typ</b> — es gibt mehrere auf Terminus, Layout &amp; Loot variieren und sind patch-abhängig. Konkrete Einzel-Outposts &amp; aktuelle Server-Hop-Methode zeigt der MMOPIXEL-Looting-Guide (Quelle).</span><span class="en">"Derelict outpost" is a <b>generic, unmarked POI type</b> — there are several on Terminus, layout &amp; loot vary and are patch-dependent. Specific outposts &amp; the current server-hop method are in the MMOPIXEL looting guide (source).</span></div>
+  </section>
+
+  <section id="cryastro">
+    <div class="sec-h"><span class="idx">03</span><div><h2><span class="de">Cry-Astro Processing Plants — microTech</span><span class="en">Cry-Astro Processing Plants — microTech</span></h2><p><span class="de">Restricted Distribution Center — Infiltration &amp; Loot-Raid.</span><span class="en">Restricted distribution center — infiltration &amp; loot raid.</span></p></div></div>
+
+    <div class="loc-h">
+      <div class="meta"><span class="de">Stanton · microTech · Distribution Center (Cry-Astro) · z. B. 19-02, 34-12</span><span class="en">Stanton · microTech · distribution center (Cry-Astro) · e.g. 19-02, 34-12</span></div>
+      <span class="pin"><span class="de">Bewacht · „No Public Access"</span><span class="en">Guarded · "No Public Access"</span></span>
+    </div>
+
+    <div class="readout" aria-label="Eckdaten">
+      <div class="ro"><div class="k">System</div><div class="v">Stanton</div></div>
+      <div class="ro"><div class="k"><span class="de">Körper</span><span class="en">Body</span></div><div class="v">microTech</div></div>
+      <div class="ro"><div class="k">Typ</div><div class="v">Distribution Center</div></div>
+      <div class="ro"><div class="k"><span class="de">Zugang</span><span class="en">Access</span></div><div class="v warn"><span class="de">Hausfriedensbruch</span><span class="en">Trespassing</span></div></div>
+      <div class="ro"><div class="k"><span class="de">Gegner</span><span class="en">Enemies</span></div><div class="v"><span class="de">NPC-Wachen</span><span class="en">NPC guards</span></div></div>
+    </div>
+
+    <p class="prose de"><b>Was das ist:</b> Cry-Astro-eigene <b>Distribution Centers</b> auf microTech („vitaler Teil von Cry-Astros Tankstellen-Netz — <b>kein öffentlicher Zugang</b>"). Als <b>bewachte, restricted Anlage</b> läuft sie wie ein feindlicher DC: rein, Wachen ausschalten, <b>Access-Cards</b> holen, die <b>orangen Loot-Kisten</b> plündern (Rüstung/Items/Komponenten), sauber raus.</p>
+    <p class="prose en"><b>What this is:</b> Cry-Astro-owned <b>distribution centers</b> on microTech ("a vital part of Cry-Astro's fuel network — <b>no public access</b>"). As a <b>guarded, restricted</b> facility it plays like a hostile DC: get in, take out guards, grab <b>access cards</b>, loot the <b>orange crates</b> (armor/items/components), extract clean.</p>
+
+    <h3 class="sub"><span class="ic">🧭</span> <span class="de">Anreise</span><span class="en">Getting there</span></h3>
+    <ol class="steps">
+      <li class="de">Auf <b>microTech</b>; die Plants sind Karten-Landmarks (z. B. <b>19-02</b>, <b>34-12</b>). Anfliegen und <b>abseits der Hauptwachen landen</b> — ruhig einsteigen, nicht mitten aufs Gelände.</li>
+      <li class="en">On <b>microTech</b>; the plants are map landmarks (e.g. <b>19-02</b>, <b>34-12</b>). Fly in and <b>land away from the main guards</b> — enter quietly, not into the middle.</li>
+    </ol>
+
+    <h3 class="sub"><span class="ic">⚠</span> <span class="de">Schwierige Stellen — Anleitung</span><span class="en">Tricky spots — how to handle them</span></h3>
+    <div class="diff">
+      <div class="d"><div class="num">1</div><div><h4><span class="de">„No Public Access" — CrimeStat</span><span class="en">"No Public Access" — CrimeStat</span></h4><p><span class="de">Betreten ist <b>Hausfriedensbruch</b> und kann eine <b>Security-Response / einen Wanted-Level</b> auslösen. Ruhig anfliegen, abseits landen, im Blick behalten — und den Wanted-Status beim Rückzug einplanen.</span><span class="en">Entering counts as <b>trespassing</b> and can trigger a <b>security response / wanted level</b>. Approach quietly, land off to the side, and plan for the wanted status on the way out.</span></p></div></div>
+      <div class="d"><div class="num">2</div><div><h4><span class="de">NPC-Wachen</span><span class="en">NPC guards</span></h4><p><span class="de">Die Anlage ist <b>bewacht</b>. Wachen ausschalten oder umgehen; <b>mittlere/schwere Rüstung + durchsetzungsfähige FPS-Waffe + Heilmittel</b> mitnehmen.</span><span class="en">The facility is <b>guarded</b>. Take out or bypass guards; bring <b>medium/heavy armor + a solid FPS weapon + healing</b>.</span></p></div></div>
+      <div class="d"><div class="num">3</div><div><h4><span class="de">Verschlossene Türen &amp; Access-Cards</span><span class="en">Locked doors &amp; access cards</span></h4><p><span class="de">Interne Kisten liegen hinter <b>verschlossenen Türen</b>. <b>Access-Cards</b> von NPCs/aus Räumen aufsammeln und über <b>Aufzüge/Security-Checkpoints</b> in die Innenbereiche.</span><span class="en">Interior crates sit behind <b>locked doors</b>. Collect <b>access cards</b> from NPCs/rooms and use the <b>elevators/security checkpoints</b> to reach the interior.</span></p></div></div>
+      <div class="d"><div class="num">4</div><div><h4><span class="de">Die 7 orangen Loot-Kisten</span><span class="en">The 7 orange loot crates</span></h4><p><span class="de">Typisches DC-Layout: <b>2× außen</b> (je Seite) · <b>2× unten im Arbeitsbereich</b> · <b>2× an den seitlichen Security-Checkpoints der Innen-Aufzüge</b> (hinter Türen) · <b>1× oben zwischen den VIP-Räumen</b> im Lobby-Obergeschoss. Alle abklappern.</span><span class="en">Typical DC layout: <b>2× outside</b> (one per side) · <b>2× down in the work area</b> · <b>2× at the side security checkpoints of the interior elevators</b> (behind doors) · <b>1× up between the VIP rooms</b> on the lobby upper floor. Sweep them all.</span></p></div></div>
+      <div class="d"><div class="num">5</div><div><h4><span class="de">Rüstung spawnt verteilt (RNG)</span><span class="en">Armor spawns scattered (RNG)</span></h4><p><span class="de">Rüstungsteile (Helm/Core/Arme/Beine) spawnen oft <b>einzeln/verteilt</b> → für ein volles Set meist <b>mehrere Runs / Server-Hopping</b>. Dazu microTech-Kälte &amp; PvP-Risiko.</span><span class="en">Armor pieces (helmet/core/arms/legs) often spawn <b>individually/scattered</b> → a full set usually takes <b>several runs / server-hopping</b>. Plus microTech cold &amp; PvP risk.</span></p></div></div>
+    </div>
+
+    <h3 class="sub"><span class="ic">🎒</span> <span class="de">Loot</span><span class="en">Loot</span></h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Was</span><span class="en">What</span></th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+        <tbody>
+          <tr><td><b><span class="de">Rüstung (Heavy)</span><span class="en">Armor (heavy)</span></b></td><td><span class="de">DCs sind Top-Quelle für schwere Sets wie <b>Palatino</b> („Battle Tech", Vollhelm) — teils verteilt.</span><span class="en">DCs are a top source for heavy sets like <b>Palatino</b> ("Battle Tech", full helm) — often scattered.</span></td></tr>
+          <tr><td><b><span class="de">Items &amp; Komponenten</span><span class="en">Items &amp; components</span></b></td><td><span class="de">Aus den orangen Kisten (RNG).</span><span class="en">From the orange crates (RNG).</span></td></tr>
+          <tr><td><b><span class="de">FPS-Waffen / Verbrauch</span><span class="en">FPS weapons / consumables</span></b></td><td><span class="de">Auf Wachen &amp; in Räumen.</span><span class="en">On guards &amp; in rooms.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub"><span class="ic">✅</span> <span class="de">Kurz-Tipps</span><span class="en">Quick tips</span></h3>
+    <ul class="steps">
+      <li class="de">Abseits landen, ruhig einsteigen; Wanted-Level beim Rückzug einplanen.</li>
+      <li class="en">Land off to the side, enter quietly; plan for the wanted level on exit.</li>
+      <li class="de">Alle 7 Crate-Spots abklappern; für volle Sets mehrere Runs / Server-Hop.</li>
+      <li class="en">Sweep all 7 crate spots; for full sets do several runs / server-hop.</li>
+      <li class="de">Mittlere/schwere Rüstung, FPS-Waffe, Med-Pens; microTech = Kälte.</li>
+      <li class="en">Medium/heavy armor, FPS weapon, med-pens; microTech = cold.</li>
+    </ul>
+
+    <div class="callout warn"><span class="lbl"><span class="de">Ehrlicher Hinweis</span><span class="en">Honest note</span></span><span class="de">Cry-Astro-Plants sind ein <b>DC-Typ</b> — das 7-Kisten-Layout &amp; Palatino-Loot ist das allgemeine DC-Muster (aus dem DC-Guide), Positionen/Loot variieren je Anlage &amp; Patch. Volle DC-Liste &amp; Karten: SC-Wiki „Category: Distribution Centers".</span><span class="en">Cry-Astro plants are a <b>DC type</b> — the 7-crate layout &amp; Palatino loot is the general DC pattern; positions/loot vary by facility &amp; patch. Full DC list &amp; maps: SC Wiki "Category: Distribution Centers".</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Wiki + Community. Innen-Details/Loot patch-abhängig.</span><span class="en">Wiki + community. Interior/loot patch-dependent.</span></p></div></div>
+    <div class="src">
+      <a href="https://starcitizen.tools/Ghost_Hollow" target="_blank" rel="noopener">Star Citizen Wiki — Ghost Hollow (Lage, Anfahrt, Nine Tails) ↗</a>
+      <a href="https://www.youtube.com/watch?v=Q9MwpLVGEaw" target="_blank" rel="noopener">SaltEMike — The Ultimate Ghost Hollow Guide (Video) ↗</a>
+      <a href="https://www.youtube.com/watch?v=GOeXAiYPS0k" target="_blank" rel="noopener">Beginner's Guide to Looting — Ghost Hollow (Video) ↗</a>
+      <a href="https://lucascomeauponton.com/ghost-hollow.html" target="_blank" rel="noopener">Lucas Comeau-Ponton — Ghost Hollow (Level-Design-Portfolio) ↗</a>
+      <a href="https://starcitizen.tools/Terminus" target="_blank" rel="noopener">Star Citizen Wiki — Terminus (Pyro IV, Klima/Gefahren) ↗</a>
+      <a href="https://www.mmopixel.com/news/star-citizen-4-8-pyro-outpost-looting-guide" target="_blank" rel="noopener">MMOPIXEL — 4.8 Pyro Outpost Looting Guide (Server-Hopping, beste Outposts) ↗</a>
+      <a href="https://starcitizen.tools/Cry-Astro_Processing_Plant_19-02" target="_blank" rel="noopener">Star Citizen Wiki — Cry-Astro Processing Plant 19-02 (Distribution Center) ↗</a>
+      <a href="https://starcitizen.tools/Category:Distribution_Centers" target="_blank" rel="noopener">Star Citizen Wiki — Category: Distribution Centers (volle Liste &amp; Karten) ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.x (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.x (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">SC Loot-Locations · wächst mit jedem Fundort · o7</span>
+  <span class="en">SC Loot Locations · grows with every spot · o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('loc_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('loc_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('loc_theme',t):localStorage.removeItem('loc_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('loc_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>

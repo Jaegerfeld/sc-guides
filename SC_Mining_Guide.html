@@ -1,0 +1,504 @@
+<meta charset="UTF-8">
+<title>SC Mining Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#eef2ea; --panel:#ffffff; --panel2:#e5ebdf; --line:#cfd8c6;
+  --ink:#13180f; --dim:#5c6a52; --ore:#1c8a52; --ore-bd:#2a9e63; --gold:#9a7815; --gold-bd:#c19a2a;
+  --danger:#b3301f; --danger-bg:#f4ddd6; --warn:#8a6300; --warn-bg:#f3ead2;
+  --stripe:rgba(28,138,82,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(20,50,25,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Titillium Web',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1512; --panel:#16201b; --panel2:#111a15; --line:#29382f; --ink:#e9f0e6; --dim:#9db0a0;
+    --ore:#46c98a; --ore-bd:#2a7f56; --gold:#e0bd5a; --gold-bd:#8a6f22;
+    --danger:#f0563a; --danger-bg:#2a1310; --warn:#f0c14b; --warn-bg:#241d0d;
+    --stripe:rgba(70,201,138,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1512; --panel:#16201b; --panel2:#111a15; --line:#29382f; --ink:#e9f0e6; --dim:#9db0a0;
+  --ore:#46c98a; --ore-bd:#2a7f56; --gold:#e0bd5a; --gold-bd:#8a6f22;
+  --danger:#f0563a; --danger-bg:#2a1310; --warn:#f0c14b; --warn-bg:#241d0d;
+  --stripe:rgba(70,201,138,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.14;margin:0;font-weight:700}
+a{color:var(--ore)}
+:focus-visible{outline:2px solid var(--ore);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--ore-bd) 0 16px,transparent 16px 32px);opacity:.85}
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 85% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ore);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,50px);font-weight:700;margin:10px 0 6px}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:64ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:20px;padding:4px 11px;color:var(--ink);background:var(--panel)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ore);color:#04160c}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:16px;font-weight:700;margin-top:3px}
+.ro .v.hi{color:var(--gold)}
+
+section{padding:28px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ore);border:1px solid var(--ore-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,27px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}.prose{max-width:66ch}
+h3.sub{font-size:17px;margin:20px 0 8px;display:flex;gap:8px;align-items:center}
+
+.cyc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.cyc .c{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px;box-shadow:var(--shadow)}
+.cyc .c .n{font-family:var(--mono);font-size:11px;color:var(--ore);letter-spacing:.1em;text-transform:uppercase}
+.cyc .c h4{margin:3px 0 5px;font-family:var(--disp);font-size:16px}
+.cyc .c p{margin:0;font-size:13.5px;color:var(--dim)}
+
+.bar{margin:14px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.bar .track{display:flex;height:26px;font-family:var(--mono);font-size:10.5px;font-weight:700;color:#0a0a0a}
+.bar .track>span{display:flex;align-items:center;justify-content:center}
+.bar .lo{background:#5b6b7a;color:#e6eef4;flex:0 0 34%}
+.bar .gr{background:var(--ore);flex:0 0 30%}
+.bar .ye{background:#e0b53a;flex:0 0 18%}
+.bar .rd{background:var(--danger);color:#fff;flex:0 0 18%}
+.bar .cap{padding:6px 12px;font-size:12.5px;color:var(--dim);border-top:1px solid var(--line);background:var(--panel2)}
+
+.callout{border-left:4px solid var(--ore);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.warn .lbl{color:var(--warn)} .callout .lbl.ore{color:var(--ore)} .callout .lbl.gold{color:var(--gold)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.8px;min-width:460px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0} tbody tr:nth-child(even){background:var(--panel2)}
+td b{font-weight:600}
+tr.jackpot{background:rgba(224,189,90,.14)!important}
+td .km{font-family:var(--mono);font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  body{background:#fff;color:#000}
+  body *{visibility:hidden}
+  #drucktabelle,#drucktabelle *{visibility:visible}
+  #drucktabelle{position:absolute;left:0;top:0;width:100%;border:0;padding:0}
+  #drucktabelle .sec-h .idx{border-color:#000;color:#000}
+  #drucktabelle h2,#drucktabelle h3,#drucktabelle .prose{color:#000;max-width:none}
+  #drucktabelle .tablewrap{border:0;overflow:visible}
+  #drucktabelle table{font-size:9.5px;min-width:0;border:1px solid #000}
+  #drucktabelle th,#drucktabelle td{border:1px solid #777;color:#000;background:#fff;padding:2px 5px}
+  #drucktabelle thead th{background:#eee}
+  .no-print{display:none!important}
+  @page{margin:10mm}
+}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Mining_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Mining_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Mining_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Mining_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>⛏</span> <span class="de">Star Citizen · Mining · Ausrüstung, Technik &amp; Reviere</span><span class="en">Star Citizen · mining · gear, technique &amp; hotspots</span></div>
+    <h1><span class="de">SC Mining-Guide</span><span class="en">SC Mining Guide</span></h1>
+    <p class="lede">
+      <span class="de">Ausrüstung im Detail und wie man sie einsetzt — plus die besten Reviere. Mit dem <b>Aaron Halo</b> und den genauen Distanzen zu allen <b>10 Bändern</b>.</span>
+      <span class="en">Equipment in detail and how to use it — plus the best hotspots. Featuring the <b>Aaron Halo</b> with exact distances to all <b>10 bands</b>.</span>
+    </p>
+    <div class="topbar">
+      <div class="toc">
+        <a href="#zyklus"><span class="de">Zyklus</span><span class="en">Cycle</span></a>
+        <a href="#signaturen"><span class="de">Signaturen</span><span class="en">Signatures</span></a>
+        <a href="#gear"><span class="de">Ausrüstung</span><span class="en">Gear</span></a>
+        <a href="#halo">Aaron Halo</a>
+        <a href="#reviere"><span class="de">Reviere</span><span class="en">Hotspots</span></a>
+      </div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Überblick">
+    <div class="ro"><div class="k"><span class="de">Arten</span><span class="en">Types</span></div><div class="v">FPS · ROC · <span class="de">Schiff</span><span class="en">Ship</span></div></div>
+    <div class="ro"><div class="k"><span class="de">Kern-Erz</span><span class="en">Core ore</span></div><div class="v hi">Quantanium</div></div>
+    <div class="ro"><div class="k"><span class="de">Top-Revier</span><span class="en">Top spot</span></div><div class="v">Aaron Halo</div></div>
+    <div class="ro"><div class="k"><span class="de">Prospector-Bag</span><span class="en">Prospector bag</span></div><div class="v">32 SCU</div></div>
+    <div class="ro"><div class="k">Stand</div><div class="v">4.9</div></div>
+  </div>
+
+  <section id="zyklus" style="border-top:0">
+    <div class="sec-h"><span class="idx">01</span><div><h2><span class="de">Der Mining-Zyklus</span><span class="en">The mining cycle</span></h2><p><span class="de">Gilt für Hand, ROC und Schiff.</span><span class="en">Applies to hand, ROC and ship.</span></p></div></div>
+    <div class="cyc">
+      <div class="c"><div class="n"><span class="de">1 · Scannen</span><span class="en">1 · Scan</span></div><h4>Scan Mode <span class="mono" style="color:var(--dim)">(M)</span></h4><p><span class="de">Pingen (Tab), Erz-Felsen leuchten auf. Werte lesen: <b>Mass</b> (Ertrag), <b>Resistance</b> (nötige Leistung), <b>Instability</b> (Explosionsgefahr).</span><span class="en">Ping (Tab), ore rocks light up. Read <b>Mass</b> (yield), <b>Resistance</b> (power needed), <b>Instability</b> (blow-up risk).</span></p></div>
+      <div class="c"><div class="n"><span class="de">2 · Aufbrechen</span><span class="en">2 · Fracture</span></div><h4>Fracture Mode</h4><p><span class="de">Throttle (Mausrad) ins <b>grüne Fenster</b> und halten, bis der Ladebalken 100 % erreicht → der Felsen zerbricht.</span><span class="en">Throttle (wheel) into the <b>green window</b> and hold until the charge hits 100% → the rock fractures.</span></p></div>
+      <div class="c"><div class="n"><span class="de">3 · Absaugen</span><span class="en">3 · Extract</span></div><h4>Extraction Mode</h4><p><span class="de">Umschalten, wertvolle Chunks absaugen, Inert-Ballast ignorieren. Voll (32 SCU) → Raffinerie.</span><span class="en">Switch, vacuum the valuable chunks, ignore inert ballast. Full (32 SCU) → refinery.</span></p></div>
+    </div>
+    <div class="bar" aria-label="Laser-Leistungsfenster">
+      <div class="track"><span class="lo"><span class="de">zu wenig</span><span class="en">too low</span></span><span class="gr">GRÜN ▲</span><span class="ye">gelb</span><span class="rd">ROT → 💥</span></div>
+      <div class="cap"><span class="de">Laser-Leistung (Mausrad, 0–100 %): den Pfeil im <b>grünen Fenster</b> halten. Lieber etwas zu niedrig &amp; länger, als in Rot = Explosion = verlorenes Geld.</span><span class="en">Laser power (wheel, 0–100%): keep the arrow in the <b>green window</b>. Better a bit low &amp; slow than into red = explosion = lost money.</span></div>
+    </div>
+    <div class="callout warn"><span class="lbl"><span class="de">4.9: Laser +20 %</span><span class="en">4.9: laser +20%</span></span><span class="de">Alle Schiffs-Mining-Laser sind ~20 % stärker: harte Felsen gehen leichter, aber du <b>überschießt das grüne Fenster schneller</b> → feiner dosieren, ggf. weniger Focus-Module, mehr Fenster-Vergrößerer.</span><span class="en">All ship mining lasers are ~20% stronger: hard rocks crack easier, but you <b>overshoot the green window faster</b> → dose finer, maybe fewer focus modules, more window-wideners.</span></div>
+  </section>
+
+  <section id="signaturen">
+    <div class="sec-h"><span class="idx">02</span><div><h2><span class="de">Scan-Signaturen — Erz erkennen vor dem Scannen</span><span class="en">Scan signatures — ID ore before scanning</span></h2><p><span class="de">Die Zahl über dem Brocken verrät Erz &amp; Menge.</span><span class="en">The number above the rock reveals ore &amp; amount.</span></p></div></div>
+    <p class="prose de">Nimmst du im <b>Scan-Modus</b> einen Brocken ins Fadenkreuz, erscheint zentral eine <b>Signatur-Zahl</b> — schon <b>bevor</b> du scannst. Jede Ressource hat einen <b>festen Basis-Wert</b>; die angezeigte Zahl ist <b>Basis × Anzahl Brocken</b> im Cluster. So liest du Erztyp <b>und</b> Menge auf einen Blick ab.</p>
+    <p class="prose en">In <b>scan mode</b>, putting a rock in your crosshair shows a central <b>signature number</b> — even <b>before</b> you scan. Each resource has a <b>fixed base value</b>; the displayed number is <b>base × number of rocks</b> in the cluster. So you read ore type <b>and</b> quantity at a glance.</p>
+    <div class="callout ore"><span class="lbl ore"><span class="de">So liest du die Zahl</span><span class="en">How to read it</span></span><span class="de">Beispiele: <b>3600</b> = 1× Bexalite · <b>14.400</b> = 4× Bexalite (Rare → max 4×) · <b>6340</b> = 2× Quantanium (Legendary → max 2×). <b>Max-Vielfache je Seltenheit:</b> Legendary 2× · Epic 3× · Rare 4× · Uncommon 5× · Common 6× — mehr Brocken <b>einer</b> Sorte gibt's pro Cluster nicht. Komplette Liste in der <b>Druck-Tabelle ganz unten</b>. Die Signatur nennt das <b>dominante</b> Mineral (40–80 %); Nebenanteile (5–20 %) siehst du erst beim echten Scan.</span><span class="en">Examples: <b>3600</b> = 1× Bexalite · <b>14,400</b> = 4× Bexalite (Rare → max 4×) · <b>6340</b> = 2× Quantanium (Legendary → max 2×). <b>Max multiples by rarity:</b> Legendary 2× · Epic 3× · Rare 4× · Uncommon 5× · Common 6× — no cluster shows more of <b>one</b> type than that. Full list in the <b>print table at the very bottom</b>. The signature names the <b>dominant</b> mineral (40–80%); secondaries (5–20%) show only on a full scan.</span></div>
+
+    <div class="tablewrap"><table>
+      <thead><tr><th>Tier</th><th><span class="de">Ressource → Signatur (Schiffs-Mining)</span><span class="en">Resource → signature (ship mining)</span></th></tr></thead>
+      <tbody>
+        <tr><td><b style="color:var(--gold)">Legendary</b> <span style="color:var(--dim);font-size:11px">max 2×</span></td><td>Quantanium <b class="mono">3170</b> · Stileron <b class="mono">3185</b> · Savrilium <b class="mono">3200</b></td></tr>
+        <tr><td><b style="color:var(--gold)">Epic</b> <span style="color:var(--dim);font-size:11px">max 3×</span></td><td>Ouratite <b class="mono">3370</b> · Riccite <b class="mono">3385</b> · Lindinium <b class="mono">3400</b></td></tr>
+        <tr><td><b>Rare</b> <span style="color:var(--dim);font-size:11px">max 4×</span></td><td>Beryl <b class="mono">3540</b> · Taranite <b class="mono">3555</b> · Borase <b class="mono">3570</b> · Gold <b class="mono">3585</b> · Bexalite <b class="mono">3600</b></td></tr>
+        <tr><td><b>Uncommon</b> <span style="color:var(--dim);font-size:11px">max 5×</span></td><td>Laranite <b class="mono">3825</b> · Aslarite <b class="mono">3840</b> · Titanium <b class="mono">3855</b> · Tungsten <b class="mono">3870</b> · Agricium <b class="mono">3885</b> · Torite <b class="mono">3900</b></td></tr>
+        <tr><td><b>Common</b> <span style="color:var(--dim);font-size:11px">max 6×</span></td><td>Hephaestanite <b class="mono">4180</b> · Tin <b class="mono">4195</b> · Quartz <b class="mono">4210</b> · Corundum <b class="mono">4225</b> · Copper <b class="mono">4240</b> · Silicon <b class="mono">4255</b> · Iron <b class="mono">4270</b> · Aluminium <b class="mono">4285</b> · Ice <b class="mono">4300</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="sub">🪨 <span class="de">Boden-Deposits &amp; Salvage</span><span class="en">Ground deposits &amp; salvage</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th><span class="de">Quelle</span><span class="en">Source</span></th><th>Signatur</th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+      <tbody>
+        <tr><td><b><span class="de">Kleines Deposit (Hand/FPS)</span><span class="en">Small deposit (hand/FPS)</span></b></td><td><b class="mono">3000</b></td><td><span class="de">100 % ein Mineral (Hadanite, Aphorite, Dolivine, Jaclium, Sadaryx, Carinite …)</span><span class="en">100% single mineral (Hadanite, Aphorite, Dolivine, Jaclium, Sadaryx, Carinite …)</span></td></tr>
+        <tr><td><b><span class="de">Großes Deposit (ROC/Fahrzeug)</span><span class="en">Large deposit (ROC/vehicle)</span></b></td><td><b class="mono">4000</b></td><td><span class="de">100 % ein Mineral</span><span class="en">100% single mineral</span></td></tr>
+        <tr><td><span class="de">Salvage-Panels</span><span class="en">Salvage panels</span></td><td><b class="mono">2000</b></td><td><span class="de">pro Panel (Multiples = mehr Panels)</span><span class="en">per panel (multiples = more panels)</span></td></tr>
+        <tr><td><span class="de">Wrack-Trümmer</span><span class="en">Wreck debris</span></td><td><b class="mono">1700–3000</b></td><td><span class="de">klein 1700 · mittel 1850 · groß 2400 · Capital 3000</span><span class="en">small 1700 · medium 1850 · large 2400 · capital 3000</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><span class="lbl"><span class="de">Wichtig — patch-abhängig</span><span class="en">Important — patch-dependent</span></span><span class="de">Diese Werte sind Stand <b>SC 4.7</b> (Diftic-Signatur-Liste). CIG justiert Signaturen gelegentlich — deine <b>2000</b> passt aktuell zu Salvage-Panels; Asteroiden-Minerale liegen bei 3170–4300. Im Zweifel live nachschlagen (Tools unten). Der Mechanismus (Basis × Anzahl) bleibt gleich. <b>Vlk Pearls / Flowstone</b> haben Signatur <b>0</b> (unsichtbar für den Scan).</span><span class="en">These values are as of <b>SC 4.7</b> (Diftic signature list). CIG occasionally re-tunes signatures — your <b>2000</b> currently matches salvage panels; asteroid minerals sit at 3170–4300. Verify live if unsure (tools below). The mechanism (base × count) stays the same. <b>Vlk pearls / flowstone</b> read signature <b>0</b> (invisible to scan).</span></div>
+    <div class="callout"><span class="lbl ore"><span class="de">Live-Nachschlag-Tools</span><span class="en">Live lookup tools</span></span><span class="de">Zahl eingeben → Erz + Anzahl: <a href="https://starvein.app/en/signatures" target="_blank" rel="noopener">STARVEIN – Scan Signatures</a> · <a href="https://scminer.rocks/data/signature-scanner" target="_blank" rel="noopener">SCMINER – Signature Scanner</a> · <a href="https://github.com/Diftic/SC_Signature_Scanner/blob/master/SignatureValue.md" target="_blank" rel="noopener">Diftic – Signatur-Liste (GitHub)</a>.</span><span class="en">Enter the number → ore + count: <a href="https://starvein.app/en/signatures" target="_blank" rel="noopener">STARVEIN – Scan Signatures</a> · <a href="https://scminer.rocks/data/signature-scanner" target="_blank" rel="noopener">SCMINER – Signature Scanner</a> · <a href="https://github.com/Diftic/SC_Signature_Scanner/blob/master/SignatureValue.md" target="_blank" rel="noopener">Diftic – signature list (GitHub)</a>.</span></div>
+  </section>
+
+  <section id="gear">
+    <div class="sec-h"><span class="idx">03</span><div><h2><span class="de">Ausrüstung &amp; Einsatz</span><span class="en">Equipment &amp; usage</span></h2><p><span class="de">Prospector (32 SCU, solo) → Upgrade ARGO MOLE (3 Arme, 96 SCU, Crew).</span><span class="en">Prospector (32 SCU, solo) → upgrade ARGO MOLE (3 arms, 96 SCU, crew).</span></p></div></div>
+
+    <h3 class="sub">🪨 <span class="de">Mining-Köpfe (S1)</span><span class="en">Mining heads (S1)</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Kopf / Head</th><th>Slots</th><th><span class="de">Charakter</span><span class="en">Character</span></th><th><span class="de">Wofür</span><span class="en">For</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>Arbor MH1</b> <span class="de">(Standard)</span></td><td>3</td><td><span class="de">ausgewogen</span><span class="en">balanced</span></td><td><span class="de">Allrounder, guter Start</span><span class="en">all-rounder, good start</span></td></tr>
+        <tr><td><b>Helix I / II</b></td><td>3</td><td><span class="de">hohe Leistung, schmales Fenster</span><span class="en">high power, narrow window</span></td><td><span class="de">erfahrene Miner, harte Felsen</span><span class="en">experienced, hard rocks</span></td></tr>
+        <tr><td><b>Lancet MH1</b></td><td>3</td><td><span class="de">großes Fenster, „verzeihend"</span><span class="en">wide window, forgiving</span></td><td><span class="de">Anfänger, stabiles Minen</span><span class="en">beginners, steady mining</span></td></tr>
+        <tr><td><b>Hofstede S1</b></td><td>2</td><td><span class="de">niedrige Leistung, stabil</span><span class="en">low power, stable</span></td><td><span class="de">weiche/instabile Felsen</span><span class="en">soft/unstable rocks</span></td></tr>
+        <tr><td><b>Klein S1</b></td><td>1</td><td><span class="de">präzise, geringe Streuung</span><span class="en">precise, low spread</span></td><td><span class="de">kleine Brocken</span><span class="en">small rocks</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="sub">🔧 <span class="de">Passive Module</span><span class="en">Passive modules</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Modul</th><th>Effekt</th></tr></thead>
+      <tbody>
+        <tr><td><b>Focus / Focus II</b></td><td><span class="de">schnelleres Fracturing</span><span class="en">faster fracturing</span></td></tr>
+        <tr><td><b>Rime / Ricol</b></td><td><span class="de">senkt Instabilität</span><span class="en">lowers instability</span></td></tr>
+        <tr><td><b>Brandt</b></td><td><span class="de">mehr Widerstands-Toleranz</span><span class="en">more resistance tolerance</span></td></tr>
+        <tr><td><b>Vaux</b></td><td><span class="de">senkt Mindestleistung</span><span class="en">lowers minimum power</span></td></tr>
+        <tr><td><b>XTR-L / Optimum</b></td><td><span class="de">vergrößert das Fenster</span><span class="en">widens the window</span></td></tr>
+        <tr><td><b>Stampede / Torrent</b></td><td><span class="de">schneller absaugen</span><span class="en">faster extraction</span></td></tr>
+        <tr><td><b>Rieger</b></td><td><span class="de">+Extraktion, Fenster −10 %</span><span class="en">+extraction, window −10%</span></td></tr>
+        <tr><td><b>FLTR-XL</b></td><td><span class="de">−24 % Inert-Ballast → mehr Bag-Platz</span><span class="en">−24% inert ballast → more bag space</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="sub">💥 <span class="de">Aktive Module &amp; Gadgets</span><span class="en">Active modules &amp; gadgets</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Modul / Gadget</th><th><span class="de">Wirkung (Richtwert)</span><span class="en">Effect (approx.)</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>Sabir</b> (Gadget)</td><td><span class="de">Resist. −50 %, Fenster +50 % → harte Felsen</span><span class="en">resist. −50%, window +50% → hard rocks</span></td></tr>
+        <tr><td><b>WaveShift</b> (Gadget)</td><td><span class="de">Fenster +100 %, Instab. −35 % → verzeihend</span><span class="en">window +100%, instab. −35% → forgiving</span></td></tr>
+        <tr><td><b>OptiMax</b> (Gadget)</td><td><span class="de">Ausbeute +60 %, Fenster −30 % → teure Brocken</span><span class="en">yield +60%, window −30% → pricey rocks</span></td></tr>
+        <tr><td><b>Stalwart</b> (Gadget)</td><td><span class="de">Instab. −35 %, Rate +50 % → schnell &amp; stabil</span><span class="en">instab. −35%, rate +50% → fast &amp; stable</span></td></tr>
+        <tr><td><b>BoreMax</b> (Gadget)</td><td><span class="de">Instab. −70 % → extrem instabile Felsen</span><span class="en">instab. −70% → extremely unstable rocks</span></td></tr>
+        <tr><td><b>Okunis</b> (Gadget)</td><td><span class="de">Rate +100 %, Fenster +50 % → Tempo</span><span class="en">rate +100%, window +50% → speed</span></td></tr>
+        <tr><td><b>Surge</b> (aktiv)</td><td><span class="de">Resist. −16 %, Extr. +50 % → festhängend</span><span class="en">resist. −16%, extr. +50% → stuck rock</span></td></tr>
+        <tr><td><b>Lifeline</b> (aktiv)</td><td><span class="de">Instab. −20 %, Explosionsschwelle +60 % → Notbremse</span><span class="en">instab. −20%, blow-up threshold +60% → emergency brake</span></td></tr>
+        <tr><td><b>Torpid</b> (aktiv)</td><td><span class="de">Charge-Rate +60 %, riskanter</span><span class="en">charge rate +60%, riskier</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout danger"><span class="lbl"><span class="de">Nur EIN Gadget pro Brocken</span><span class="en">Only ONE gadget per rock</span></span><span class="de">Zwei Gadgets auf demselben Felsen können ihn <b>katastrophal explodieren</b> lassen. Aktiv-Module (Surge/Lifeline/Torpid) laufen separat. Werte sind patch-abhängig — die In-Game-Beschreibung schlägt im Zweifel die Tabelle.</span><span class="en">Two gadgets on the same rock can make it <b>catastrophically explode</b>. Active modules (Surge/Lifeline/Torpid) run separately. Values are patch-dependent — the in-game description beats the table if in doubt.</span></div>
+
+    <h3 class="sub">🧩 <span class="de">So setzt du ein Gadget ein (Schritt für Schritt)</span><span class="en">How to deploy a gadget (step by step)</span></h3>
+    <p class="prose de">Gadgets (Sabir, WaveShift, OptiMax, BoreMax, Okunis, Stalwart) sind <b>handliche Geräte, die man direkt auf den Felsen legt</b> — nicht in den Mining-Kopf. Ablauf:</p>
+    <p class="prose en">Gadgets (Sabir, WaveShift, OptiMax, BoreMax, Okunis, Stalwart) are <b>handheld devices you place directly on the rock</b> — not into the mining head. The flow:</p>
+    <ol class="steps">
+      <li class="de"><b>Gadget kaufen</b> (Verbrauchsgut) und im Inventar/am Gürtel dabei haben.</li>
+      <li class="en"><b>Buy the gadget</b> (a consumable) and carry it in your inventory/on your belt.</li>
+      <li class="de">Felsen im <b>Scan-Modus</b> prüfen (Resistance/Instability) → passendes Gadget wählen (siehe „Gadget nach Problem" unten).</li>
+      <li class="en">Check the rock in <b>scan mode</b> (resistance/instability) → pick the right gadget (see "gadget by problem" below).</li>
+      <li class="de"><b>Zum Felsen:</b> Schiff verlassen und per <b>EVA</b> zum Asteroiden schweben (bei ROC/Boden-Deposits einfach zu Fuß hin).</li>
+      <li class="en"><b>Get to the rock:</b> exit the ship and <b>EVA</b> over to the asteroid (for ROC/ground deposits just walk up).</li>
+      <li class="de"><b>Gadget anbringen:</b> Felsen anvisieren + Interagieren → das Gadget haftet an und das <b>Gadget-UI</b> öffnet sich.</li>
+      <li class="en"><b>Attach the gadget:</b> aim at the rock + interact → it sticks and the <b>gadget UI</b> opens.</li>
+      <li class="de"><b>Kalibrieren:</b> die drei Regler <b>Propagation</b>, <b>Field Range</b> und <b>Axial Scatter</b> justieren, bis du die <b>Resonanzfrequenz</b> des Felsens triffst (Anzeige im Optimum).</li>
+      <li class="en"><b>Calibrate:</b> tune the three dials <b>propagation</b>, <b>field range</b> and <b>axial scatter</b> until you hit the rock's <b>resonant frequency</b> (readout peaks).</li>
+      <li class="de"><b>Aktivieren</b> → der Felsen übernimmt die veränderten Werte (z. B. −Resistance, +Fenster) für eine <b>begrenzte Zeit</b>.</li>
+      <li class="en"><b>Activate</b> → the rock takes on the altered stats (e.g. −resistance, +window) for a <b>limited time</b>.</li>
+      <li class="de">Zurück ins Schiff / an die Mining-Position und den Felsen im <b>grünen Fenster</b> fracturen, dann extrahieren.</li>
+      <li class="en">Back into the ship / to your mining position and fracture the rock in the <b>green window</b>, then extract.</li>
+      <li class="de">Nach dem Fracture das Gadget <b>wieder einsammeln</b> (wiederverwendbar, solange nicht zerstört).</li>
+      <li class="en">After the fracture <b>pick the gadget back up</b> (reusable unless destroyed).</li>
+    </ol>
+    <div class="callout danger"><span class="lbl"><span class="de">Timing &amp; Limit</span><span class="en">Timing &amp; limit</span></span><span class="de"><b>Nur 1 Gadget pro Felsen</b> (zwei = Explosion). Nach dem Aktivieren <b>zügig fracturen</b> — der Effekt läuft ab.</span><span class="en"><b>Only 1 gadget per rock</b> (two = explosion). After activating, <b>fracture promptly</b> — the effect wears off.</span></div>
+    <div class="callout warn"><span class="lbl"><span class="de">Kalibrierung — ehrlich eingeordnet</span><span class="en">Calibration — honest take</span></span><span class="de"><b>Belegt:</b> Drei Regler — <b>Propagation</b>, <b>Field Range</b>, <b>Axial Scatter</b> — bis zur <b>Resonanzfrequenz</b> des Felsens einstellen; erst dann lässt sich das Gadget aktivieren. Die <b>Einzelwirkung jedes Reglers ist von CIG nicht dokumentiert</b> (Details nur in Video-Tutorials). <b>Deutung (nicht offiziell):</b> Propagation ≈ Grob-Frequenz/Ausbreitung · Field Range ≈ Reichweite des Wirkfelds · Axial Scatter ≈ Streuung/Feinausrichtung. In der Praxis: <b>Regler verstellen, bis die Anzeige auf Resonanz/„Lock" springt → aktivieren</b>. Die Kalibrierung ist fummelig — viele Miner nehmen stattdessen die slot-basierten Aktiv-Module; für harte Riesenfelsen sind die Handheld-Gadgets aber der stärkere Hebel. Patch-sensibel.</span><span class="en"><b>Documented:</b> Three dials — <b>propagation</b>, <b>field range</b>, <b>axial scatter</b> — tuned to the rock's <b>resonant frequency</b>; only then can the gadget be activated. The <b>per-dial effect is not documented by CIG</b> (detail lives only in video tutorials). <b>Interpretation (unofficial):</b> propagation ≈ coarse frequency/spread · field range ≈ reach of the effect field · axial scatter ≈ dispersion/fine alignment. In practice: <b>adjust the dials until the readout hits resonance/"lock" → activate</b>. Calibration is fiddly — many miners use the slotted active modules instead; for hard huge rocks the handheld gadgets are the stronger lever. Patch-sensitive.</span></div>
+    <div class="callout"><span class="lbl ore"><span class="de">Unterschied: Aktiv-Module</span><span class="en">Difference: active modules</span></span><span class="de"><b>Surge / Lifeline / Torpid</b> funktionieren anders: nicht auf den Felsen legen, sondern per <b>mobiGlas in die Modul-Slots des Mining-Kopfes</b> einsetzen und beim Mining <b>aus dem Sitz</b> per <b>Linke Umschalt + 1/2/3</b> (Slot oben→unten) aktivieren — kein EVA nötig.</span><span class="en"><b>Surge / Lifeline / Torpid</b> work differently: not placed on the rock but slotted into the mining head's <b>module slots via mobiGlas</b>, then fired <b>from your seat</b> while mining with <b>Left Shift + 1/2/3</b> (slot top→bottom) — no EVA needed.</span></div>
+
+    <h3 class="sub">🎯 <span class="de">Gadget nach Problem</span><span class="en">Gadget by problem</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th><span class="de">Problem am Felsen</span><span class="en">Rock problem</span></th><th><span class="de">Lösung</span><span class="en">Fix</span></th></tr></thead>
+      <tbody>
+        <tr><td><span class="de">Zu hart (Resistance zu hoch)</span><span class="en">Too hard (resistance too high)</span></td><td><b>Sabir</b> (−50 % Resist.), <span class="de">notfalls</span><span class="en">else</span> Surge</td></tr>
+        <tr><td><span class="de">Zu instabil (vorbeugend)</span><span class="en">Too unstable (preventive)</span></td><td><b>BoreMax</b> (−70 %) / WaveShift</td></tr>
+        <tr><td><span class="de">Wird JETZT rot (Notfall)</span><span class="en">Going red NOW (emergency)</span></td><td><b>Lifeline</b></td></tr>
+        <tr><td><span class="de">Fenster zu eng / Überschießen</span><span class="en">Window too tight / overshoot</span></td><td><b>WaveShift</b> (+100 % <span class="de">Fenster</span><span class="en">window</span>)</td></tr>
+        <tr><td><span class="de">Teurer Brocken, max. Ausbeute</span><span class="en">Pricey rock, max yield</span></td><td><b>OptiMax</b> (+60 %)</td></tr>
+        <tr><td><span class="de">Tempo/Durchsatz</span><span class="en">Speed/throughput</span></td><td><b>Okunis</b> / Stalwart</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="sub">📦 <span class="de">Empfohlene Loadouts</span><span class="en">Recommended loadouts</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Ziel / Goal</th><th>Kopf / Head</th><th>Module</th></tr></thead>
+      <tbody>
+        <tr><td><span class="de">Anfänger (verzeihend)</span><span class="en">Beginner (forgiving)</span></td><td>Lancet MH1</td><td>XTR-L + Rime + Stampede</td></tr>
+        <tr><td><span class="de">Fortgeschritten (Tempo)</span><span class="en">Advanced (speed)</span></td><td>Helix I</td><td>Focus II + Torrent + Surge/Sabir</td></tr>
+        <tr><td><span class="de">Quantanium (High-Value)</span><span class="en">Quantanium (high-value)</span></td><td>Arbor/Lancet</td><td>Rime + XTR-L + Lifeline</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl ore"><span class="de">Werkzeug</span><span class="en">Tools</span></span><span class="de">Felsen-Werte &amp; Loadouts vorab planen: <a href="https://regolith.rocks" target="_blank" rel="noopener">Regolith</a> (Rechner/Loadouts), <a href="https://uexcorp.space" target="_blank" rel="noopener">UEX</a> (Preise/Verkaufsorte), CStone Item-Finder (Modul-Werte).</span><span class="en">Plan rock values &amp; loadouts ahead: <a href="https://regolith.rocks" target="_blank" rel="noopener">Regolith</a> (calc/loadouts), <a href="https://uexcorp.space" target="_blank" rel="noopener">UEX</a> (prices/sell spots), CStone item finder (module values).</span></div>
+
+    <h3 class="sub">🛰 <span class="de">MOLE: die 3 Laser-Balken (solo vs. Crew)</span><span class="en">MOLE: the 3 laser bars (solo vs. crew)</span></h3>
+    <p class="prose de">Die drei Balken sind <b>drei eigenständige Mining-Türme</b> mit je eigenem Laser und eigenem Regler (0,10–100 %, eigenes grünes Fenster) — <b>kein gemeinsamer Energie-Pool</b>. „Auf einen bündeln" gibt es nicht: jeder Laser läuft auf seinem <b>eigenen</b> Maximum, die anderen leihen ihm keine Leistung.</p>
+    <p class="prose en">The three bars are <b>three independent mining turrets</b>, each with its own laser and throttle (0.10–100%, its own green window) — <b>no shared power pool</b>. There is no “focus into one beam”: each laser runs at its <b>own</b> max; the others lend it nothing.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th><span class="de">Modus</span><span class="en">Mode</span></th><th><span class="de">Was bringt's</span><span class="en">What it does</span></th></tr></thead>
+      <tbody>
+        <tr><td><b><span class="de">Nur 1 Balken (Solo)</span><span class="en">1 bar only (solo)</span></b></td><td><span class="de">Faktisch der einzige Solo-Modus: der <b>Pilotensitz minet nicht</b>, du sitzt in einem Turm — verlässt du den Sitz, geht dieser Laser aus. → stärksten Kopf (z. B. Helix II) auf diesen einen.</span><span class="en">Effectively the only solo mode: the <b>pilot seat can't mine</b>; you sit in one turret — leave the seat and that laser shuts off. → put your strongest head (e.g. Helix II) on this one.</span></td></tr>
+        <tr><td><b><span class="de">3 Balken parallel (Crew)</span><span class="en">3 bars parallel (crew)</span></b></td><td><span class="de">Drei Operatoren auf <b>drei verschiedene Felsen</b> → bis zu <b>3× Durchsatz</b>.</span><span class="en">Three operators on <b>three different rocks</b> → up to <b>3× throughput</b>.</span></td></tr>
+        <tr><td><b><span class="de">3 Balken konzentriert (Crew)</span><span class="en">3 bars concentrated (crew)</span></b></td><td><span class="de">Alle drei Strahlen auf <b>denselben großen/harten Felsen</b> → gebündelte Leistung, knackt Deposits <b>&gt;25.000 kg</b>, die ein Laser nicht schafft. Jeder muss sein grünes Fenster halten → koordinieren.</span><span class="en">All three beams on <b>the same large/hard rock</b> → combined power, cracks deposits <b>&gt;25,000 kg</b> a single laser can't. Everyone must hold their green window → coordinate.</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl ore"><span class="de">Merke</span><span class="en">Note</span></span><span class="de">„Nur einer" ist solo unvermeidlich und läuft auf vollem Eigen-Max. Der Gewinn von „alle drei" ist <b>Parallelität</b> (3 Felsen) oder <b>Bündelung</b> (1 Riesenfelsen) — <b>kein</b> stärkerer Einzelstrahl.</span><span class="en">“Only one” is unavoidable solo and runs at its own full max. The gain from “all three” is <b>parallelism</b> (3 rocks) or <b>bundling</b> (1 huge rock) — <b>not</b> a stronger single beam.</span></div>
+  </section>
+
+  <section id="halo">
+    <div class="sec-h"><span class="idx">04</span><div><h2><span class="de">Aaron Halo — 10 Bänder mit Distanzen</span><span class="en">Aaron Halo — 10 bands with distances</span></h2><p><span class="de">Das Prospector-Revier: Quantanium &amp; Taranite.</span><span class="en">The prospector's home turf: quantanium &amp; taranite.</span></p></div></div>
+    <p class="prose de">Ein Asteroidenband, das ganz Stanton ringförmig umspannt — zwischen den Umlaufbahnen von <b>Crusader und ArcCorp</b>, überall gut erreichbar. Es besteht aus <b>10 Bändern</b> unterschiedlicher Dichte (CaptSheppard-Dichte-Survey, 1.746 Messpunkte, serverstabil). <b>Band 5 ist mit Abstand das dichteste</b> = das Jackpot-Band. Wichtig: Die Bänder unterscheiden sich in der <b>Dichte</b> (wie viele Brocken), <b>nicht im Erztyp</b> — welches Erz drin ist, entscheidet der einzelne Felsen (pro Brocken scannen).</p>
+    <p class="prose en">An asteroid belt ringing all of Stanton — between the orbits of <b>Crusader and ArcCorp</b>, reachable from anywhere. It's made of <b>10 bands</b> of varying density (CaptSheppard density survey, 1,746 data points, server-stable). <b>Band 5 is by far the densest</b> = the jackpot band. Note: bands differ in <b>density</b> (how many rocks), <b>not ore type</b> — what's inside is per-rock (scan each).</p>
+
+    <h3 class="sub">🛰 <span class="de">Methode A — System-Wide (empfohlen, jede Route)</span><span class="en">Method A — system-wide (recommended, any route)</span></h3>
+    <p class="prose de">Der Halo liegt <b>360° rundum gleich weit</b> vom Stanton-Zentrum-Marker. Plotte <b>irgendeine</b> Quantum-Route, die den Gürtel kreuzt, öffne die Starmap, wähle den <b>Stanton-System-Marker</b> (Mitte) und beobachte die <b>Distanz zum Marker</b> (oben rechts). Bei der Ziel-Distanz Quantum abbrechen (B halten) → du bist im gewünschten Band.</p>
+    <p class="prose en">The halo sits <b>equidistant 360°</b> from the Stanton center marker. Plot <b>any</b> quantum route crossing the belt, open the starmap, select the <b>Stanton system marker</b> (center) and watch your <b>distance to the marker</b> (top right). Abort quantum (hold B) at the target distance → you're in the band you want.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Band</th><th><span class="de">Distanz zum Stanton-Marker (dichtester Punkt)</span><span class="en">Distance to Stanton marker (densest point)</span></th><th><span class="de">Dichte</span><span class="en">Density</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><span class="km">19.702.000 km</span></td><td><span class="de">sehr dünn</span><span class="en">very thin</span></td></tr>
+        <tr><td><b>2</b></td><td><span class="km">19.867.000 km</span></td><td><span class="de">mittel</span><span class="en">medium</span></td></tr>
+        <tr><td><b>3</b></td><td><span class="km">19.995.000 km</span></td><td><span class="de">solide</span><span class="en">solid</span></td></tr>
+        <tr><td><b>4</b></td><td><span class="km">20.188.000 km</span></td><td><span class="de">mittel</span><span class="en">medium</span></td></tr>
+        <tr class="jackpot"><td><b>5</b> ◆</td><td><span class="km">20.320.000 km</span></td><td><b><span class="de">JACKPOT (dichtestes)</span><span class="en">JACKPOT (densest)</span></b></td></tr>
+        <tr><td><b>6</b></td><td><span class="km">20.471.000 km</span></td><td><span class="de">solide</span><span class="en">solid</span></td></tr>
+        <tr><td><b>7</b></td><td><span class="km">20.662.000 km</span></td><td><span class="de">solide (2.-dichtest)</span><span class="en">solid (2nd densest)</span></td></tr>
+        <tr><td><b>8</b></td><td><span class="km">20.881.000 km</span></td><td><span class="de">solide</span><span class="en">solid</span></td></tr>
+        <tr><td><b>9</b></td><td><span class="km">21.082.000 km</span></td><td><span class="de">solide</span><span class="en">solid</span></td></tr>
+        <tr><td><b>10</b></td><td><span class="km">21.307.000 km</span></td><td><span class="de">solide</span><span class="en">solid</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout gold"><span class="lbl gold"><span class="de">Tipp</span><span class="en">Tip</span></span><span class="de">Wenn du die Wahl hast: <b>Band 5</b> (≈ 20.320.000 km) — mehr Brocken pro Ping = weniger Rumfliegen. Solide Ausweichbänder: 7, 3, 6, 10.</span><span class="en">If you can choose: <b>Band 5</b> (≈ 20,320,000 km) — more rocks per ping = less flying around. Solid fallbacks: 7, 3, 6, 10.</span></div>
+
+    <h3 class="sub">📍 <span class="de">Methode B — Refinery-Route (Beispiel ARC-L1 → CRU-L4)</span><span class="en">Method B — refinery route (example ARC-L1 → CRU-L4)</span></h3>
+    <p class="prose de">Festes Ziel plotten, Quantum starten, bei der <b>Restdistanz zum Ziel</b> abbrechen. Beispiel-Route <b>ARC-L1-Raffinerie → CRU-L4</b>:</p>
+    <p class="prose en">Plot a fixed destination, start quantum, abort at the <b>remaining distance to the destination</b>. Example route <b>ARC-L1 refinery → CRU-L4</b>:</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Band</th><th><span class="de">Abbruch bei Restdistanz zu CRU-L4</span><span class="en">Abort at remaining distance to CRU-L4</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><span class="km">12.744.803 km</span></td></tr>
+        <tr><td><b>2</b></td><td><span class="km">13.157.847 km</span></td></tr>
+        <tr><td><b>3</b></td><td><span class="km">13.510.150 km</span></td></tr>
+        <tr><td><b>4</b></td><td><span class="km">13.934.165 km</span></td></tr>
+        <tr class="jackpot"><td><b>5</b> ◆</td><td><span class="km">14.292.609 km</span></td></tr>
+        <tr><td><b>6</b></td><td><span class="km">14.637.246 km</span></td></tr>
+        <tr><td><b>7</b></td><td><span class="km">15.058.764 km</span></td></tr>
+        <tr><td><b>8</b></td><td><span class="km">15.524.706 km</span></td></tr>
+        <tr><td><b>9</b></td><td><span class="km">15.938.061 km</span></td></tr>
+        <tr><td><b>10</b></td><td><span class="km">16.188.952 km</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="prose de" style="font-size:13.5px;color:var(--dim)">Alle weiteren Refinery-Routen (ARC-L1/L2/L4, CRU-L1, HUR-L1/L2, MIC-L1/L2/L5) stehen in der lokalen PDF <span class="mono">3.19.1-LIVE-Rel1-Refinery to Aaron Halo Mining Routes.pdf</span> bzw. bei CStone (Quelle).</p>
+    <p class="prose en" style="font-size:13.5px;color:var(--dim)">All other refinery routes (ARC-L1/L2/L4, CRU-L1, HUR-L1/L2, MIC-L1/L2/L5) are in the local PDF <span class="mono">3.19.1-LIVE-Rel1-Refinery to Aaron Halo Mining Routes.pdf</span> or at CStone (source).</p>
+
+    <h3 class="sub">⚡ <span class="de">Grob-Einstieg (schnell)</span><span class="en">Quick entry (rough)</span></h3>
+    <ul class="prose" style="padding-left:18px">
+      <li class="de"><b>Hurston → ArcCorp</b>: bei ~9.500.000 km Restdistanz raus.</li>
+      <li class="en"><b>Hurston → ArcCorp</b>: exit at ~9,500,000 km remaining.</li>
+      <li class="de"><b>ArcCorp → Hurston</b>: bei ~13.500.000 km Restdistanz raus.</li>
+      <li class="en"><b>ArcCorp → Hurston</b>: exit at ~13,500,000 km remaining.</li>
+      <li class="de"><b>Grim Hex → CRU-L2</b>: Stopp bei 750.000 km.</li>
+      <li class="en"><b>Grim Hex → CRU-L2</b>: stop at 750,000 km.</li>
+    </ul>
+    <div class="callout warn"><span class="lbl"><span class="de">Genauigkeit / Patch</span><span class="en">Accuracy / patch</span></span><span class="de">Die 10-Band-Distanzen stammen aus CaptSheppards Dichte-Survey (dichtester Punkt je Band, zum Stanton-Marker). Die Gürtelstruktur ist serverstabil; exakte Routen-Distanzen (Methode B) hängen von Planeten-/L-Punkt-Positionen ab und können patchweise leicht wandern. Als präzisen Startpunkt nehmen und per Mining-Scanner feinjustieren.</span><span class="en">The 10-band distances come from CaptSheppard's density survey (densest point per band, to the Stanton marker). The belt structure is server-stable; exact route distances (method B) depend on planet/L-point positions and can drift slightly per patch. Use as a precise start, then fine-tune with the mining scanner.</span></div>
+
+    <h3 class="sub">💠 <span class="de">Erze im Halo</span><span class="en">Ores in the halo</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Erz / Ore</th><th>Tier</th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>Quantanium</b></td><td><span class="km" style="color:var(--gold)">TOP</span></td><td><span class="de">Hauptquelle, höchster Wert — <b>instabil, sofort verkaufen</b> (~150k/SCU).</span><span class="en">Main source, top value — <b>unstable, sell immediately</b> (~150k/SCU).</span></td></tr>
+        <tr><td><b>Taranite</b></td><td><span class="km" style="color:var(--gold)">TOP</span></td><td><span class="de">sehr häufig im Halo, top Wert (~29k).</span><span class="en">very common in the halo, top value (~29k).</span></td></tr>
+        <tr><td><b>Borase</b></td><td><span class="km" style="color:var(--gold)">TOP</span></td><td><span class="de">selten, gezielt mitnehmen (~33k).</span><span class="en">rare, grab on purpose (~33k).</span></td></tr>
+        <tr><td><b>Laranite · Hephaestanite</b></td><td>HOCH</td><td><span class="de">solide, verbreitet.</span><span class="en">solid, common.</span></td></tr>
+        <tr><td><b>Titanium · Diamond · Gold</b></td><td><span class="de">MITTEL</span><span class="en">MID</span></td><td><span class="de">solide Füllung.</span><span class="en">solid filler.</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="reviere">
+    <div class="sec-h"><span class="idx">05</span><div><h2><span class="de">Weitere Reviere</span><span class="en">Other hotspots</span></h2><p><span class="de">Kurz — Details im Prospector-PDF.</span><span class="en">Brief — details in the Prospector PDF.</span></p></div></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Region</th><th><span class="de">Für</span><span class="en">For</span></th><th><span class="de">Highlight</span><span class="en">Highlight</span></th><th><span class="de">Risiko</span><span class="en">Risk</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>Aaron Halo</b> (Stanton)</td><td><span class="de">Schiff</span><span class="en">Ship</span></td><td>Quantanium · Taranite</td><td><span class="de">niedrig–mittel (PvP)</span><span class="en">low–mid (PvP)</span></td></tr>
+        <tr><td><b><span class="de">Stanton-Monde</span><span class="en">Stanton moons</span></b></td><td>ROC / <span class="de">Hand</span><span class="en">hand</span></td><td>Hadanite (Aberdeen★/Daymar), Aphorite, Dolivine</td><td><span class="de">niedrig</span><span class="en">low</span></td></tr>
+        <tr><td><b>Pyro</b></td><td><span class="de">Schiff/ROC</span><span class="en">Ship/ROC</span></td><td>Bexalite + Taranite (Pyro I) — <span class="de">gesetzlos, reich</span><span class="en">lawless, rich</span></td><td><span class="de">hoch (Piraten)</span><span class="en">high (pirates)</span></td></tr>
+        <tr><td><b>Nyx</b> (Glaciem Ring)</td><td><span class="de">Schiff</span><span class="en">Ship</span></td><td>Lindinium (~51k) · Bexalite; QV Breaker (Sadaryx)</td><td><span class="de">mittel (abgelegen)</span><span class="en">mid (remote)</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl ore"><span class="de">Rüstungs-Warnung (ROC/Hand)</span><span class="en">Armor warning (ROC/hand)</span></span><span class="de">Heiße Monde (v. a. <b>Aberdeen</b>) → hitzefeste Rüstung (Pembroke); kalte Monde → Kälteschutz. Medpens &amp; O2 im Blick. <b>4.9-Bug:</b> Standard-Greycat-ROC defekt → ROC-DS / ROC-GEO nutzen.</span><span class="en">Hot moons (esp. <b>Aberdeen</b>) → heat-resistant armor (Pembroke); cold moons → cold protection. Watch med-pens &amp; O2. <b>4.9 bug:</b> standard Greycat ROC broken → use ROC-DS / ROC-GEO.</span></div>
+    <h3 class="sub">♻ <span class="de">Raffinerie-Methode kurz</span><span class="en">Refining method, briefly</span></h3>
+    <p class="prose de"><b>Teures Erz</b> (Quant/Bexalite) → ertragreich/langsam (<b>Dinyx Solventation</b>). <b>Massenware</b> → schnell/günstig (<b>Cormack</b>/Kazen). Allrounder: Ferron/XCR. Quantanium <b>sofort</b> verkaufen (Verfall!).</p>
+    <p class="prose en"><b>Expensive ore</b> (quant/bexalite) → high-yield/slow (<b>Dinyx Solventation</b>). <b>Bulk</b> → fast/cheap (<b>Cormack</b>/Kazen). All-rounder: Ferron/XCR. Sell quantanium <b>immediately</b> (it decays!).</p>
+  </section>
+
+  <section id="eventminables">
+    <div class="sec-h"><span class="idx">06</span><div><h2><span class="de">Event-Minables — standortgebundene Ressourcen</span><span class="en">Event minables — location-locked resources</span></h2><p><span class="de">Nicht „einfach so" farmbar: nur an EINEM Ort, oft nur per Hand.</span><span class="en">Not farmable “anywhere”: one location only, often hand-mining only.</span></p></div></div>
+    <p class="prose de">Manche Ores existieren <b>nur an einem einzigen Ort</b> und hängen an einer bestimmten Aktivität — teils ganz ohne Schiffs-/Fahrzeug-Route, also reines <b>Hand-Mining</b>. Das sind v. a. die <b>Wikelo-Rohstoffe</b>.</p>
+    <p class="prose en">Some ores exist at <b>one single location</b> only and are tied to a specific activity — sometimes with no ship/vehicle route at all, i.e. pure <b>hand-mining</b>. These are mainly the <b>Wikelo resources</b>.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th><span class="de">Rohstoff</span><span class="en">Resource</span></th><th><span class="de">Nur hier</span><span class="en">Only here</span></th><th><span class="de">Abbau</span><span class="en">Mining</span></th><th>Haken</th></tr></thead>
+      <tbody>
+        <tr><td><b>Saldynium</b></td><td><span class="de">Hathor-Höhlen (Stanton)</span><span class="en">Hathor Caves (Stanton)</span></td><td><span class="de">Hand</span><span class="en">hand</span></td><td><span class="de">sonst nirgends, <b>keine Schiffsroute</b></span><span class="en">nowhere else, <b>no ship route</b></span></td></tr>
+        <tr><td><b>Jaclium</b></td><td><span class="de">Hathor-Höhlen</span><span class="en">Hathor Caves</span></td><td><span class="de">Hand/Laser</span><span class="en">hand/laser</span></td><td><span class="de">an die Hathor-Aktivität gebunden</span><span class="en">tied to the Hathor activity</span></td></tr>
+        <tr><td><b>Carinite</b></td><td><span class="de">Hathor (Sonder) + regulär Aberdeen/Daymar</span><span class="en">Hathor (special) + regular Aberdeen/Daymar</span></td><td><span class="de">Laser/Hand</span><span class="en">laser/hand</span></td><td><span class="de">hohe Dichte nur in Hathor</span><span class="en">high density only at Hathor</span></td></tr>
+        <tr><td><b>Sadaryx</b></td><td><span class="de">QV Breaker Stations (Nyx)</span><span class="en">QV Breaker Stations (Nyx)</span></td><td><span class="de">Hand (~25%)</span><span class="en">hand (~25%)</span></td><td><span class="de">nur dort</span><span class="en">only there</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl ore"><span class="de">Zugang = eigene Guides</span><span class="en">Access = dedicated guides</span></span><span class="de">Diese Ores holt man über die jeweilige Aktivität: <b>Hathor-Höhlen</b> (Carinite/Jaclium/Saldynium) → siehe <b><a href="https://claude.ai/artifact/3Vfz4U2dNSJjyNts5VaJhJ" target="_blank" rel="noopener">Hathor-OLP-Guide ↗</a></b>; <b>Sadaryx</b> → <b><a href="https://claude.ai/artifact/LQmfJr7KYm7kkPUt54A5pL" target="_blank" rel="noopener">QV-Breaker-Stations-Guide ↗</a></b> (Station rebooten, Linsen, Laser). Vorbereitung: Umgebungs-Rüstung + Hand-/ROC-Mining-Werkzeug.</span><span class="en">Get these via their activity: <b>Hathor Caves</b> (carinite/jaclium/saldynium) → see the <b><a href="https://claude.ai/artifact/3Vfz4U2dNSJjyNts5VaJhJ" target="_blank" rel="noopener">Hathor OLP guide ↗</a></b>; <b>Sadaryx</b> → the <b><a href="https://claude.ai/artifact/LQmfJr7KYm7kkPUt54A5pL" target="_blank" rel="noopener">QV Breaker Stations guide ↗</a></b> (reboot station, lenses, laser). Prep: environmental armor + hand/ROC mining tool.</span></div>
+    <h3 class="sub">⚠ <span class="de">Schwer/riskant trotz „überall"</span><span class="en">Hard/risky despite being “everywhere”</span></h3>
+    <p class="prose de"><b>Quantanium</b> — hochvolatil, zerfällt/explodiert unter Zeitdruck → sofort raffinieren/verkaufen. <b>Gem-Deposits</b> (Hadanite, Dolivine, Aphorite, Janalite, Beryl) — nur per <b>FPS-/ROC-Mining</b> in Höhlen/an der Oberfläche, nicht mit dem Schiff.</p>
+    <p class="prose en"><b>Quantanium</b> — highly volatile, decays/explodes under time pressure → refine/sell immediately. <b>Gem deposits</b> (hadanite, dolivine, aphorite, janalite, beryl) — only via <b>FPS/ROC mining</b> in caves/on the surface, not by ship.</p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Werte/Preise/Distanzen patch-abhängig — live prüfen.</span><span class="en">Values/prices/distances are patch-dependent — verify live.</span></p></div></div>
+    <div class="src">
+      <a href="https://cstone.space/resources/knowledge-base/36-refinery-to-aaron-halo-mining-routes" target="_blank" rel="noopener">CStone / CaptSheppard — Aaron Halo Travel Routes &amp; Density Chart (10 Bänder) ↗</a>
+      <a href="https://regolith.rocks" target="_blank" rel="noopener">Regolith — Mining-Rechner &amp; Loadout-Planer ↗</a>
+      <a href="https://uexcorp.space" target="_blank" rel="noopener">UEX Corp — Erz-Preise &amp; beste Verkaufsorte ↗</a>
+      <a href="https://starcitizen.tools/Mining" target="_blank" rel="noopener">Star Citizen Wiki — Mining ↗</a>
+    </div>
+    <div class="disc"><span class="de">Basis: eigenes SC_Prospector_Mining_Guide.pdf (4.9) + CaptSheppard-Survey. Inoffiziell, nicht mit CIG verbunden. Stand 4.9 (2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Based on: own SC_Prospector_Mining_Guide.pdf (4.9) + CaptSheppard survey. Unofficial, not affiliated with CIG. As of 4.9 (2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+
+  <section id="drucktabelle">
+    <div class="sec-h"><span class="idx">🖨</span><div><h2><span class="de">Druck-Tabelle: Scan-Signaturen (mit Vielfachen)</span><span class="en">Print table: scan signatures (with multiples)</span></h2><p><span class="de">Strg/⌘ + P druckt nur diese Tabelle.</span><span class="en">Ctrl/⌘ + P prints just this table.</span></p></div></div>
+    <p class="prose de">Jede Zahl = <b>Basis × Anzahl Brocken</b> einer Sorte im Cluster. Die höchste Anzahl hängt von der Seltenheit ab: <b>Legendary 2× · Epic 3× · Rare 4× · Uncommon 5× · Common 6×</b>.</p>
+    <p class="prose en">Each number = <b>base × number of rocks</b> of one type in the cluster. The max count depends on rarity: <b>Legendary 2× · Epic 3× · Rare 4× · Uncommon 5× · Common 6×</b>.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Mineral</th><th>Tier</th><th>×1</th><th>×2</th><th>×3</th><th>×4</th><th>×5</th><th>×6</th></tr></thead>
+      <tbody>
+        <tr><td>Quantanium</td><td>Leg (2×)</td><td>3170</td><td>6340</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Stileron</td><td>Leg (2×)</td><td>3185</td><td>6370</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Savrilium</td><td>Leg (2×)</td><td>3200</td><td>6400</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Ouratite</td><td>Epic (3×)</td><td>3370</td><td>6740</td><td>10110</td><td></td><td></td><td></td></tr>
+        <tr><td>Riccite</td><td>Epic (3×)</td><td>3385</td><td>6770</td><td>10155</td><td></td><td></td><td></td></tr>
+        <tr><td>Lindinium</td><td>Epic (3×)</td><td>3400</td><td>6800</td><td>10200</td><td></td><td></td><td></td></tr>
+        <tr><td>Beryl</td><td>Rare (4×)</td><td>3540</td><td>7080</td><td>10620</td><td>14160</td><td></td><td></td></tr>
+        <tr><td>Taranite</td><td>Rare (4×)</td><td>3555</td><td>7110</td><td>10665</td><td>14220</td><td></td><td></td></tr>
+        <tr><td>Borase</td><td>Rare (4×)</td><td>3570</td><td>7140</td><td>10710</td><td>14280</td><td></td><td></td></tr>
+        <tr><td>Gold</td><td>Rare (4×)</td><td>3585</td><td>7170</td><td>10755</td><td>14340</td><td></td><td></td></tr>
+        <tr><td>Bexalite</td><td>Rare (4×)</td><td>3600</td><td>7200</td><td>10800</td><td>14400</td><td></td><td></td></tr>
+        <tr><td>Laranite</td><td>Unc (5×)</td><td>3825</td><td>7650</td><td>11475</td><td>15300</td><td>19125</td><td></td></tr>
+        <tr><td>Aslarite</td><td>Unc (5×)</td><td>3840</td><td>7680</td><td>11520</td><td>15360</td><td>19200</td><td></td></tr>
+        <tr><td>Titanium</td><td>Unc (5×)</td><td>3855</td><td>7710</td><td>11565</td><td>15420</td><td>19275</td><td></td></tr>
+        <tr><td>Tungsten</td><td>Unc (5×)</td><td>3870</td><td>7740</td><td>11610</td><td>15480</td><td>19350</td><td></td></tr>
+        <tr><td>Agricium</td><td>Unc (5×)</td><td>3885</td><td>7770</td><td>11655</td><td>15540</td><td>19425</td><td></td></tr>
+        <tr><td>Torite</td><td>Unc (5×)</td><td>3900</td><td>7800</td><td>11700</td><td>15600</td><td>19500</td><td></td></tr>
+        <tr><td>Hephaestanite</td><td>Com (6×)</td><td>4180</td><td>8360</td><td>12540</td><td>16720</td><td>20900</td><td>25080</td></tr>
+        <tr><td>Tin</td><td>Com (6×)</td><td>4195</td><td>8390</td><td>12585</td><td>16780</td><td>20975</td><td>25170</td></tr>
+        <tr><td>Quartz</td><td>Com (6×)</td><td>4210</td><td>8420</td><td>12630</td><td>16840</td><td>21050</td><td>25260</td></tr>
+        <tr><td>Corundum</td><td>Com (6×)</td><td>4225</td><td>8450</td><td>12675</td><td>16900</td><td>21125</td><td>25350</td></tr>
+        <tr><td>Copper</td><td>Com (6×)</td><td>4240</td><td>8480</td><td>12720</td><td>16960</td><td>21200</td><td>25440</td></tr>
+        <tr><td>Silicon</td><td>Com (6×)</td><td>4255</td><td>8510</td><td>12765</td><td>17020</td><td>21275</td><td>25530</td></tr>
+        <tr><td>Iron</td><td>Com (6×)</td><td>4270</td><td>8540</td><td>12810</td><td>17080</td><td>21350</td><td>25620</td></tr>
+        <tr><td>Aluminium</td><td>Com (6×)</td><td>4285</td><td>8570</td><td>12855</td><td>17140</td><td>21425</td><td>25710</td></tr>
+        <tr><td>Ice</td><td>Com (6×)</td><td>4300</td><td>8600</td><td>12900</td><td>17200</td><td>21500</td><td>25800</td></tr>
+      </tbody>
+    </table></div>
+    <p class="prose de" style="margin-top:12px"><b>Boden / Salvage</b> (eigene Reihen, mehr Vielfache):<br>
+      <b>ROC-Mineables</b> (×1–7, Basis 4000): 4000 · 8000 · 12000 · 16000 · 20000 · 24000 · 28000<br>
+      <b>FPS/Hand-Mineables</b> (×1–10, Basis 3000): 3000 · 6000 · 9000 · 12000 · 15000 · 18000 · 21000 · 24000 · 27000 · 30000<br>
+      <b>Salvage-Panels</b> (×1–15, Basis 2000): 2000 · 4000 · 6000 · 8000 · 10000 · 12000 · 14000 · 16000 · 18000 · 20000 · 22000 · 24000 · 26000 · 28000 · 30000</p>
+    <p class="prose en" style="margin-top:12px"><b>Ground / salvage</b> (own rows, more multiples):<br>
+      <b>ROC mineables</b> (×1–7, base 4000): 4000 · 8000 · 12000 · 16000 · 20000 · 24000 · 28000<br>
+      <b>FPS/hand mineables</b> (×1–10, base 3000): 3000 · 6000 · 9000 · 12000 · 15000 · 18000 · 21000 · 24000 · 27000 · 30000<br>
+      <b>Salvage panels</b> (×1–15, base 2000): 2000 · 4000 · 6000 · 8000 · 10000 · 12000 · 14000 · 16000 · 18000 · 20000 · 22000 · 24000 · 26000 · 28000 · 30000</p>
+    <p class="prose" style="font-size:12px;color:var(--dim)"><span class="de">Werte SC 4.7-Basis; patch-sensibel. Vlk Pearls/Flowstone = Signatur 0 (unsichtbar).</span><span class="en">SC 4.7 base values; patch-sensitive. Vlk pearls/flowstone = signature 0 (invisible).</span></p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">SC Mining-Guide · fahr sicher, verkauf teuer · o7</span>
+  <span class="en">SC Mining Guide · fly safe, sell high · o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('mining_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('mining_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('mining_theme',t):localStorage.removeItem('mining_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('mining_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>

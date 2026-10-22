@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC Nichtkäufliche Komponenten</title>
+<meta name="description" content="Guide zu Star-Citizen-Schiffskomponenten, die es in keinem Shop gibt: Bauplan-Quellen, Auftraggeber, Events, Fundorte (Stand 4.10.2).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3f6f2; --panel:#ffffff; --panel2:#e8efe8; --ink:#13201a; --muted:#5a6b60;
+    --line:#cde0d2; --accent:#1f9d55; --accent2:#c06020; --bad:#b0392c; --ok:#1f9d55;
+    --glow:rgba(31,157,85,.16); --shadow:0 2px 12px rgba(20,40,30,.08);
+    --disp:'Share Tech Mono',ui-monospace,monospace; --body:'Barlow',system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#060a07; --panel:#0d140f; --panel2:#0a110c; --ink:#d6f0df; --muted:#7d9a88;
+      --line:#1c2c22; --accent:#3ddc84; --accent2:#e8a24a; --bad:#e8775c; --ok:#3ddc84;
+      --glow:rgba(61,220,132,.14); --shadow:0 4px 22px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#060a07; --panel:#0d140f; --panel2:#0a110c; --ink:#d6f0df; --muted:#7d9a88;
+    --line:#1c2c22; --accent:#3ddc84; --accent2:#e8a24a; --bad:#e8775c; --ok:#3ddc84;
+    --glow:rgba(61,220,132,.14); --shadow:0 4px 22px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 18px 70px}
+  .hazard{height:6px;background:repeating-linear-gradient(90deg,var(--accent) 0 18px,transparent 18px 26px);opacity:.85}
+  header{padding:34px 0 10px}
+  .eyebrow{font-family:var(--disp);letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-size:12px;margin:0 0 8px}
+  h1{font-family:var(--disp);font-weight:400;font-size:clamp(26px,5vw,42px);margin:0;line-height:1.1;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:62ch;margin:12px 0 0;font-size:16.5px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 2px}
+  .btn{font-family:var(--body);font-weight:600;font-size:13px;letter-spacing:.04em;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+  .toc a{font-family:var(--disp);font-size:12.5px;text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:5px 11px;color:var(--ink)}
+  .toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  section{margin:30px 0 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .sec-h{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line);background:linear-gradient(0deg,transparent,var(--glow))}
+  .sec-h .idx{font-family:var(--disp);font-size:15px;color:var(--bg);background:var(--accent);min-width:42px;height:42px;padding:0 8px;display:grid;place-items:center;border-radius:10px;flex:0 0 auto}
+  .sec-h h2{font-family:var(--disp);font-weight:400;font-size:20px;margin:0;letter-spacing:.02em}
+  .sec-b{padding:18px 20px}
+  .sec-b p{margin:0 0 12px}
+  .sec-b h3{font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.04em;margin:18px 0 8px;color:var(--accent);text-transform:uppercase}
+
+  .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:4px 0 14px}
+  .ro{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .ro .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ro .v{font-family:var(--disp);font-size:15px;margin-top:4px}
+
+  .tablewrap{overflow-x:auto;margin:8px 0 14px;border:1px solid var(--line);border-radius:10px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--disp);font-weight:400;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--panel2)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--disp)}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:1px 9px;border:1px solid}
+  .p-ok{color:var(--ok);border-color:var(--ok)} .p-mid{color:var(--accent2);border-color:var(--accent2)} .p-bad{color:var(--bad);border-color:var(--bad)}
+
+  .callout{display:flex;gap:11px;align-items:flex-start;background:var(--panel2);border-left:4px solid var(--accent);border-radius:8px;padding:12px 14px;margin:14px 0}
+  .callout.warn{border-left-color:var(--bad)} .callout.tip{border-left-color:var(--ok)}
+  .callout .lbl{font-family:var(--disp);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);flex:0 0 auto}
+  .callout.warn .lbl{color:var(--bad)} .callout.tip .lbl{color:var(--ok)}
+  .callout p{margin:0;font-size:14.5px}
+  ul{margin:4px 0 14px;padding-left:22px} li{margin:5px 0}
+  a{color:var(--accent)}
+  .en{display:none}
+  [data-lang="en"] .de{display:none}
+  [data-lang="en"] .en{display:revert}
+  footer{margin-top:34px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+  .sec-b h4{font-family:var(--disp);font-weight:400;font-size:15px;color:var(--accent);margin:18px 0 8px}
+  .sec-b blockquote{margin:12px 0;padding:10px 14px;background:var(--panel2);border-left:4px solid var(--accent);border-radius:8px}
+  .sec-b blockquote p{margin:0}
+  code{font-family:var(--disp);font-size:.92em}
+  @media print{.toolbar,.toc{display:none} section{break-inside:auto;box-shadow:none} tr{break-inside:avoid} .tablewrap{overflow:visible} table{min-width:0;font-size:11px} body{font-size:13px}}
+@media print{.backlink{display:none!important}}
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+<div class="wrap">
+  <header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Nichtkaeufliche_Komponenten_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Nichtkaeufliche_Komponenten_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Nichtkaeufliche_Komponenten_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Nichtkaeufliche_Komponenten_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+    <p class="eyebrow"><span class="de">Crafting-Guide · Komponenten</span><span class="en">Crafting Guide · Components</span></p>
+    <h1><span class="de">Nichtkäufliche Komponenten</span><span class="en">Non-Purchasable Components</span> <span style="color:var(--muted)">// <span class="de">Bezugsquellen</span><span class="en">Sources</span></span></h1>
+    <div class="lede">
+<div class="de"><p><strong>Stand:</strong> Alpha <strong>4.10.2</strong> (Spieldaten vom 22.10.2026). Quellen siehe unten. Crafting und Mission-Pools ändern sich mit jedem Patch – vor dem Farmen im Spiel gegenprüfen.</p>
+<blockquote>
+<p><strong>Kurz gesagt:</strong> Von 560 geprüften Schiffskomponenten gibt es <strong>217 in keinem Shop</strong>. Davon sind 126 für Spieler relevant (der Rest sind interne NPC-/Schiffsvarianten). Für <strong>60</strong> nennen die Daten <strong>Missionen als Bauplan-Quelle</strong>, <strong>7</strong> stammen aus einem <strong>abgelaufenen Event</strong>, <strong>41</strong> haben einen Bauplan <strong>ohne bekannte Quelle</strong>, und <strong>18</strong> sind <strong>weder kaufbar noch craftbar</strong> – die findet man nur in Schiffen.</p>
+</blockquote></div>
+<div class="en"><p><strong>As of:</strong> Alpha <strong>4.10.2</strong> (game data from 22 Oct 2026). Sources below. Crafting and mission pools change with every patch – check in game before farming.</p>
+<blockquote>
+<p><strong>In short:</strong> Of 560 ship components checked, <strong>217 are in no shop</strong>. 126 of those matter to players (the rest are internal NPC/ship variants). For <strong>60</strong>, the data names <strong>missions as the blueprint source</strong>, <strong>7</strong> came from an <strong>expired event</strong>, <strong>41</strong> have a blueprint <strong>with no known source</strong>, and <strong>18</strong> are <strong>neither purchasable nor craftable</strong> – those can only be found in ships.</p>
+</blockquote></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="langBtn" type="button">EN / DE</button>
+      <button class="btn" id="themeBtn" type="button"><span class="de">Hell / Dunkel</span><span class="en">Light / Dark</span></button>
+    </div>
+    <nav class="toc">
+      <a href="#s1"><span class="de">1 · Was heißt „nicht käuflich“ – und wie ich das geprüft habe</span><span class="en">1 · What &quot;non-purchasable&quot; means – and how I checked</span></a><a href="#s2"><span class="de">2 · Die vier Wege an eine nichtkäufliche Komponente</span><span class="en">2 · The four ways to get a non-purchasable component</span></a><a href="#s3"><span class="de">3 · Alle nichtkäuflichen Komponenten nach Quelle</span><span class="en">3 · All non-purchasable components by source</span></a><a href="#s4"><span class="de">4 · Praxis-Tipps</span><span class="en">4 · Practical tips</span></a><a href="#s5"><span class="de">5 · Was ich nicht sicher weiß</span><span class="en">5 · What I am not sure about</span></a><a href="#s6"><span class="de">6 · Quellen</span><span class="en">6 · Sources</span></a>
+    </nav>
+  </header>
+
+  <section id="s1">
+    <div class="sec-h"><span class="idx">01</span><div><h2><span class="de">Was heißt „nicht käuflich“ – und wie ich das geprüft habe</span><span class="en">What &quot;non-purchasable&quot; means – and how I checked</span></h2></div></div>
+    <div class="sec-b">
+<div class="de"><p>Ich habe über die Wiki-API (<code>api.star-citizen.wiki</code>) alle Schiffskomponenten der Typen Schild, Power Plant, Cooler, Quantum Drive, Radar, Schiffswaffe, Mining-Laser, Traktorstrahl und Salvage-Kopf abgefragt. <strong>Nicht käuflich</strong> heißt hier: kein Eintrag in den Shop-Daten <strong>und</strong> kein Kaufpreis bei UEX.</p>
+<ul>
+<li>Das ist eine <strong>Auswertung der Datenlage</strong>, keine Garantie. Ein Shop kann die Ware haben, ohne dass die Datenbank es weiß.</li>
+<li>Rund 90 der 217 sind NPC-/Schiffs-interne Varianten (z. B. „Mauler Shield Generator“, „Main Powerplant“). Die sind für dich nicht beschaffbar und stehen <strong>nicht</strong> in den Tabellen unten.</li>
+<li>Klassen (Military, Stealth, Civilian, Industrial, Competition) und Grades (A–D) sind im <a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">Wiki</a> erklärt: Grade A ist die beste Stufe; Military hat die höchste Leistung bei großer Signatur, Stealth wenig Signatur bei mittlerer Leistung.</li>
+</ul></div>
+<div class="en"><p>I queried the wiki API (<code>api.star-citizen.wiki</code>) for all ship components of the types shield, power plant, cooler, quantum drive, radar, ship weapon, mining laser, tractor beam and salvage head. <strong>Non-purchasable</strong> here means: no entry in the shop data <strong>and</strong> no purchase price at UEX.</p>
+<ul>
+<li>This is an <strong>analysis of the available data</strong>, not a guarantee. A shop may stock an item without the database knowing.</li>
+<li>Around 90 of the 217 are internal NPC/ship variants (e.g. "Mauler Shield Generator", "Main Powerplant"). You cannot obtain them, and they are <strong>not</strong> in the tables below.</li>
+<li>Classes (Military, Stealth, Civilian, Industrial, Competition) and grades (A–D) are explained in the <a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">wiki</a>: grade A is the best tier; Military has the highest output with a large signature, Stealth has a low signature with mid-range output.</li>
+</ul></div>
+    </div>
+  </section>
+  <section id="s2">
+    <div class="sec-h"><span class="idx">02</span><div><h2><span class="de">Die vier Wege an eine nichtkäufliche Komponente</span><span class="en">The four ways to get a non-purchasable component</span></h2></div></div>
+    <div class="sec-b">
+<div class="de"><div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Weg</th>
+<th>Wie</th>
+<th>Was du bekommst</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A · Bauplan aus Missionen</strong></td>
+<td>Verträge bestimmter Auftraggeber abschließen; als Belohnung kommt ein Bauplan aus einem Pool</td>
+<td>Bauplan (dauerhaft), danach selbst bauen</td>
+</tr>
+<tr>
+<td><strong>B · Event</strong></td>
+<td>zeitlich begrenzte Events</td>
+<td>Bauplan – aber nur solange das Event läuft</td>
+</tr>
+<tr>
+<td><strong>C · Fund / Ausbau</strong></td>
+<td>Komponenten aus Wracks und Schiffen ausbauen</td>
+<td>die Komponente selbst, ohne Bauplan</td>
+</tr>
+<tr>
+<td><strong>D · Wikelo</strong></td>
+<td>Tauschhandel</td>
+<td>in der Wikelo-Liste stehen <strong>keine</strong> Schiffskomponenten</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Weg A – Bauplan aus Missionen (der Hauptweg)</h3>
+<p>Laut <a target="_blank" rel="noopener" href="https://starcitizen.tools/Blueprint">Wiki</a> kann man Baupläne kaufen, als Missionsbelohnung, über Reputation oder aus Loot-Crates bekommen. Ein Bauplan bleibt dauerhaft im Inventar. Ein <strong>Research Databank</strong> schaltet bessere Versionen eines bekannten Bauplans frei; die niedrigeren Stufen behältst du.</p>
+<p><strong>So funktioniert die Belohnung:</strong> Jede Mission hat einen <strong>Pool</strong> von Bauplänen (5 bis 17 Stück, gemischt aus Komponenten, Waffen und Rüstung). Die Daten geben für jeden Pool 100 % Chance an – vergeben wird ein Bauplan <strong>aus dem Pool</strong>, welcher, ist Zufall. Du kannst eine bestimmte Komponente also nicht gezielt erzwingen, sondern wiederholst passende Missionen, bis sie kommt.</p>
+<p><strong>Welcher Auftraggeber gibt welche Komponenten?</strong> (Rang = Mindest-Reputation der jeweiligen Verträge; höhere Verträge verlangen höhere Ränge.)</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Auftraggeber</th>
+<th>Verträge</th>
+<th>Rang laut Daten</th>
+<th>Gebiet</th>
+<th>Komponenten (nichtkäuflich)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Foxwell Enforcement</strong></td>
+<td>„Protect/Defend Fuel Tanks and Escort Employees“ (Yellow/Orange/Red)</td>
+<td>Contractor bis Veteran Contractor</td>
+<td>Stanton, Pyro, Nyx</td>
+<td>Cooler Glacier/Avalanche/Blizzard, Civilian-Cooler Draug/Elsen/Kragen, Schild FR-86, Power Plant Radiance, Repeater CF-227 Badger, Attrition-4, CF-447 Rhino, CF-557 Galdereen, CF-667 Mammoth</td>
+</tr>
+<tr>
+<td><strong>Eckhart Security</strong></td>
+<td>Security-/Eskortverträge, „Ambush“-Reihe, „High-Risk Bounty“</td>
+<td>Contractor bis Sr. Security Contractor</td>
+<td>Stanton, Nyx</td>
+<td>Stealth-Schilde Mirage/Veil/Sheut/Umbra, Power Plants Slipstream/Eclipse/GammaMax, Fierell Cascade, UltraFlux, MegaFlux, Revenant Gatling</td>
+</tr>
+<tr>
+<td><strong>Headhunters</strong></td>
+<td>Bounty-Verträge („Simple Hit“, „Kill Order“, „Primo Target“ …) und „Defend … From Mercs“</td>
+<td>Neutral bis Elite Contractor</td>
+<td>Pyro (Bounty), Stanton/Pyro/Nyx</td>
+<td>Stealth-Cooler SnowBlind/NightFall, Schild 6CA ‘Bila’, Singe Cannon S1–S3, Tarantula GT-870 Mk 3, M8A Cannon</td>
+</tr>
+<tr>
+<td><strong>InterSec Defense Solutions</strong></td>
+<td>„Tactical Strike Group Needed“, „Strategic Bombing“, „Assist People’s Alliance Vessel Tranquility“</td>
+<td>keine Angabe in den Daten</td>
+<td>–</td>
+<td>Cooler Polar/Permafrost/Tempest, Power Plants JS-300/400/500, QuadraCell MX, Schilde ForceWall/CoverAll/FullBlock</td>
+</tr>
+<tr>
+<td><strong>Hockrow Agency</strong></td>
+<td>„Jorrit Dossier: Project Hyperion“ (Investigation)</td>
+<td>keine Angabe</td>
+<td>Stanton</td>
+<td>Power Plants DynaFlux, Bolide, Fulgur</td>
+</tr>
+<tr>
+<td><strong>Recco Battaglia</strong> (Levski)</td>
+<td>Blackbox Retrieval, Mining-/Salvage-/Scan-Verträge</td>
+<td>Associate, Trusted Associate</td>
+<td>Nyx</td>
+<td>„Hazard-Zone“-Repeater (CF-117/227/337), Mining-Laser Arbor MH1 und Pitman</td>
+</tr>
+<tr>
+<td><strong>Shubin Interstellar</strong></td>
+<td>„Purchase Order: Ship Mined Ore“ (Lrg, Mjr, XL, Special)</td>
+<td>Contractor bis Head Contractor</td>
+<td>Stanton, Pyro, Nyx</td>
+<td>Radar BroadSpec und BroadSpec-Max, Mining-Laser Arbor MH1 und Pitman</td>
+</tr>
+<tr>
+<td><strong>Ling Family Hauling</strong></td>
+<td>„Rookie Cargo Haul“, „Cargo Hauling Opportunity“</td>
+<td>Trainee/Rookie</td>
+<td>alle drei Systeme</td>
+<td>Stealth-Quantum-Drives Spectre (S1) und Spicule (S2)</td>
+</tr>
+<tr>
+<td><strong>Covalex</strong></td>
+<td>„Master Rank – Direct Bulk / Large Cargo Haul“</td>
+<td><strong>Master</strong> (sehr hoher Rang)</td>
+<td>alle drei Systeme</td>
+<td>Quantum Drives Siren, VK-00, XL-1, Yeager, Balandin, TS-2</td>
+</tr>
+</tbody>
+</table></div>
+<p>Was daran auffällt:</p>
+<ul>
+<li><strong>Leichter Einstieg bei Stealth-Quantum-Drives:</strong> Ling Hauling verlangt nur Trainee/Rookie.</li>
+<li><strong>Militär-Quantum-Drives sind das langfristigste Ziel:</strong> Covalex braucht den Master-Rang.</li>
+<li><strong>Foxwell und Eckhart</strong> decken den Großteil der Kampf-Komponenten ab (Cooler, Schilde, Power Plants, Repeater).</li>
+<li>Die <strong>Hazard-Zone-Repeater</strong> und die Mining-Laser kommen vom Battaglia-Strang in Nyx (siehe auch <code>Pyro_Nyx_Questgeber_Guide</code>).</li>
+<li><strong>Welcher Rang genau für welche Komponente nötig ist</strong>, lässt sich aus den Daten nicht sauber ableiten – die Ränge oben sind die Spanne über alle Verträge des Auftraggebers.</li>
+</ul>
+<h3>Weg B – Events</h3>
+<p>Im Event <a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">„The Return of Xenothreat“</a> (4.8.3, 02.–15.07.) gab es Baupläne als Fortschrittsbelohnung: bei 60 % QuadraCell und QuadraCell MT, bei 85 % FR-66 und FR-76, bei 100 % NDB-26/28/30. Das Event ist <strong>vorbei</strong>. Wer die Baupläne damals nicht freigeschaltet hat, bekommt sie nur über eine Wiederholung des Events. Wer sie hat, behält sie dauerhaft.</p>
+<h3>Weg C – Fund und Ausbau aus Schiffen</h3>
+<p>18 Komponenten sind weder kaufbar noch craftbar (Liste in 3.4, z. B. AllStop, Sukoran, Suldrath, Helios, Sovereign, BriskAir, Delphi). Für sie gibt es <strong>keinen Bauplan</strong>, also bleibt nur, sie irgendwo zu finden.</p>
+<p>Was zu dem Weg belegt ist:</p>
+<ul>
+<li>Mit Salvage-Werkzeug (Precision-Traktorstrahl) lassen sich Waffen, Schilde, Quantum Drives und andere Module aus Wracks ziehen, wenn man über eine Komponenten-Bucht herankommt. Stand dieser Aussage ist laut <a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/comm-links/19070">Comm-Link</a> <strong>Alpha 4.4</strong>: Komponenten bis Größe 2.</li>
+<li>Community-Guides empfehlen Salvage-Verträge und Wracks von NPC-Schiffen wie Vanguard, Scorpius und Prowler als Quelle für Military- und Stealth-Teile.</li>
+</ul>
+<p>Was <strong>nicht</strong> belegt ist: ob das in 4.10 noch genau so funktioniert und welche Komponente aus welchem Schiff kommt. Das habe ich nicht gefunden – bitte im Spiel gegenprüfen. Hintergründe stehen in deinem <code>SC_Salvage_Guide</code>.</p>
+<h3>Weg D – Wikelo</h3>
+<p>Ich habe deine Wikelo-Liste (<code>SC_Wikelo_Angebote_Uebersicht.xlsx</code>) gegen die Komponentennamen geprüft: kein Treffer bei Schild, Cooler, Power Plant oder Quantum Drive. Wikelo ist für diesen Guide kein Weg.</p></div>
+<div class="en"><div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Way</th>
+<th>How</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A · Blueprint from missions</strong></td>
+<td>Complete contracts from certain mission givers; the reward is a blueprint from a pool</td>
+<td>Blueprint (permanent), then craft it yourself</td>
+</tr>
+<tr>
+<td><strong>B · Event</strong></td>
+<td>Time-limited events</td>
+<td>Blueprint – but only while the event runs</td>
+</tr>
+<tr>
+<td><strong>C · Find / pull from ships</strong></td>
+<td>Remove components from wrecks and ships</td>
+<td>The component itself, no blueprint</td>
+</tr>
+<tr>
+<td><strong>D · Wikelo</strong></td>
+<td>Barter</td>
+<td>The Wikelo list contains <strong>no</strong> ship components</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Way A – Blueprint from missions (the main route)</h3>
+<p>According to the <a target="_blank" rel="noopener" href="https://starcitizen.tools/Blueprint">wiki</a>, blueprints can be bought, earned as mission rewards, through reputation, or found in loot crates. A blueprint stays in your inventory permanently. A <strong>Research Databank</strong> unlocks better versions of a blueprint you know; you keep the lower tiers.</p>
+<p><strong>How the reward works:</strong> Each mission has a <strong>pool</strong> of blueprints (5 to 17, mixed from components, weapons and armor). The data lists a 100 % chance for every pool – you get one blueprint <strong>from the pool</strong>, and which one is random. So you cannot force a specific component; you repeat matching missions until it drops.</p>
+<p><strong>Which mission giver offers which components?</strong> (Rank = minimum reputation of that giver's contracts; higher contracts require higher ranks.)</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Mission giver</th>
+<th>Contracts</th>
+<th>Rank per data</th>
+<th>Area</th>
+<th>Components (non-purchasable)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Foxwell Enforcement</strong></td>
+<td>"Protect/Defend Fuel Tanks and Escort Employees" (Yellow/Orange/Red)</td>
+<td>Contractor to Veteran Contractor</td>
+<td>Stanton, Pyro, Nyx</td>
+<td>Coolers Glacier/Avalanche/Blizzard, Civilian coolers Draug/Elsen/Kragen, shield FR-86, power plant Radiance, repeaters CF-227 Badger, Attrition-4, CF-447 Rhino, CF-557 Galdereen, CF-667 Mammoth</td>
+</tr>
+<tr>
+<td><strong>Eckhart Security</strong></td>
+<td>Security/escort contracts, "Ambush" series, "High-Risk Bounty"</td>
+<td>Contractor to Sr. Security Contractor</td>
+<td>Stanton, Nyx</td>
+<td>Stealth shields Mirage/Veil/Sheut/Umbra, power plants Slipstream/Eclipse/GammaMax, Fierell Cascade, UltraFlux, MegaFlux, Revenant Gatling</td>
+</tr>
+<tr>
+<td><strong>Headhunters</strong></td>
+<td>Bounty contracts ("Simple Hit", "Kill Order", "Primo Target" …) and "Defend … From Mercs"</td>
+<td>Neutral to Elite Contractor</td>
+<td>Pyro (bounty), Stanton/Pyro/Nyx</td>
+<td>Stealth coolers SnowBlind/NightFall, shield 6CA 'Bila', Singe Cannon S1–S3, Tarantula GT-870 Mk 3, M8A Cannon</td>
+</tr>
+<tr>
+<td><strong>InterSec Defense Solutions</strong></td>
+<td>"Tactical Strike Group Needed", "Strategic Bombing", "Assist People's Alliance Vessel Tranquility"</td>
+<td>not given in the data</td>
+<td>–</td>
+<td>Coolers Polar/Permafrost/Tempest, power plants JS-300/400/500, QuadraCell MX, shields ForceWall/CoverAll/FullBlock</td>
+</tr>
+<tr>
+<td><strong>Hockrow Agency</strong></td>
+<td>"Jorrit Dossier: Project Hyperion" (investigation)</td>
+<td>not given</td>
+<td>Stanton</td>
+<td>Power plants DynaFlux, Bolide, Fulgur</td>
+</tr>
+<tr>
+<td><strong>Recco Battaglia</strong> (Levski)</td>
+<td>Blackbox Retrieval, mining/salvage/scan contracts</td>
+<td>Associate, Trusted Associate</td>
+<td>Nyx</td>
+<td>"Hazard-Zone" repeaters (CF-117/227/337), mining lasers Arbor MH1 and Pitman</td>
+</tr>
+<tr>
+<td><strong>Shubin Interstellar</strong></td>
+<td>"Purchase Order: Ship Mined Ore" (Lrg, Mjr, XL, Special)</td>
+<td>Contractor to Head Contractor</td>
+<td>Stanton, Pyro, Nyx</td>
+<td>Radars BroadSpec and BroadSpec-Max, mining lasers Arbor MH1 and Pitman</td>
+</tr>
+<tr>
+<td><strong>Ling Family Hauling</strong></td>
+<td>"Rookie Cargo Haul", "Cargo Hauling Opportunity"</td>
+<td>Trainee/Rookie</td>
+<td>all three systems</td>
+<td>Stealth quantum drives Spectre (S1) and Spicule (S2)</td>
+</tr>
+<tr>
+<td><strong>Covalex</strong></td>
+<td>"Master Rank – Direct Bulk / Large Cargo Haul"</td>
+<td><strong>Master</strong> (very high rank)</td>
+<td>all three systems</td>
+<td>Quantum drives Siren, VK-00, XL-1, Yeager, Balandin, TS-2</td>
+</tr>
+</tbody>
+</table></div>
+<p>What stands out:</p>
+<ul>
+<li><strong>Easy entry for stealth quantum drives:</strong> Ling Hauling only requires Trainee/Rookie.</li>
+<li><strong>Military quantum drives are the long-term goal:</strong> Covalex requires Master rank.</li>
+<li><strong>Foxwell and Eckhart</strong> cover most of the combat components (coolers, shields, power plants, repeaters).</li>
+<li>The <strong>Hazard-Zone repeaters</strong> and the mining lasers come from the Battaglia line in Nyx (see also <code>Pyro_Nyx_Questgeber_Guide</code>).</li>
+<li><strong>Exactly which rank a given component needs</strong> cannot be derived cleanly from the data – the ranks above are the range across all of a giver's contracts.</li>
+</ul>
+<h3>Way B – Events</h3>
+<p>The event <a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">"The Return of Xenothreat"</a> (4.8.3, 2–15 July) gave blueprints as progress rewards: QuadraCell and QuadraCell MT at 60 %, FR-66 and FR-76 at 85 %, NDB-26/28/30 at 100 %. The event is <strong>over</strong>. If you did not unlock the blueprints back then, you can only get them if the event is repeated. If you have them, you keep them permanently.</p>
+<h3>Way C – Finding and removing components from ships</h3>
+<p>18 components are neither purchasable nor craftable (list in 3.4, e.g. AllStop, Sukoran, Suldrath, Helios, Sovereign, BriskAir, Delphi). There is <strong>no blueprint</strong> for them, so all that is left is to find them somewhere.</p>
+<p>What is documented:</p>
+<ul>
+<li>With salvage tools (precision tractor beam) you can pull weapons, shields, quantum drives and other modules out of wrecks, if you can reach them through a component bay. According to the <a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/comm-links/19070">comm-link</a>, this statement dates from <strong>Alpha 4.4</strong>: components up to size 2.</li>
+<li>Community guides recommend salvage contracts and wrecks of NPC ships such as Vanguard, Scorpius and Prowler as a source of military and stealth parts.</li>
+</ul>
+<p>What is <strong>not</strong> documented: whether this still works the same way in 4.10, and which component comes from which ship. I did not find that – please verify in game. Background is in your <code>SC_Salvage_Guide</code>.</p>
+<h3>Way D – Wikelo</h3>
+<p>I checked your Wikelo list (<code>SC_Wikelo_Angebote_Uebersicht.xlsx</code>) against the component names: no match for shields, coolers, power plants or quantum drives. Wikelo is not a route for this guide.</p></div>
+    </div>
+  </section>
+  <section id="s3">
+    <div class="sec-h"><span class="idx">03</span><div><h2><span class="de">Alle nichtkäuflichen Komponenten nach Quelle</span><span class="en">All non-purchasable components by source</span></h2></div></div>
+    <div class="sec-b">
+<div class="de"><h3>3.1 Bauplan aus Missionen</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Typ</th>
+<th>Größe</th>
+<th>Grade</th>
+<th>Klasse</th>
+<th>Komponente</th>
+<th>Auftraggeber</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>Glacier</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Polar</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>SnowBlind</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>Avalanche</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>NightFall</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Permafrost</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>Blizzard</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Draug</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Elsen</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Kragen</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Tempest</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>DynaFlux</td>
+<td>Hockrow</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Fierell Cascade</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>JS-300</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Slipstream</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Bolide</td>
+<td>Hockrow</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Eclipse</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Stealth</td>
+<td>GammaMax</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>JS-400</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Civilian</td>
+<td>Radiance</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>UltraFlux</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Fulgur</td>
+<td>Hockrow</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>JS-500</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>MegaFlux</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>QuadraCell MX</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Siren</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Spectre</td>
+<td>Ling Hauling</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>VK-00</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Spicule</td>
+<td>Ling Hauling</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>XL-1</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Yeager</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Balandin</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>TS-2</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S3</td>
+<td>B</td>
+<td>Industrial</td>
+<td>BroadSpec</td>
+<td>Shubin</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S4</td>
+<td>B</td>
+<td>Industrial</td>
+<td>BroadSpec-Max</td>
+<td>Shubin</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>ForceWall</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Mirage</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>B</td>
+<td>Stealth</td>
+<td>Veil</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>CoverAll</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>B</td>
+<td>Stealth</td>
+<td>Sheut</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Umbra</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S3</td>
+<td>B</td>
+<td>Civilian</td>
+<td>6CA 'Bila'</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>FR-86</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>FullBlock</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>CF-117 Bulldog "Hazard-Zone" Repeater</td>
+<td>Battaglia</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Singe Cannon (S1)</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>CF-227 Badger "Hazard-Zone" Repeater</td>
+<td>Battaglia</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>CF-227 Badger Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>Singe Cannon (S2)</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>CF-337 Panther "Hazard-Zone" Repeater</td>
+<td>Battaglia</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>Singe Cannon (S3)</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>Tarantula GT-870 Mark 3 Cannon</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Attrition-4 Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>CF-447 Rhino Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Revenant Gatling</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S5</td>
+<td>A</td>
+<td>–</td>
+<td>CF-557 Galdereen Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S6</td>
+<td>A</td>
+<td>–</td>
+<td>CF-667 Mammoth Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S6</td>
+<td>A</td>
+<td>–</td>
+<td>M8A Cannon</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Mining-Laser</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Arbor MH1 Mining Laser</td>
+<td>Battaglia, Shubin</td>
+</tr>
+<tr>
+<td>Mining-Laser</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Pitman Mining Laser</td>
+<td>Battaglia, Shubin</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.2 Bauplan nur aus abgelaufenem Event</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Typ</th>
+<th>Größe</th>
+<th>Grade</th>
+<th>Klasse</th>
+<th>Komponente</th>
+<th>Quelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>QuadraCell</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>QuadraCell MT</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>FR-66</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>FR-76</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>NDB-26 Repeater</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>NDB-28 Repeater</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>NDB-30 Repeater</td>
+<td>Event „The Return of Xenothreat“ (4.8.3)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.3 Bauplan existiert, aber keine Quelle in den Daten</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Typ</th>
+<th>Größe</th>
+<th>Grade</th>
+<th>Klasse</th>
+<th>Komponente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Bracer</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>Tundra</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>B</td>
+<td>Competition</td>
+<td>AbsoluteZero</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>Boreal</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>Galinstan</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>Mercury</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Algid</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Serac</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Serac</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>Charger</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>HyperGen</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>OverDrive</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Regulus</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>ExoGen</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Competition</td>
+<td>LuxCore</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>Maelstrom</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>TurboDrive</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>Vortex</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>Centurion</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>Drassik</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Industrial</td>
+<td>Reliance</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>SmartGen</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>SuperDrive</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Stellate</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Stellate</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Beacon</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>Crossfield</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>Pontes</td>
+</tr>
+<tr>
+<td>Quantum Drive</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Allegro</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>AllStop</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>SecureHyde</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>FullStop</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>SecureShield</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>SecureScreen</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>SureStop</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Glacis</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>RS-Barrier</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>GVSR Repeater</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>Thlilye Laser Gatling</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>PyroBurst Scattergun</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>Reign-3 Repeater</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.4 Weder kaufbar noch craftbar (nur Fund)</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Typ</th>
+<th>Größe</th>
+<th>Grade</th>
+<th>Klasse</th>
+<th>Komponente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>BriskAir IC-10</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>BriskAir IC-20</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>BriskAir IC-30</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S0</td>
+<td>C</td>
+<td>Civilian</td>
+<td>Radix</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Helios IP-10</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Sovereign IP-10</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Helios IP-20</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Sovereign IP-20</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Helios IP-30</td>
+</tr>
+<tr>
+<td>Power Plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Sovereign IP-30</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Delphi RS-10</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Ecouter</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Delphi RS-20</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Delphi RS-30</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>AllStop</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Suldrath</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>Sukoran</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Glacis</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="en"><h3>3.1 Blueprint from missions</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size</th>
+<th>Grade</th>
+<th>Class</th>
+<th>Component</th>
+<th>Mission giver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>Glacier</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Polar</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>SnowBlind</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>Avalanche</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>NightFall</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Permafrost</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>Blizzard</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Draug</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Elsen</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Kragen</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Tempest</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>DynaFlux</td>
+<td>Hockrow</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Fierell Cascade</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>JS-300</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Slipstream</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Bolide</td>
+<td>Hockrow</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Eclipse</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Stealth</td>
+<td>GammaMax</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>JS-400</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Civilian</td>
+<td>Radiance</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>UltraFlux</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Fulgur</td>
+<td>Hockrow</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>JS-500</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>MegaFlux</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>QuadraCell MX</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Siren</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Spectre</td>
+<td>Ling Hauling</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>VK-00</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Spicule</td>
+<td>Ling Hauling</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>XL-1</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Yeager</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Balandin</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>TS-2</td>
+<td>Covalex</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S3</td>
+<td>B</td>
+<td>Industrial</td>
+<td>BroadSpec</td>
+<td>Shubin</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S4</td>
+<td>B</td>
+<td>Industrial</td>
+<td>BroadSpec-Max</td>
+<td>Shubin</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>ForceWall</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Mirage</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>B</td>
+<td>Stealth</td>
+<td>Veil</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>CoverAll</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>B</td>
+<td>Stealth</td>
+<td>Sheut</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>A</td>
+<td>Stealth</td>
+<td>Umbra</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S3</td>
+<td>B</td>
+<td>Civilian</td>
+<td>6CA 'Bila'</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S3</td>
+<td>A</td>
+<td>Military</td>
+<td>FR-86</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>FullBlock</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>CF-117 Bulldog "Hazard-Zone" Repeater</td>
+<td>Battaglia</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Singe Cannon (S1)</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>CF-227 Badger "Hazard-Zone" Repeater</td>
+<td>Battaglia</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>CF-227 Badger Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>Singe Cannon (S2)</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>CF-337 Panther "Hazard-Zone" Repeater</td>
+<td>Battaglia</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>Singe Cannon (S3)</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>Tarantula GT-870 Mark 3 Cannon</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Attrition-4 Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>CF-447 Rhino Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Revenant Gatling</td>
+<td>Eckhart</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S5</td>
+<td>A</td>
+<td>–</td>
+<td>CF-557 Galdereen Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S6</td>
+<td>A</td>
+<td>–</td>
+<td>CF-667 Mammoth Repeater</td>
+<td>Foxwell</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S6</td>
+<td>A</td>
+<td>–</td>
+<td>M8A Cannon</td>
+<td>Headhunters</td>
+</tr>
+<tr>
+<td>Mining laser</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Arbor MH1 Mining Laser</td>
+<td>Battaglia, Shubin</td>
+</tr>
+<tr>
+<td>Mining laser</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Pitman Mining Laser</td>
+<td>Battaglia, Shubin</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.2 Blueprint from an expired event only</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size</th>
+<th>Grade</th>
+<th>Class</th>
+<th>Component</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>QuadraCell</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>QuadraCell MT</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>A</td>
+<td>Military</td>
+<td>FR-66</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>A</td>
+<td>Military</td>
+<td>FR-76</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>NDB-26 Repeater</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>NDB-28 Repeater</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>NDB-30 Repeater</td>
+<td>Event "The Return of Xenothreat" (4.8.3)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.3 Blueprint exists, but no source in the data</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size</th>
+<th>Grade</th>
+<th>Class</th>
+<th>Component</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Bracer</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>Tundra</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>B</td>
+<td>Competition</td>
+<td>AbsoluteZero</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>Boreal</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>Galinstan</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>Mercury</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Algid</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Serac</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Serac</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>Charger</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>HyperGen</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>OverDrive</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Regulus</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>ExoGen</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Competition</td>
+<td>LuxCore</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>Maelstrom</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>TurboDrive</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>Vortex</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>Centurion</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>Drassik</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Industrial</td>
+<td>Reliance</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>SmartGen</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>SuperDrive</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Stellate</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Stellate</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Beacon</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>Crossfield</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>Pontes</td>
+</tr>
+<tr>
+<td>Quantum drive</td>
+<td>S4</td>
+<td>A</td>
+<td>Civilian</td>
+<td>Allegro</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>AllStop</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>D</td>
+<td>Military</td>
+<td>SecureHyde</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>FullStop</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>D</td>
+<td>Military</td>
+<td>SecureShield</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S3</td>
+<td>D</td>
+<td>Military</td>
+<td>SecureScreen</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S3</td>
+<td>C</td>
+<td>Military</td>
+<td>SureStop</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Glacis</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>RS-Barrier</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>GVSR Repeater</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S2</td>
+<td>A</td>
+<td>–</td>
+<td>Thlilye Laser Gatling</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>PyroBurst Scattergun</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S3</td>
+<td>A</td>
+<td>–</td>
+<td>Reign-3 Repeater</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.4 Neither purchasable nor craftable (found only)</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size</th>
+<th>Grade</th>
+<th>Class</th>
+<th>Component</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooler</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>BriskAir IC-10</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>BriskAir IC-20</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>BriskAir IC-30</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S0</td>
+<td>C</td>
+<td>Civilian</td>
+<td>Radix</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Helios IP-10</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Sovereign IP-10</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Helios IP-20</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Sovereign IP-20</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Helios IP-30</td>
+</tr>
+<tr>
+<td>Power plant</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Sovereign IP-30</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S1</td>
+<td>B</td>
+<td>Military</td>
+<td>Delphi RS-10</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Ecouter</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S2</td>
+<td>B</td>
+<td>Military</td>
+<td>Delphi RS-20</td>
+</tr>
+<tr>
+<td>Radar</td>
+<td>S3</td>
+<td>B</td>
+<td>Military</td>
+<td>Delphi RS-30</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>AllStop</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S1</td>
+<td>C</td>
+<td>Military</td>
+<td>Suldrath</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S2</td>
+<td>C</td>
+<td>Military</td>
+<td>Sukoran</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S4</td>
+<td>A</td>
+<td>Industrial</td>
+<td>Glacis</td>
+</tr>
+</tbody>
+</table></div></div>
+    </div>
+  </section>
+  <section id="s4">
+    <div class="sec-h"><span class="idx">04</span><div><h2><span class="de">Praxis-Tipps</span><span class="en">Practical tips</span></h2></div></div>
+    <div class="sec-b">
+<div class="de"><ol>
+<li><strong>Zuerst Ziel wählen, dann Auftraggeber:</strong> In Tabelle 3.1 die Komponente suchen, den Auftraggeber merken, dessen Verträge wiederholen.</li>
+<li><strong>Ränge aufbauen:</strong> Foxwell und Eckhart fangen bei Contractor an. Ling Hauling ist der leichteste Einstieg (Trainee).</li>
+<li><strong>Wiederholen statt hoffen:</strong> Der Pool ist Zufall; du bekommst einen Bauplan aus dem Pool, nicht zwingend deinen Wunsch-Bauplan.</li>
+<li><strong>Material vorher besorgen:</strong> Rezept und Mindestqualität zeigt der Item Fabricator; Details im <code>Crafting_Bauplaene_Guide</code>.</li>
+<li><strong>Nach Patches neu prüfen:</strong> Pools, Ränge und Verträge wechseln. Die Zahlen hier sind der Stand 4.10.2.</li>
+<li><strong>Ohne Quelle ≠ unmöglich:</strong> 41 Baupläne haben keine bekannte Quelle in den Daten. Dass sie später kommen, ist eine Vermutung; belegen kann ich es nicht.</li>
+</ol></div>
+<div class="en"><ol>
+<li><strong>Pick the target first, then the mission giver:</strong> Look up the component in table 3.1, note the giver, and repeat that giver's contracts.</li>
+<li><strong>Build ranks:</strong> Foxwell and Eckhart start at Contractor. Ling Hauling is the easiest entry (Trainee).</li>
+<li><strong>Repeat instead of hoping:</strong> The pool is random; you get one blueprint from the pool, not necessarily the one you want.</li>
+<li><strong>Get materials beforehand:</strong> The Item Fabricator shows the recipe and minimum quality; details in <code>Crafting_Bauplaene_Guide</code>.</li>
+<li><strong>Re-check after patches:</strong> Pools, ranks and contracts change. The numbers here are as of 4.10.2.</li>
+<li><strong>No source ≠ impossible:</strong> 41 blueprints have no known source in the data. That they arrive later is a guess; I cannot prove it.</li>
+</ol></div>
+    </div>
+  </section>
+  <section id="s5">
+    <div class="sec-h"><span class="idx">05</span><div><h2><span class="de">Was ich nicht sicher weiß</span><span class="en">What I am not sure about</span></h2></div></div>
+    <div class="sec-b">
+<div class="de"><ul>
+<li>Ob „100 % Pool-Chance“ in der Praxis <strong>genau einen</strong> Bauplan pro Vertrag bedeutet. Ich lese das so, weil die Wiki-Seite zur Mission „Recover Vanduul Tech“ dasselbe beschreibt (ein Bauplan aus einem Pool).</li>
+<li>Welcher Rang für welche Komponente nötig ist (siehe oben).</li>
+<li>Ob alle 60 Mission-Quellen im Spiel gerade aktiv angeboten werden. Verträge wechseln.</li>
+<li>Ob Komponenten ohne Shop-Eintrag in einem Shop erscheinen, den die Datenbank nicht kennt.</li>
+<li>Ob ein bereits bekannter Bauplan erneut fallen kann.</li>
+<li>Wie Ausbau und Loot in 4.10 genau laufen (Weg C).</li>
+</ul></div>
+<div class="en"><ul>
+<li>Whether "100 % pool chance" really means <strong>exactly one</strong> blueprint per contract. I read it that way because the wiki page for the mission "Recover Vanduul Tech" describes the same thing (one blueprint from a pool).</li>
+<li>Which rank is needed for which component (see above).</li>
+<li>Whether all 60 mission sources are currently offered in game. Contracts rotate.</li>
+<li>Whether components without a shop entry appear in a shop the database does not know.</li>
+<li>Whether an already known blueprint can drop again.</li>
+<li>How removing and looting components works in 4.10 exactly (Way C).</li>
+</ul></div>
+    </div>
+  </section>
+  <section id="s6">
+    <div class="sec-h"><span class="idx">06</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2></div></div>
+    <div class="sec-b">
+<div class="de"><ul>
+<li>Star Citizen Wiki API: Baupläne, Items, Missionen (<code>api.star-citizen.wiki</code>), Datenstand 4.10.2-LIVE</li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Blueprint">Star Citizen Wiki – Blueprint</a></li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">Star Citizen Wiki – Ship component</a></li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">Star Citizen Wiki – Return of Xenothreat</a></li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Star_Citizen_Alpha_4.9.0">Star Citizen Wiki – Alpha 4.9.0</a> (Recco Battaglia)</li>
+<li><a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/comm-links/19070">Comm-Link „Salvage and Repair Guide“</a></li>
+<li><a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/missions/recover-vanduul-tech">Recover Vanduul Tech (Missionsseite)</a></li>
+<li>Eigene Unterlagen: <code>Crafting_Bauplaene_Guide</code>, <code>SC_Salvage_Guide</code>, <code>SC_Wikelo_Angebote_Uebersicht.xlsx</code></li>
+</ul>
+<p><em>Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</em></p></div>
+<div class="en"><ul>
+<li>Star Citizen Wiki API: blueprints, items, missions (<code>api.star-citizen.wiki</code>), data as of 4.10.2-LIVE</li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Blueprint">Star Citizen Wiki – Blueprint</a></li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">Star Citizen Wiki – Ship component</a></li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">Star Citizen Wiki – Return of Xenothreat</a></li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Star_Citizen_Alpha_4.9.0">Star Citizen Wiki – Alpha 4.9.0</a> (Recco Battaglia)</li>
+<li><a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/comm-links/19070">Comm-Link "Salvage and Repair Guide"</a></li>
+<li><a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/missions/recover-vanduul-tech">Recover Vanduul Tech (mission page)</a></li>
+<li>Own material: <code>Crafting_Bauplaene_Guide</code>, <code>SC_Salvage_Guide</code>, <code>SC_Wikelo_Angebote_Uebersicht.xlsx</code></li>
+</ul>
+<p><em>Unofficial fan handbook. Not affiliated with Cloud Imperium Games. Star Citizen® is a trademark of CIG. All information without guarantee.</em></p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><span class="de">Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Daten patch-abhängig (Stand 4.10.2) — alle Angaben ohne Gewähr.</span><span class="en">Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. Data is patch-dependent (as of 4.10.2) — no guarantee.</span></p>
+  </footer>
+</div>
+<script>
+  (function(){
+    var root=document.documentElement;
+    try{var th=localStorage.getItem('scCompTheme'); if(th)root.setAttribute('data-theme',th);}catch(e){}
+    try{var l=localStorage.getItem('scCompLang'); if(l==='en'){root.setAttribute('data-lang','en');root.setAttribute('lang','en');}}catch(e){}
+    document.getElementById('themeBtn').addEventListener('click',function(){
+      var n=root.getAttribute('data-theme')==='dark'?'light':'dark';
+      root.setAttribute('data-theme',n); try{localStorage.setItem('scCompTheme',n);}catch(e){}
+    });
+    document.getElementById('langBtn').addEventListener('click',function(){
+      var en=root.getAttribute('data-lang')==='en';
+      if(en){root.removeAttribute('data-lang');root.setAttribute('lang','de');}
+      else{root.setAttribute('data-lang','en');root.setAttribute('lang','en');}
+      try{localStorage.setItem('scCompLang',en?'de':'en');}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>

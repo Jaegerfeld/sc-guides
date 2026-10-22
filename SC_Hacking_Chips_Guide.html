@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC Hacking-Chips</title>
+<meta name="description" content="Tool-Guide zu Star-Citizen-Cryptokeys (Hacking-Chips): Werte im Vergleich, was man hackt, Bedienung, Bezugsquellen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3f6f2; --panel:#ffffff; --panel2:#e8efe8; --ink:#13201a; --muted:#5a6b60;
+    --line:#cde0d2; --accent:#1f9d55; --accent2:#c06020; --bad:#b0392c; --ok:#1f9d55;
+    --glow:rgba(31,157,85,.16); --shadow:0 2px 12px rgba(20,40,30,.08);
+    --disp:'Share Tech Mono',ui-monospace,monospace; --body:'Barlow',system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#060a07; --panel:#0d140f; --panel2:#0a110c; --ink:#d6f0df; --muted:#7d9a88;
+      --line:#1c2c22; --accent:#3ddc84; --accent2:#e8a24a; --bad:#e8775c; --ok:#3ddc84;
+      --glow:rgba(61,220,132,.14); --shadow:0 4px 22px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#060a07; --panel:#0d140f; --panel2:#0a110c; --ink:#d6f0df; --muted:#7d9a88;
+    --line:#1c2c22; --accent:#3ddc84; --accent2:#e8a24a; --bad:#e8775c; --ok:#3ddc84;
+    --glow:rgba(61,220,132,.14); --shadow:0 4px 22px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 18px 70px}
+  .hazard{height:6px;background:repeating-linear-gradient(90deg,var(--accent) 0 18px,transparent 18px 26px);opacity:.85}
+  header{padding:34px 0 10px}
+  .eyebrow{font-family:var(--disp);letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-size:12px;margin:0 0 8px}
+  h1{font-family:var(--disp);font-weight:400;font-size:clamp(26px,5vw,42px);margin:0;line-height:1.1;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:62ch;margin:12px 0 0;font-size:16.5px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 2px}
+  .btn{font-family:var(--body);font-weight:600;font-size:13px;letter-spacing:.04em;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+  .toc a{font-family:var(--disp);font-size:12.5px;text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:5px 11px;color:var(--ink)}
+  .toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  section{margin:30px 0 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .sec-h{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line);background:linear-gradient(0deg,transparent,var(--glow))}
+  .sec-h .idx{font-family:var(--disp);font-size:15px;color:var(--bg);background:var(--accent);min-width:42px;height:42px;padding:0 8px;display:grid;place-items:center;border-radius:10px;flex:0 0 auto}
+  .sec-h h2{font-family:var(--disp);font-weight:400;font-size:20px;margin:0;letter-spacing:.02em}
+  .sec-b{padding:18px 20px}
+  .sec-b p{margin:0 0 12px}
+  .sec-b h3{font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.04em;margin:18px 0 8px;color:var(--accent);text-transform:uppercase}
+
+  .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:4px 0 14px}
+  .ro{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .ro .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ro .v{font-family:var(--disp);font-size:15px;margin-top:4px}
+
+  .tablewrap{overflow-x:auto;margin:8px 0 14px;border:1px solid var(--line);border-radius:10px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--disp);font-weight:400;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--panel2)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--disp)}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:1px 9px;border:1px solid}
+  .p-ok{color:var(--ok);border-color:var(--ok)} .p-mid{color:var(--accent2);border-color:var(--accent2)} .p-bad{color:var(--bad);border-color:var(--bad)}
+
+  .callout{display:flex;gap:11px;align-items:flex-start;background:var(--panel2);border-left:4px solid var(--accent);border-radius:8px;padding:12px 14px;margin:14px 0}
+  .callout.warn{border-left-color:var(--bad)} .callout.tip{border-left-color:var(--ok)}
+  .callout .lbl{font-family:var(--disp);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);flex:0 0 auto}
+  .callout.warn .lbl{color:var(--bad)} .callout.tip .lbl{color:var(--ok)}
+  .callout p{margin:0;font-size:14.5px}
+  ul{margin:4px 0 14px;padding-left:22px} li{margin:5px 0}
+  a{color:var(--accent)}
+  .en{display:none}
+  [data-lang="en"] .de{display:none}
+  [data-lang="en"] .en{display:revert}
+  footer{margin-top:34px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+@media print{.backlink{display:none!important}}
+</style>
+</head>
+<body>
+<div class="hazard"></div>
+<div class="wrap">
+  <header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Hacking_Chips_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Hacking_Chips_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Hacking_Chips_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Hacking_Chips_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+    <p class="eyebrow"><span class="de">Tool-Guide · Hacking</span><span class="en">Tool Guide · Hacking</span></p>
+    <h1>Hacking-Chips <span style="color:var(--muted)">// Cryptokeys</span></h1>
+    <p class="lede">
+      <span class="de">Welche Cryptokeys es gibt, was sie taugen, was man damit hackt und wie man sie bedient. Werte sind patch-abhängig — live prüfen.</span>
+      <span class="en">Which cryptokeys exist, how good they are, what you hack and how to use them. Values are patch-dependent — check live.</span>
+    </p>
+    <div class="toolbar">
+      <button class="btn" id="langBtn" type="button">EN / DE</button>
+      <button class="btn" id="themeBtn" type="button"><span class="de">Hell / Dunkel</span><span class="en">Light / Dark</span></button>
+    </div>
+    <nav class="toc">
+      <a href="#s0"><span class="de">00 · Grundlagen</span><span class="en">00 · Basics</span></a>
+      <a href="#s1"><span class="de">01 · Chips im Vergleich</span><span class="en">01 · Chips compared</span></a>
+      <a href="#s2"><span class="de">02 · Was hacken?</span><span class="en">02 · What to hack</span></a>
+      <a href="#s3"><span class="de">03 · Bedienung</span><span class="en">03 · How to use</span></a>
+      <a href="#s4"><span class="de">04 · Bezug</span><span class="en">04 · Where to get</span></a>
+    </nav>
+  </header>
+
+  <!-- 00 -->
+  <section id="s0">
+    <div class="sec-h"><span class="idx">00</span><div><h2><span class="de">Grundlagen</span><span class="en">Basics</span></h2></div></div>
+    <div class="sec-b">
+      <p><span class="de">Ein <b>Cryptokey</b> ist ein <b>tragbarer Hacking-Chip</b>, mit dem man gesicherte elektronische Systeme knackt. Er ist ein <b>Verbrauchsgegenstand</b> (wird beim Einsatz aufgebraucht).</span>
+      <span class="en">A <b>cryptokey</b> is a <b>portable hacking chip</b> used to crack secured electronic systems. It is a <b>consumable</b> (used up on use).</span></p>
+      <div class="readout">
+        <div class="ro"><div class="k"><span class="de">Was</span><span class="en">What</span></div><div class="v"><span class="de">Hacking-Chip</span><span class="en">hacking chip</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Einsatz</span><span class="en">Used on</span></div><div class="v"><span class="de">Comm-Arrays, Crime-Stat, Türen/Terminals</span><span class="en">comm arrays, crime stat, doors/terminals</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Trade-off</span><span class="en">Trade-off</span></div><div class="v"><span class="de">Tempo vs. Fehlerrisiko</span><span class="en">speed vs. error risk</span></div></div>
+        <div class="ro"><div class="k"><span class="de">Verbrauch</span><span class="en">Consumable</span></div><div class="v"><span class="de">ja (patch-abh.)</span><span class="en">yes (patch-dep.)</span></div></div>
+      </div>
+      <div class="callout">
+        <span class="lbl"><span class="de">Lesart</span><span class="en">How to read</span></span>
+        <p><span class="de"><b>Hack-Zeit %</b> = Anteil der Basis-Dauer → <b>niedriger = schneller</b>. <b>Fehlerchance</b> = Risiko, dass der Hack scheitert (Chip meist trotzdem weg). Ideal: niedrige Zeit <b>und</b> niedriger Fehler.</span>
+        <span class="en"><b>Hack time %</b> = share of base duration → <b>lower = faster</b>. <b>Error chance</b> = risk the hack fails (chip usually still consumed). Ideal: low time <b>and</b> low error.</span></p>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted)"><span class="de">Hinweis: Einige Quellen nennen für manche Chips mehrere „Ladungen" (z. B. Tigersclaw 3). Das ist patch-sensibel — im Zweifel wie Einwegware behandeln und im Spiel prüfen.</span>
+      <span class="en">Note: some sources list multiple “charges” for certain chips (e.g. Tigersclaw 3). This is patch-sensitive — treat as single-use when in doubt and verify in game.</span></p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section id="s1">
+    <div class="sec-h"><span class="idx">01</span><div><h2><span class="de">Die Chips im Vergleich</span><span class="en">The chips compared</span></h2></div></div>
+    <div class="sec-b">
+      <div class="tablewrap"><table>
+        <thead><tr>
+          <th>Chip</th>
+          <th><span class="de">Hersteller</span><span class="en">Maker</span></th>
+          <th><span class="de">Hack-Zeit</span><span class="en">Hack time</span></th>
+          <th><span class="de">Fehler</span><span class="en">Error</span></th>
+          <th><span class="de">Einordnung</span><span class="en">Verdict</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Decryption Key</td><td><span class="de">unbek.</span><span class="en">unknown</span></td><td class="num">100%</td><td class="num"><span class="pill p-ok">0%</span></td><td><span class="de">langsam, aber nie Fehlschlag — sicherste Wahl</span><span class="en">slow but never fails — safest</span></td></tr>
+          <tr><td>Re-Authorizer</td><td>Lortell</td><td class="num">100%</td><td class="num"><span class="pill p-ok">10%</span></td><td><span class="de">normal &amp; zuverlässig</span><span class="en">normal &amp; reliable</span></td></tr>
+          <tr><td>FUNT</td><td><span class="de">unbek.</span><span class="en">unknown</span></td><td class="num">50%</td><td class="num"><span class="pill p-ok">10%</span></td><td><span class="de">schnell &amp; zuverlässig — Top-Allrounder</span><span class="en">fast &amp; reliable — top all-rounder</span></td></tr>
+          <tr><td>Tigersclaw</td><td>Blue Triangle</td><td class="num">75%</td><td class="num"><span class="pill p-mid">50%</span></td><td><span class="de">solider Standard, oft lootbar</span><span class="en">solid standard, often looted</span></td></tr>
+          <tr><td>IcePick</td><td>microTech</td><td class="num">50%</td><td class="num"><span class="pill p-mid">50%</span></td><td><span class="de">schnell, aber riskant</span><span class="en">fast but risky</span></td></tr>
+          <tr><td>Ripper</td><td><span class="de">unbek.</span><span class="en">unknown</span></td><td class="num">50%</td><td class="num"><span class="pill p-bad">90%</span></td><td><span class="de">sehr schnell, extrem instabil (Tigersclaw-Mod)</span><span class="en">very fast, highly unstable (Tigersclaw mod)</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout tip">
+        <span class="lbl"><span class="de">Empfehlung</span><span class="en">Pick</span></span>
+        <p><span class="de"><b>Wichtiger Hack (Crime-Stat, einmalige Tür)?</b> → <b>Decryption Key</b> (0% Fehler) oder <b>FUNT</b> (schnell &amp; sicher). <b>Viele Hacks/Zeitdruck &amp; Vorrat da?</b> → schnelle, aber riskante Chips (IcePick/Ripper) nur mit Reserve.</span>
+        <span class="en"><b>Critical hack (crime stat, one-shot door)?</b> → <b>Decryption Key</b> (0% error) or <b>FUNT</b> (fast &amp; safe). <b>Many hacks/time pressure &amp; stock on hand?</b> → fast but risky chips (IcePick/Ripper) only with spares.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="s2">
+    <div class="sec-h"><span class="idx">02</span><div><h2><span class="de">Was kann man hacken?</span><span class="en">What can you hack?</span></h2></div></div>
+    <div class="sec-b">
+      <ul>
+        <li><b>Crime-Stat entfernen:</b> <span class="de">an der <b>Imperial Criminal Database</b> (klassisch <b>Security Post Kareah</b>) den eigenen Fahndungs-Status löschen.</span><span class="en">wipe your own wanted level at the <b>Imperial Criminal Database</b> (classically <b>Security Post Kareah</b>).</span></li>
+        <li><b>Comm-Arrays:</b> <span class="de">Kommunikations-Terminals hacken/abschalten — z. B. um „dunkel" zu werden (keine Verstärkung/Crime-Meldung) oder für Missionsschritte.</span><span class="en">hack/disable comm array terminals — e.g. to go “dark” (no reinforcements/crime report) or for mission steps.</span></li>
+        <li><b><span class="de">Türen, Terminals &amp; Behälter:</span><span class="en">Doors, terminals &amp; containers:</span></b> <span class="de">verschlossene Zugänge in <b>Bunkern</b>, Facilities, Exec-/Contested-Zone-Bereichen und gesicherte Daten-Terminals öffnen (Loot-Zugang).</span><span class="en">open locked access in <b>bunkers</b>, facilities, exec/contested-zone areas, and secured data terminals (loot access).</span></li>
+      </ul>
+      <p style="font-size:13.5px;color:var(--muted)"><span class="de">Offiziell bestätigt: Comm-Arrays &amp; Imperial Criminal Database. Türen/Terminals/Behälter sind gängige Praxis, variieren aber je nach Ort &amp; Patch.</span>
+      <span class="en">Officially confirmed: comm arrays &amp; Imperial Criminal Database. Doors/terminals/containers are common practice but vary by location &amp; patch.</span></p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section id="s3">
+    <div class="sec-h"><span class="idx">03</span><div><h2><span class="de">Bedienung</span><span class="en">How to use</span></h2></div></div>
+    <div class="sec-b">
+      <ol style="padding-left:22px">
+        <li><span class="de">Passenden Chip im <b>Inventar</b> dabei haben.</span><span class="en">Carry a suitable chip in your <b>inventory</b>.</span></li>
+        <li><span class="de">Zum hackbaren <b>Terminal/Panel</b> gehen (Kareah-Terminal, Comm-Array-Konsole, Bunker-Tür/Terminal).</span><span class="en">Go to the hackable <b>terminal/panel</b> (Kareah terminal, comm array console, bunker door/terminal).</span></li>
+        <li><span class="de"><b>F</b> zum Interagieren → der Chip wird eingesetzt und der Hack läuft (Dauer je nach Chip).</span><span class="en"><b>F</b> to interact → the chip is inserted and the hack runs (duration depends on chip).</span></li>
+        <li><span class="de">Bei <b>Erfolg</b>: Zugriff frei (Tür auf / Crime-Stat weg / Array aus). Bei <b>Fehler</b> (Fehlerchance): Hack scheitert, Chip meist verbraucht → neuen nehmen.</span><span class="en">On <b>success</b>: access granted (door open / crime stat cleared / array down). On <b>failure</b> (error chance): hack fails, chip usually consumed → use another.</span></li>
+      </ol>
+      <div class="callout warn">
+        <span class="lbl">Achtung</span>
+        <p><span class="de">Hacken macht dich oft <b>angreifbar</b> (Standzeit am Terminal) und kann einen <b>Crime-Stat erzeugen</b> (z. B. an fremden Systemen/Comm-Arrays). Immer <b>Ersatz-Chips</b> mitnehmen, gerade bei hoher Fehlerchance.</span>
+        <span class="en">Hacking often leaves you <b>exposed</b> (standing at the terminal) and can <b>generate a crime stat</b> (e.g. on others' systems/comm arrays). Always carry <b>spare chips</b>, especially with high error chance.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section id="s4">
+    <div class="sec-h"><span class="idx">04</span><div><h2><span class="de">Bezugsquellen</span><span class="en">Where to get them</span></h2></div></div>
+    <div class="sec-b">
+      <h3><span class="de">Kaufen</span><span class="en">Buy</span></h3>
+      <ul>
+        <li><b>Technotic</b> — Grim HEX</li>
+        <li><b>Grand Barter Bazaar</b> — Levski</li>
+        <li><b>Cubby Blast</b> — Area18</li>
+        <li><b>Omega Pro</b> &amp; <b>The Factory Line</b> — New Babbage</li>
+      </ul>
+      <h3><span class="de">Looten</span><span class="en">Loot</span></h3>
+      <p><span class="de">Hacking-Chips (v. a. Tigersclaw) tauchen im Container-Loot in <b>Bunkern</b> und Facilities auf — praktisch, da man sie ohnehin oft direkt vor Ort zum Weiterkommen braucht.</span>
+      <span class="en">Hacking chips (esp. Tigersclaw) appear in container loot in <b>bunkers</b> and facilities — handy, since you often need one on the spot to proceed.</span></p>
+      <h3><span class="de">Live nachschlagen</span><span class="en">Look up live</span></h3>
+      <ul>
+        <li>SC-Wiki — Cryptokeys: <a href="https://starcitizen.tools/Cryptokeys" target="_blank" rel="noopener">starcitizen.tools</a></li>
+        <li>CStone Item-Finder (Hacking Chips): <a href="https://finder.cstone.space/HackingChips1/3b1d33fb-aaca-4056-a28f-74da168e4070" target="_blank" rel="noopener">finder.cstone.space</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p><span class="de">Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Werte &amp; Orte patch-abhängig — alle Angaben ohne Gewähr.</span>
+    <span class="en">Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. Values &amp; locations are patch-dependent — no guarantee.</span></p>
+  </footer>
+</div>
+<script>
+  (function(){
+    var root=document.documentElement;
+    try{var th=localStorage.getItem('scHackTheme'); if(th)root.setAttribute('data-theme',th);}catch(e){}
+    try{var l=localStorage.getItem('scHackLang'); if(l==='en'){root.setAttribute('data-lang','en');root.setAttribute('lang','en');}}catch(e){}
+    document.getElementById('themeBtn').addEventListener('click',function(){
+      var n=root.getAttribute('data-theme')==='dark'?'light':'dark';
+      root.setAttribute('data-theme',n); try{localStorage.setItem('scHackTheme',n);}catch(e){}
+    });
+    document.getElementById('langBtn').addEventListener('click',function(){
+      var en=root.getAttribute('data-lang')==='en';
+      if(en){root.removeAttribute('data-lang');root.setAttribute('lang','de');}
+      else{root.setAttribute('data-lang','en');root.setAttribute('lang','en');}
+      try{localStorage.setItem('scHackLang',en?'de':'en');}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<title>SC Salvage Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f2efe9; --panel:#ffffff; --panel2:#e9e3d8; --line:#d7cbb8;
+  --ink:#1a150f; --dim:#6a5f4e; --rust:#b0561f; --rust-bd:#c96a2c; --gold:#9a7614; --gold-bd:#c19a2a;
+  --danger:#b3301f; --danger-bg:#f4ddd4; --warn:#8a6300; --warn-bg:#f3ead0;
+  --stripe:rgba(176,86,31,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(60,35,15,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Kanit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12100c; --panel:#1c1712; --panel2:#15110d; --line:#352c22; --ink:#efe6d9; --dim:#ada08c;
+    --rust:#e0894a; --rust-bd:#8f4d22; --gold:#e0bd5a; --gold-bd:#8a6f22;
+    --danger:#f0563a; --danger-bg:#2a1310; --warn:#f0c14b; --warn-bg:#241d0d;
+    --stripe:rgba(224,137,74,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12100c; --panel:#1c1712; --panel2:#15110d; --line:#352c22; --ink:#efe6d9; --dim:#ada08c;
+  --rust:#e0894a; --rust-bd:#8f4d22; --gold:#e0bd5a; --gold-bd:#8a6f22;
+  --danger:#f0563a; --danger-bg:#2a1310; --warn:#f0c14b; --warn-bg:#241d0d;
+  --stripe:rgba(224,137,74,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.14;margin:0;font-weight:600}
+a{color:var(--rust)}
+:focus-visible{outline:2px solid var(--rust);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--rust-bd) 0 16px,transparent 16px 32px);opacity:.85}
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 85% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--rust);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,50px);font-weight:700;margin:10px 0 6px}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:64ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:20px;padding:4px 11px;color:var(--ink);background:var(--panel)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--rust);color:#fff}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:16px;font-weight:600;margin-top:3px}
+.ro .v.hi{color:var(--gold)}
+section{padding:28px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--rust);border:1px solid var(--rust-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,27px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}.prose{max-width:66ch}
+h3.sub{font-size:17px;margin:20px 0 8px;display:flex;gap:8px;align-items:center}
+.cyc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.cyc .c{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px;box-shadow:var(--shadow)}
+.cyc .c .n{font-family:var(--mono);font-size:11px;color:var(--rust);letter-spacing:.1em;text-transform:uppercase}
+.cyc .c h4{margin:3px 0 5px;font-family:var(--disp);font-size:16px}
+.cyc .c p{margin:0;font-size:13.5px;color:var(--dim)}
+.callout{border-left:4px solid var(--rust);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.warn .lbl{color:var(--warn)} .callout .lbl.rust{color:var(--rust)} .callout .lbl.gold{color:var(--gold)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.8px;min-width:460px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0} tbody tr:nth-child(even){background:var(--panel2)}
+td b{font-weight:600} td .km{font-family:var(--mono);font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.top{background:rgba(224,189,90,.14)!important}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}.steps li{font-size:14.5px}
+.steps li::marker{color:var(--rust);font-family:var(--mono);font-weight:700}
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+.en{display:none}
+[data-lang="en"] .de{display:none}
+[data-lang="en"] .en{display:revert}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Salvage_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Salvage_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Salvage_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Salvage_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>🛠</span> <span class="de">Star Citizen · Salvage · Ausrüstung, Technik &amp; Reviere</span><span class="en">Star Citizen · salvage · gear, technique &amp; hotspots</span></div>
+    <h1><span class="de">SC Salvage-Guide</span><span class="en">SC Salvage Guide</span></h1>
+    <p class="lede">
+      <span class="de">Ausrüstung im Detail und wie man sie einsetzt — plus die besten Wrack-Reviere. Drei Ströme: RMC, Construction Materials und Bauteile/Fracht.</span>
+      <span class="en">Equipment in detail and how to use it — plus the best wreck hotspots. Three streams: RMC, construction materials and components/cargo.</span>
+    </p>
+    <div class="topbar">
+      <div class="toc">
+        <a href="#loop">Loop</a><a href="#gear"><span class="de">Ausrüstung</span><span class="en">Gear</span></a>
+        <a href="#mats"><span class="de">Material</span><span class="en">Materials</span></a><a href="#wo"><span class="de">Reviere</span><span class="en">Hotspots</span></a>
+        <a href="#kontrakte"><span class="de">Kontrakte</span><span class="en">Contracts</span></a>
+      </div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="readout" aria-label="Überblick">
+    <div class="ro"><div class="k"><span class="de">Ströme</span><span class="en">Streams</span></div><div class="v">RMC · CMat · <span class="de">Teile</span><span class="en">parts</span></div></div>
+    <div class="ro"><div class="k"><span class="de">Solo-Schiff</span><span class="en">Solo ship</span></div><div class="v">Drake Vulture</div></div>
+    <div class="ro"><div class="k">Puffer / Buffer</div><div class="v">~13 SCU</div></div>
+    <div class="ro"><div class="k"><span class="de">Top-Wert</span><span class="en">Top value</span></div><div class="v hi">CMat</div></div>
+    <div class="ro"><div class="k">Stand</div><div class="v">4.9–4.10</div></div>
+  </div>
+
+  <section id="loop" style="border-top:0">
+    <div class="sec-h"><span class="idx">01</span><div><h2><span class="de">Der Salvage-Loop &amp; die drei Ströme</span><span class="en">The salvage loop &amp; three streams</span></h2><p><span class="de">Kein grünes Fenster — saubere, überlappende Bahnen.</span><span class="en">No green window — clean, overlapping passes.</span></p></div></div>
+    <div class="cyc">
+      <div class="c"><div class="n">1 · Hull Scraping → RMC</div><h4><span class="de">Hülle schaben</span><span class="en">Scrape the hull</span></h4><p><span class="de">Äußere Beschichtung abschaben → <b>RMC</b> (Recycled Material Composite). Packt <b>direkt in SCU-Kisten</b>, kein Refining. Hauptertrag.</span><span class="en">Scrape the outer coating → <b>RMC</b>. Packs <b>straight into SCU crates</b>, no refining. Main income.</span></p></div>
+      <div class="c"><div class="n">2 · Structural → CMat</div><h4><span class="de">Struktur zermahlen</span><span class="en">Disintegrate frame</span></h4><p><span class="de">Rest-Struktur auflösen → rohes <b>Construction Rubble/Pieces/Salvage</b> → an der Station zu <b>Construction Materials</b> raffinieren. Aktuell top-Wert.</span><span class="en">Break the bare frame → raw <b>construction rubble/pieces/salvage</b> → refine at a station into <b>construction materials</b>. Currently top value.</span></p></div>
+      <div class="c"><div class="n">3 · Components / Cargo</div><h4><span class="de">Bergen</span><span class="en">Recover</span></h4><p><span class="de">Bauteile, Waffen, Kisten per <b>Traktorstrahl</b> bergen → verkaufen oder selbst nutzen. Zusatzprofit.</span><span class="en">Tractor out components, weapons, crates → sell or reuse. Bonus profit.</span></p></div>
+    </div>
+    <h3 class="sub">🎮 <span class="de">Steuerung</span><span class="en">Controls</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Modus / Mode</th><th><span class="de">Taste (Standard)</span><span class="en">Key (default)</span></th><th>Zweck / Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><span class="de">Salvage-Modus an/aus</span><span class="en">Salvage mode on/off</span></td><td class="mono">M</td><td><span class="de">Salvage-HUD &amp; Arme aktivieren</span><span class="en">Salvage HUD &amp; arms</span></td></tr>
+        <tr><td><span class="de">Kopf/Modul wählen</span><span class="en">Switch head</span></td><td class="mono">RMB</td><td><span class="de">zwischen Salvage-Köpfen umschalten</span><span class="en">cycle salvage heads</span></td></tr>
+        <tr><td><span class="de">Schaben / Zermahlen</span><span class="en">Scrape / disintegrate</span></td><td class="mono">LMB</td><td><span class="de">Hülle abtragen / Struktur auflösen</span><span class="en">strip hull / dissolve frame</span></td></tr>
+        <tr><td><span class="de">Fokus schmal/breit</span><span class="en">Focus narrow/wide</span></td><td class="mono"><span class="de">Mausrad</span><span class="en">wheel</span></td><td><span class="de">Strahlbreite (Abdeckung ↔ Präzision)</span><span class="en">beam width (coverage ↔ precision)</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl rust"><span class="de">Technik</span><span class="en">Technique</span></span><span class="de">Kein grünes Fenster wie beim Mining — die Kunst sind <b>saubere, überlappende Bahnen</b> über die ganze Fläche, ohne Material auszulassen. Puffer voll → Bordstation formt eine SCU-Kiste; erst nach Auswurf weiterschaben.</span><span class="en">No green window like mining — the skill is <b>clean, overlapping passes</b> across the whole surface without leaving material. Buffer full → the ship forms an SCU crate; only scrape on after ejecting it.</span></span></div>
+  </section>
+
+  <section id="gear">
+    <div class="sec-h"><span class="idx">02</span><div><h2><span class="de">Ausrüstung &amp; Einsatz</span><span class="en">Equipment &amp; usage</span></h2></div></div>
+    <h3 class="sub">🚀 <span class="de">Schiffe</span><span class="en">Ships</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Schiff / Ship</th><th><span class="de">Rolle</span><span class="en">Role</span></th><th><span class="de">Struktur-Output</span><span class="en">Structural output</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>Drake Vulture</b></td><td><span class="de">Solo, ~13 SCU Puffer — bester Einstieg</span><span class="en">Solo, ~13 SCU buffer — best entry</span></td><td>Construction <b>Rubble</b></td></tr>
+        <tr><td><b>Argo MOTH</b></td><td><span class="de">Mittelklasse (mehr Durchsatz)</span><span class="en">mid-tier (more throughput)</span></td><td>Construction <b>Pieces</b></td></tr>
+        <tr><td><b>Aegis Reclaimer</b></td><td><span class="de">Crew, riesiger Durchsatz + Component-Bergung</span><span class="en">crew, huge throughput + component recovery</span></td><td>Construction <b>Salvage</b> <span class="de">(höchste Güte)</span><span class="en">(highest grade)</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><span class="lbl"><span class="de">Neu (4.9/4.10): CMat muss raffiniert werden</span><span class="en">New (4.9/4.10): CMat needs refining</span></span><span class="de">Structural-Salvage kommt <b>roh</b> (Rubble/Pieces/Salvage) und wird erst <b>an der Station zu Construction Materials raffiniert</b>, bevor sich der Verkauf lohnt. Höhere Güte (Reclaimer &gt; MOTH &gt; Vulture) = mehr Material pro Einheit. <b>RMC</b> dagegen packt weiter direkt in SCU-Kisten (kein Refining).</span><span class="en">Structural salvage comes out <b>raw</b> (rubble/pieces/salvage) and must be <b>refined into construction materials at a station</b> before it's worth selling. Higher grade (Reclaimer &gt; MOTH &gt; Vulture) = more material per unit. <b>RMC</b> still packs straight into SCU crates (no refining).</span></div>
+
+    <div class="tablewrap"><table>
+      <thead><tr><th><span class="de">Roh-Output</span><span class="en">Raw output</span></th><th><span class="de">Schiff</span><span class="en">Ship</span></th><th><span class="de">Güte → CMat-Ausbeute</span><span class="en">Grade → CMat yield</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>Construction Rubble</b></td><td>Drake Vulture</td><td><span class="de">niedrigste</span><span class="en">lowest</span></td></tr>
+        <tr><td><b>Construction Pieces</b></td><td>Argo MOTH</td><td><span class="de">mittlere</span><span class="en">medium</span></td></tr>
+        <tr><td><b>Construction Salvage</b></td><td>Aegis Reclaimer</td><td><span class="de">höchste</span><span class="en">highest</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl rust"><span class="de">Rubble vs. Pieces vs. Salvage</span><span class="en">Rubble vs. pieces vs. salvage</span></span><span class="de">Das sind <b>keine verschiedenen Materialien</b>, sondern <b>Güte-Stufen desselben Structural-Rohstoffs</b> — welche du erntest, hängt vom Schiff ab. Alle drei raffinieren an der Station zu <b>Construction Materials</b>; höhere Güte = mehr CMat pro Einheit. <b>⚠ Wichtig:</b> Manche <b>Kontrakte verlangen genau einen Typ</b> (z. B. „liefere X Construction Rubble"/„…Pieces"/„…Salvage") — dann brauchst du das <b>passende Schiff</b> (Rubble = Vulture, Pieces = MOTH, Salvage = Reclaimer). Auftrag vorher lesen!</span><span class="en">These are <b>not different materials</b> but <b>grade tiers of the same structural raw</b> — which one you get depends on the ship. All three refine at a station into <b>construction materials</b>; higher grade = more CMat per unit. <b>⚠ Important:</b> some <b>contracts demand exactly one type</b> (e.g. "deliver X construction rubble"/"…pieces"/"…salvage") — then you need the <b>matching ship</b> (rubble = Vulture, pieces = MOTH, salvage = Reclaimer). Read the contract first!</span></div>
+
+    <h3 class="sub">🔧 <span class="de">Salvage-Köpfe &amp; Handwerkzeug</span><span class="en">Salvage heads &amp; hand tools</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Kopf / Head</th><th><span class="de">Charakter</span><span class="en">Character</span></th><th>Wofür / For</th></tr></thead>
+      <tbody>
+        <tr><td><b>Cambio-Lite SRT</b> <span class="de">(Standard)</span></td><td><span class="de">ausgewogen, ab Werk</span><span class="en">balanced, stock</span></td><td><span class="de">Allrounder, guter Start</span><span class="en">all-rounder, good start</span></td></tr>
+        <tr><td><b>Abrade</b></td><td><span class="de">breit, schnelles Flächen-Schaben</span><span class="en">wide, fast area scraping</span></td><td><span class="de">große Hüllen effizient</span><span class="en">big hulls efficiently</span></td></tr>
+        <tr><td><b>Cinch</b></td><td><span class="de">fokussiert, materialschonend</span><span class="en">focused, low waste</span></td><td><span class="de">präzise, max. Ausbeute</span><span class="en">precise, max yield</span></td></tr>
+        <tr><td><b>Trawler</b></td><td><span class="de">Durchsatz-orientiert</span><span class="en">throughput-oriented</span></td><td><span class="de">erfahrene Salvager</span><span class="en">experienced salvagers</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl rust"><span class="de">Pflicht-Handwerkzeug</span><span class="en">Must-have hand tools</span></span><span class="de"><b>Tractor Beam (TruHold/MaxLift)</b> — das wirkungsvollste Effizienz-Upgrade: SCU-Kisten aufs Cargo-Grid ziehen &amp; Bauteile bergen. Dazu ein <b>Multi-Tool mit Salvage-Aufsatz</b> (Cambio-Lite SRT / Pyro RYT) fürs Hand-Schaben kleiner Stellen. <b>Loadouts:</b> Anfänger = 2× Cambio-Lite SRT · Durchsatz = Abrade + Trawler · High-Yield = Cinch.</span><span class="en"><b>Tractor beam (TruHold/MaxLift)</b> — the biggest efficiency upgrade: pull SCU crates onto the cargo grid &amp; recover components. Plus a <b>multi-tool with a salvage attachment</b> (Cambio-Lite SRT / Pyro RYT) for hand-scraping small spots. <b>Loadouts:</b> beginner = 2× Cambio-Lite SRT · throughput = Abrade + Trawler · high-yield = Cinch.</span></div>
+  </section>
+
+  <section id="mats">
+    <div class="sec-h"><span class="idx">03</span><div><h2><span class="de">Materialien &amp; Verkauf</span><span class="en">Materials &amp; selling</span></h2><p><span class="de">CMat schlägt aktuell RMC — beide Ströme mitnehmen.</span><span class="en">CMat currently beats RMC — take both streams.</span></p></div></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Material</th><th><span class="de">Herkunft</span><span class="en">Source</span></th><th>≈ aUEC/SCU</th><th><span class="de">Bester Ort (schwankt)</span><span class="en">Best spot (varies)</span></th></tr></thead>
+      <tbody>
+        <tr class="top"><td><b>Construction Materials</b> <span style="color:var(--gold)">TOP</span></td><td><span class="de">Structural (raffiniert)</span><span class="en">structural (refined)</span></td><td><span class="km">~12.000–15.000</span></td><td>ARC-L4 Faint Glen</td></tr>
+        <tr><td><b>RMC</b></td><td>Hull Scraping</td><td><span class="km">~7.000–8.500</span></td><td>Seer's Canyon</td></tr>
+        <tr><td><b>Scrap</b></td><td><span class="de">Roh-/Grobschrott</span><span class="en">rough scrap</span></td><td><span class="km">~3.400–4.600</span></td><td>Rod's Fuel 'N Supplies</td></tr>
+        <tr><td><b>Components / Cargo</b></td><td><span class="de">Bergung</span><span class="en">recovery</span></td><td><span class="de">variabel</span><span class="en">variable</span></td><td>TDD / <span class="de">eigener Gebrauch</span><span class="en">own use</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><span class="lbl gold"><span class="de">Verkauf-Strategie</span><span class="en">Selling strategy</span></span><span class="de">RMC &amp; CMat am besten am <b>TDD in den großen Städten</b> (meist bessere Kurse als Schrottplätze). Wegen der Preislage <b>CMat oft zuerst</b>. Aktuelle Top-Orte live prüfen (UEX/Star-Head) — Preise schwanken täglich, RMC wurde zuletzt abgewertet.</span><span class="en">Sell RMC &amp; CMat at the <b>TDD in the big cities</b> (usually better than scrapyards). Given prices, <b>CMat first</b>. Check current top spots live (UEX/Star-Head) — prices swing daily, RMC was recently devalued.</span></div>
+  </section>
+
+  <section id="wo">
+    <div class="sec-h"><span class="idx">04</span><div><h2><span class="de">Wo salvagen? (Wrack-Hotspots)</span><span class="en">Where to salvage? (wreck hotspots)</span></h2></div></div>
+    <h3 class="sub">🪐 <span class="de">Stanton (sicherer Standard)</span><span class="en">Stanton (safe standard)</span></h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Ort / Spot</th><th>Was / What</th><th><span class="de">Hinweis</span><span class="en">Note</span></th></tr></thead>
+      <tbody>
+        <tr><td><b>CRU-L1</b></td><td><span class="de">UEE-Patrouillen-Wracks</span><span class="en">UEE patrol wrecks</span></td><td><span class="de">zuverlässig, viel Nachschub</span><span class="en">reliable, lots of supply</span></td></tr>
+        <tr><td><b>HUR-L2</b> (Everus)</td><td><span class="de">MOLE/Prospector-Wracks, verlassene Stationen</span><span class="en">MOLE/Prospector wrecks, abandoned stations</span></td><td><span class="de">hohe Dichte Industrie-Komposit</span><span class="en">high-density industrial composite</span></td></tr>
+        <tr><td><b>ARC-L3</b> (Baijini)</td><td><span class="de">Transport- &amp; Security-Wracks</span><span class="en">transport &amp; security wrecks</span></td><td><span class="de">kommerzieller Schrott</span><span class="en">commercial scrap</span></td></tr>
+        <tr><td><span class="de">Javelin-Wracks</span><span class="en">Javelin wrecks</span></td><td><span class="de">riesig, mehrtägig</span><span class="en">huge, multi-day</span></td><td><span class="de">Gruppen-tauglich</span><span class="en">group-friendly</span></td></tr>
+        <tr><td><b><span class="de">Schrottplätze</span><span class="en">Scrapyards</span></b></td><td><span class="de">Ankauf (+ Wracks nah)</span><span class="en">buy-in (+ wrecks nearby)</span></td><td>Brio's (Daymar) · Samson &amp; Son's (Wala) · Reclamation Orinth (Hurston) · Devlin (Euterpe)</td></tr>
+      </tbody>
+    </table></div>
+    <h3 class="sub">🔥 <span class="de">Pyro (gesetzlos, wrackreich)</span><span class="en">Pyro (lawless, wreck-rich)</span></h3>
+    <p class="prose de">Dauer-PvP → <b>ständig frische Wracks</b> an Outlaw-Stationen (Ruin Station, Checkmate, Orbituary, Rat's Nest) &amp; Contested Zones, plus die <b>Adagio-100k-Kontrakte</b> (Groß-Hüllen C2/M2/A2, 890 Jump = viel RMC). Hoher Ertrag, hohes Risiko — Verkauf teils buggy → oft Rückweg nach Stanton / Grim Hex.</p>
+    <p class="prose en">Constant PvP → <b>fresh wrecks</b> at outlaw stations (Ruin Station, Checkmate, Orbituary, Rat's Nest) &amp; contested zones, plus the <b>Adagio 100k contracts</b> (big hulls C2/M2/A2, 890 Jump = lots of RMC). High reward, high risk — selling can be buggy → often haul back to Stanton / Grim Hex.</p>
+    <h3 class="sub">❄ <span class="de">Nyx — Glaciem Ring (ruhig)</span><span class="en">Nyx — Glaciem Ring (quiet)</span></h3>
+    <p class="prose de">Übersät mit <b>Derelicts</b> (verlassene Breaker Stations, alte QV-Anlagen) → ideal für ruhiges <b>Panel-Salvage</b> abseits der PvP-Hotspots. Nachteil: weite Wege, Verkauf begrenzt → Rückweg Stanton einplanen.</p>
+    <p class="prose en">Littered with <b>derelicts</b> (abandoned breaker stations, old QV facilities) → ideal for quiet <b>panel salvage</b> away from PvP. Downside: long trips, limited selling → plan the haul back to Stanton.</p>
+  </section>
+
+  <section id="kontrakte">
+    <div class="sec-h"><span class="idx">05</span><div><h2><span class="de">Kontrakte &amp; Reputation</span><span class="en">Contracts &amp; reputation</span></h2></div></div>
+    <ul class="steps">
+      <li class="de"><b>Salvage-Kontrakte</b> im Contract Manager (mobiGlas): verifiziert (weniger Risiko, stetig) vs. unverifiziert (mehr Risiko, größere Belohnung). Ablauf: ggf. Gebühr → markiertes Wrack → salvagen → Profit + Reputation.</li>
+      <li class="en"><b>Salvage contracts</b> in the Contract Manager (mobiGlas): verified (less risk, steady) vs. unverified (more risk, bigger reward). Flow: possible fee → marked wreck → salvage → profit + reputation.</li>
+      <li class="de"><b>Adagio Holdings:</b> als Senior Contractor schaltest du die <b>100k-Salvage-Kontrakte</b> frei — oft Groß-Hüllen mit viel RMC (führen häufig nach Pyro).</li>
+      <li class="en"><b>Adagio Holdings:</b> as Senior Contractor you unlock the <b>100k salvage contracts</b> — often big hulls with lots of RMC (frequently lead to Pyro).</li>
+      <li class="de">🆕 <b>4.9 — Recco Battaglia „Ship in Distress" (Nyx/Levski):</b> Caterpillar säubern → Kraftwerk reparieren → bezahlt werden → anschließend Caterpillar &amp; Cutlass salvagen. Eine Mission = aUEC + Reputation + Loot + CMat.</li>
+      <li class="en">🆕 <b>4.9 — Recco Battaglia "Ship in Distress" (Nyx/Levski):</b> clear a Caterpillar → repair the power plant → get paid → then salvage the Caterpillar &amp; Cutlass. One mission = aUEC + reputation + loot + CMat.</li>
+    </ul>
+    <div class="callout danger"><span class="lbl"><span class="de">Top-Tipps &amp; Fallen</span><span class="en">Top tips &amp; pitfalls</span></span><span class="de">✅ Überlappende Bahnen (nichts auslassen) · ✅ Tractor-Multi-Tool immer dabei · ✅ beide Ströme (CMat top) · ✅ <b>oft verkaufen</b> — die Vulture ist wehrlos. ❌ Schrottplätze nicht als „sicher" ansehen (Outlaw-nah) · ❌ nicht nur RMC machen. Richtwert Solo: ~180.000–300.000 aUEC/h.</span><span class="en">✅ Overlapping passes (miss nothing) · ✅ tractor multi-tool always · ✅ both streams (CMat tops) · ✅ <b>sell often</b> — the Vulture is defenceless. ❌ don't treat scrapyards as "safe" (outlaw-adjacent) · ❌ don't do RMC only. Solo rule of thumb: ~180,000–300,000 aUEC/h.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Preise/Spawns patch-abhängig — live prüfen.</span><span class="en">Prices/spawns patch-dependent — verify live.</span></p></div></div>
+    <div class="src">
+      <a href="https://starcitizen.tools/Salvage" target="_blank" rel="noopener">Star Citizen Wiki — Salvage ↗</a>
+      <a href="https://uexcorp.space" target="_blank" rel="noopener">UEX Corp — RMC/CMat-Preise &amp; beste Verkaufsorte ↗</a>
+      <a href="https://citizen-starter-guide.com/star-citizen-salvage-material-finder/" target="_blank" rel="noopener">Salvage Material Finder (4.10) ↗</a>
+    </div>
+    <div class="disc"><span class="de">Basis: eigenes SC_Vulture_Salvage_Guide.pdf (4.8.3) + 4.9/4.10-Updates. Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Based on: own SC_Vulture_Salvage_Guide.pdf (4.8.3) + 4.9/4.10 updates. Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">SC Salvage-Guide · schab sauber, verkauf oft · o7</span>
+  <span class="en">SC Salvage Guide · scrape clean, sell often · o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('salvage_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('salvage_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('salvage_theme',t):localStorage.removeItem('salvage_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('salvage_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>
