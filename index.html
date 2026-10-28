@@ -54,6 +54,11 @@
   .grp h2{font-family:var(--disp);font-weight:800;font-size:19px;margin:0;letter-spacing:.02em}
   .grp .cnt{color:var(--muted);font-size:13px;margin-left:auto;font-family:var(--disp);letter-spacing:.05em}
 
+  /* sub heading inside a group */
+  .subh{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:18px 0 8px;display:flex;align-items:center;gap:10px}
+  .subh::after{content:"";flex:1;height:1px;background:var(--line)}
+  .grid+.subh{margin-top:22px}
+
   /* cards */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
   .card{display:flex;flex-direction:column;gap:8px;background:var(--panel);border:1px solid var(--line);
@@ -214,8 +219,9 @@
   <div class="grp">
     <span class="idx">04</span>
     <h2><span class="de">Planer &amp; Tools</span><span class="en">Planners &amp; Tools</span></h2>
-    <span class="cnt"><span class="de">3 Planer · online</span><span class="en">3 planners · online</span></span>
+    <span class="cnt"><span class="de">3 Planer · 1 Tool · online</span><span class="en">3 planners · 1 tool · online</span></span>
   </div>
+  <h3 class="subh"><span class="de">Planer</span><span class="en">Planners</span></h3>
   <div class="grid">
     <a class="card" href="https://jaegerfeld.github.io/StarCitizen-Bauplan-Planer/" target="_blank" rel="noopener">
       <span class="ico">🛠️</span>
@@ -234,6 +240,15 @@
       <h3><span class="de">Handels-Planer ↗</span><span class="en">Trade Planner ↗</span></h3>
       <p><span class="de">Top-Handelsrouten, alle Waren mit Kauf-/Verkaufsorten, Ansicht nach Ort, Laderaum-Rechner. Täglich neu aus star-head.</span><span class="en">Top trade routes, every commodity with buy/sell places, by-location views, cargo calculator. Rebuilt daily from star-head.</span></p>
       <span class="tag"><span class="de">Planer · öffnet online</span><span class="en">Planner · opens online</span></span>
+    </a>
+  </div>
+  <h3 class="subh"><span class="de">Tools</span><span class="en">Tools</span></h3>
+  <div class="grid">
+    <a class="card" href="https://jaegerfeld.github.io/StarCitizen-Screenshot-Auswerter/" target="_blank" rel="noopener">
+      <span class="ico">📷</span>
+      <h3><span class="de">Screenshot-Auswerter ↗</span><span class="en">Screenshot Evaluator ↗</span></h3>
+      <p><span class="de">Screenshots der Handelskonsole hineinziehen: Ort, Waren, Preise und Bestände werden im Browser gelesen, geprüft und als JSON/CSV exportiert – für star-head und den Handels-Planer.</span><span class="en">Drop trade-terminal screenshots: place, commodities, prices and stock are read in the browser, reviewed and exported as JSON/CSV – for star-head and the Trade Planner.</span></p>
+      <span class="tag"><span class="de">Tool · öffnet online</span><span class="en">Tool · opens online</span></span>
     </a>
   </div>
 
@@ -263,7 +278,7 @@
   </div>
 
   <footer>
-    <p><span class="de">14 Guides + 3 Planer · zweisprachig (DE/EN). Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">14 guides + 3 planners · bilingual (DE/EN). Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. All information without guarantee.</span></p>
+    <p><span class="de">14 Guides + 3 Planer + 1 Tool · zweisprachig (DE/EN). Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">14 guides + 3 planners + 1 tool · bilingual (DE/EN). Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. All information without guarantee.</span></p>
   </footer>
 </div>
 
