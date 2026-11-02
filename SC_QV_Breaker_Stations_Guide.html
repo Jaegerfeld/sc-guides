@@ -110,9 +110,10 @@ td .n{font-family:var(--mono);font-weight:700;color:var(--ice)}
 footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
 .disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
 
-.en{display:none}
-[data-lang="en"] .de{display:none}
-[data-lang="en"] .en{display:revert}
+.en{display:none!important}
+[data-lang="en"] .de{display:none!important}
+[data-lang="en"] .en{display:revert!important}
+[data-lang="en"] .check small.en{display:block!important}
 @media (max-width:620px){.phase{gap:12px}.pnum{font-size:22px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{.backlink{display:none!important}}

@@ -78,9 +78,10 @@
 
   ul{margin:4px 0 14px;padding-left:22px} li{margin:4px 0}
   a{color:var(--accent)}
-  .en{display:none}
-  [data-lang="en"] .de{display:none}
-  [data-lang="en"] .en{display:revert}
+  .en{display:none!important}
+  [data-lang="en"] .de{display:none!important}
+  [data-lang="en"] .en{display:revert!important}
+  [data-lang="en"] .check small.en{display:block!important}
   footer{margin-top:34px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
   .toc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
   .toc a{font-family:var(--body);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:20px;padding:5px 12px;color:var(--ink)}
