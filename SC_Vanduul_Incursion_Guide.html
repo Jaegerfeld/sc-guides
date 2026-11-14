@@ -1,0 +1,380 @@
+<title>Vanduul Incursion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#eef1ee; --panel:#ffffff; --panel2:#e5ebe5; --line:#c9d4cb;
+  --ink:#111812; --dim:#5c685e; --acid:#2f8f3a; --acid-bd:#3aa346;
+  --danger:#b3301f; --danger-bg:#f3dcd6; --intel:#256fb0; --intel-bg:#dbe8f4;
+  --stripe:rgba(47,143,58,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(20,50,25,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Oxanium',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b0f0c; --panel:#141b16; --panel2:#0f1511; --line:#28352c; --ink:#e6efe8; --dim:#9db0a2;
+    --acid:#6fe36a; --acid-bd:#3f8f3f; --danger:#f0563a; --danger-bg:#2a1310;
+    --intel:#5aa6f0; --intel-bg:#0f1f2e;
+    --stripe:rgba(111,227,106,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b0f0c; --panel:#141b16; --panel2:#0f1511; --line:#28352c; --ink:#e6efe8; --dim:#9db0a2;
+  --acid:#6fe36a; --acid-bd:#3f8f3f; --danger:#f0563a; --danger-bg:#2a1310;
+  --intel:#5aa6f0; --intel-bg:#0f1f2e;
+  --stripe:rgba(111,227,106,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.1;margin:0;font-weight:600;letter-spacing:.01em}
+a{color:var(--acid)}
+:focus-visible{outline:2px solid var(--acid);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--acid-bd) 0 16px,transparent 16px 32px);opacity:.85}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 84% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--acid);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,54px);font-weight:700;text-transform:uppercase;margin:8px 0 6px;letter-spacing:.02em}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--acid);color:#04170a}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:18px;font-weight:600;margin-top:3px}
+.ro .v.pay{color:var(--acid)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--acid);border:1px solid var(--acid-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+.card p{margin:0;color:var(--dim);font-size:14px}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--acid);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:28px;color:var(--acid);line-height:1;width:2.2ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--intel);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--acid);font-family:var(--mono);font-weight:700}
+
+.callout{border-left:4px solid var(--acid);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.intel{border-left-color:var(--intel);background:var(--intel-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.intel .lbl{color:var(--intel)} .callout .lbl.acid{color:var(--acid)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+td .n{font-family:var(--mono);font-weight:700;color:var(--acid)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap>b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none!important}
+[data-lang="en"] .de{display:none!important}
+[data-lang="en"] .en{display:revert!important}
+[data-lang="en"] .check small.en{display:block!important}
+@media (max-width:620px){.phase{gap:12px}.pnum{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+<style>
+.rk{font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap}
+.sub td{font-size:13px}
+td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.line-h{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--acid);background:var(--panel)!important}
+@media print{.sec-h{break-after:avoid}.phase,.card,.trap,.callout,tr{break-inside:avoid}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_Vanduul_Incursion_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_Vanduul_Incursion_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_Vanduul_Incursion_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_Vanduul_Incursion_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>🛡</span> <span class="de">Nyx-System · InterSec Defense Solutions · Vertragsreihe</span><span class="en">Nyx System · InterSec Defense Solutions · Contract line</span></div>
+    <h1><span class="de">Vanduul Incursion</span><span class="en">Vanduul Incursion</span></h1>
+    <p class="lede">
+      <span class="de">Feldhandbuch zu den neuen InterSec-Verträgen gegen die Vanduul und die Shattered Blade in Nyx: welche es gibt, wie du sie freischaltest und was sie bringen.</span>
+      <span class="en">Field handbook for the new InterSec contracts against the Vanduul and the Shattered Blade in Nyx: what exists, how to unlock it and what it pays.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Neu mit 4.10.3 · Rang 1 bis 6 · FPS und Schiffskampf</span><span class="en">New in 4.10.3 · rank 1 to 6 · FPS and ship combat</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Missionsdaten">
+    <div class="ro"><div class="k">System</div><div class="v">Nyx</div></div>
+    <div class="ro"><div class="k"><span class="de">Auftraggeber</span><span class="en">Giver</span></div><div class="v">InterSec</div></div>
+    <div class="ro"><div class="k">Start</div><div class="v">mobiGlas ▸ Contracts</div></div>
+    <div class="ro"><div class="k"><span class="de">Rang</span><span class="en">Rank</span></div><div class="v">Jr.–Elite Contractor</div></div>
+    <div class="ro"><div class="k"><span class="de">Stand</span><span class="en">As of</span></div><div class="v pay">4.10.3 LIVE</div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="prose">
+      <p class="de"><b>Was das ist:</b> Mit Patch 4.10.3 (LIVE seit 12.11.2026) dringen die <b>Vanduul</b> in das Nyx-System ein, und die Piratenbande <b>Shattered Blade</b> nutzt das Chaos. <b>InterSec Defense Solutions</b> vergibt dafür eine neue Reihe von Verträgen: Stationen stürmen, geenterte Schiffe zurückholen, Vanduul-Wellen abwehren, Mauler jagen und Cryopods bergen. Welche Verträge du siehst, hängt von deinem <b>Rang bei InterSec</b> ab.</p>
+      <p class="en"><b>What this is:</b> With patch 4.10.3 (LIVE since 12 Nov 2026) the <b>Vanduul</b> push into the Nyx system, and the <b>Shattered Blade</b> gang exploits the chaos. <b>InterSec Defense Solutions</b> issues a new line of contracts for it: storm stations, retake boarded ships, hold off Vanduul waves, hunt Maulers and recover cryopods. Which contracts you see depends on your <b>InterSec rank</b>.</p>
+    </div>
+    <div class="callout intel"><span class="lbl"><span class="de">Teil der InterSec-Reihe</span><span class="en">Part of the InterSec line</span></span><span class="de">Gleicher Auftraggeber wie <a href="SC_Vanduul_Tech_Smugglers_Guide.html">Vanduul-Tech Smugglers</a> und <a href="SC_Tactical_Strike_Groups_Guide.html">Tactical Strike Groups</a>. Der Ruf, den du dort sammelst, zählt auch hier.</span><span class="en">Same giver as <a href="SC_Vanduul_Tech_Smugglers_Guide.html">Vanduul-Tech Smugglers</a> and <a href="SC_Tactical_Strike_Groups_Guide.html">Tactical Strike Groups</a>. The reputation you earn there counts here too.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▷</span><div><h2><span class="de">Einstieg: so schaltest du die Verträge frei</span><span class="en">Getting in: how to unlock the contracts</span></h2><p><span class="de">Vom Rang Neutral bis zum ersten Incursion-Vertrag.</span><span class="en">From Neutral to your first Incursion contract.</span></p></div></div>
+
+    <div class="phase">
+      <div class="pnum">1<small>NYX</small></div>
+      <div class="pbody">
+        <h3><span class="de">Nach Nyx fliegen</span><span class="en">Fly to Nyx</span></h3>
+        <div class="pobj"><span class="de">Ziel: im System sein</span><span class="en">Objective: be in the system</span></div>
+        <ol class="steps">
+          <li class="de">Die InterSec-Verträge erscheinen im <b>mobiGlas → Contracts</b> unter <b>InterSec Defense Solutions</b>, sobald du dich <b>in Nyx</b> befindest. Eine feste Station oder einen Auftraggeber vor Ort gibt es nicht.</li>
+          <li class="en">InterSec contracts appear in <b>mobiGlas → Contracts</b> under <b>InterSec Defense Solutions</b> once you are <b>in Nyx</b>. There is no fixed station or NPC giver.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">2<small>INTRO</small></div>
+      <div class="pbody">
+        <h3><span class="de">Einstiegsvertrag erledigen</span><span class="en">Finish the intro contract</span></h3>
+        <div class="pobj">„New Defense Contract: … Elimination“</div>
+        <ol class="steps">
+          <li class="de">Ab Rang <b>Neutral</b>, nur <b>einmal</b> pro Charakter. Ziel ist ein gesetzloses Schiff (zum Beispiel Carrack, Valkyrie, M2, Caterpillar, Prowler) mit Begleitschutz.</li>
+          <li class="en">From <b>Neutral</b>, <b>once</b> per character. The target is an outlaw ship (for example Carrack, Valkyrie, M2, Caterpillar, Prowler) with escorts.</li>
+          <li class="de">Bringt <b>+100 InterSec-Ruf</b> und schaltet die übrigen Einstiegsverträge frei.</li>
+          <li class="en">Gives <b>+100 InterSec rep</b> and unlocks the other intro contracts.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">3<small><span class="de">RUF</span><span class="en">REP</span></small></div>
+      <div class="pbody">
+        <h3><span class="de">Ruf auf 800 bringen</span><span class="en">Raise rep to 800</span></h3>
+        <div class="pobj"><span class="de">Ziel: Jr. Contractor (Rang 1)</span><span class="en">Objective: Jr. Contractor (rank 1)</span></div>
+        <ol class="steps">
+          <li class="de"><b>Defend InterSec Operative</b> (ab Neutral, +100 Ruf) einige Male wiederholen. Andere InterSec-Verträge in Nyx zählen genauso.</li>
+          <li class="en">Repeat <b>Defend InterSec Operative</b> (from Neutral, +100 rep) a few times. Other InterSec contracts in Nyx count the same.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="pnum">4<small>START</small></div>
+      <div class="pbody">
+        <h3><span class="de">Erste Incursion-Verträge</span><span class="en">First Incursion contracts</span></h3>
+        <div class="pobj"><span class="de">Ab Jr. Contractor</span><span class="en">From Jr. Contractor</span></div>
+        <ol class="steps">
+          <li class="de">Jetzt erscheinen <b>Target Shattered Blade</b> (der Shattered Blade Raid) und <b>Living Vanduul Sample</b>. Weitere Verträge kommen mit jedem Rang dazu (Tabelle unten).</li>
+          <li class="en">Now <b>Target Shattered Blade</b> (the Shattered Blade Raid) and <b>Living Vanduul Sample</b> appear. More contracts open with each rank (table below).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="callout danger"><span class="lbl"><span class="de">Ungeklärt: Vanduul-Tech Smugglers als Voraussetzung?</span><span class="en">Unresolved: Vanduul-Tech Smugglers as a prerequisite?</span></span><span class="de">In den PTU-Patchnotes hieß es, auf LIVE setze der Großteil dieser Reihe die Aufträge <b>Vanduul-Tech Smugglers</b> aus „Welcome to Nyx“ voraus. In den LIVE-Spieldaten 4.10.3 ist für die neuen Verträge nur der <b>InterSec-Rang</b> als Bedingung eingetragen. Siehst du die Verträge trotz passendem Rang nicht, erledige zuerst <a href="SC_Vanduul_Tech_Smugglers_Guide.html">Vanduul-Tech Smugglers</a>.</span><span class="en">The PTU patch notes said that on LIVE most of this line would require the <b>Vanduul-Tech Smugglers</b> work from "Welcome to Nyx". The 4.10.3 LIVE game data lists only the <b>InterSec rank</b> as a requirement for the new contracts. If you have the rank but don't see the contracts, finish <a href="SC_Vanduul_Tech_Smugglers_Guide.html">Vanduul-Tech Smugglers</a> first.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">R</span><div><h2><span class="de">InterSec-Ränge</span><span class="en">InterSec ranks</span></h2><p><span class="de">Benötigter Rufwert je Rang (LIVE-Spieldaten).</span><span class="en">Reputation needed per rank (LIVE game data).</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Rang</span><span class="en">Rank</span></th><th>Name</th><th style="text-align:right"><span class="de">Ruf</span><span class="en">Rep</span></th><th><span class="de">Neu freigeschaltet</span><span class="en">Newly unlocked</span></th></tr></thead>
+        <tbody>
+          <tr><td class="rk">0</td><td>Neutral</td><td class="num">0</td><td><span class="de">Einstiegsvertrag, Defend InterSec Operative</span><span class="en">Intro contract, Defend InterSec Operative</span></td></tr>
+          <tr><td class="rk">1</td><td>Jr. Contractor</td><td class="num">800</td><td>Target Shattered Blade, Living Vanduul Sample</td></tr>
+          <tr><td class="rk">2</td><td>Contractor</td><td class="num">2.200</td><td>Retake Boarded Vessel</td></tr>
+          <tr><td class="rk">3</td><td>Sr. Contractor</td><td class="num">5.800</td><td><span class="de">keine neuen Incursion-Verträge</span><span class="en">no new Incursion contracts</span></td></tr>
+          <tr><td class="rk">4</td><td>Veteran Contractor</td><td class="num">15.000</td><td><span class="de">Clan Extermination, 3-Way Standoff, Takedown Stufe 1</span><span class="en">Clan Extermination, 3-Way Standoff, Takedown tier 1</span></td></tr>
+          <tr><td class="rk">5</td><td>Head Contractor</td><td class="num">38.000</td><td><span class="de">Takedown Stufen 2 und 3</span><span class="en">Takedown tiers 2 and 3</span></td></tr>
+          <tr><td class="rk">6</td><td>Elite Contractor</td><td class="num">95.250</td><td><span class="de">Mauler-Verträge (Takedown Stufen 4 und 5)</span><span class="en">Mauler contracts (Takedown tiers 4 and 5)</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">▶</span><div><h2><span class="de">Die Verträge</span><span class="en">The contracts</span></h2><p><span class="de">Titel wie im Spiel. Rang, Ruf und Baupläne aus den LIVE-Spieldaten; aUEC sind PTU-Werte vom Oktober und können auf LIVE abweichen.</span><span class="en">Titles as in game. Rank, rep and blueprints from LIVE game data; aUEC are October PTU values and may differ on LIVE.</span></p></div></div>
+    <div class="tablewrap">
+      <table class="sub">
+        <thead><tr><th><span class="de">Vertrag</span><span class="en">Contract</span></th><th><span class="de">ab Rang</span><span class="en">Min rank</span></th><th style="text-align:right"><span class="de">Ruf</span><span class="en">Rep</span></th><th style="text-align:right">aUEC (PTU)</th><th><span class="de">Bauplan</span><span class="en">Blueprint</span></th></tr></thead>
+        <tbody>
+          <tr><td class="line-h" colspan="5">Shattered Blade</td></tr>
+          <tr><td><b>Target Shattered Blade</b><br><span class="de">Raid: Shattered Blade aus einer Station in Nyx räumen, zu Fuß</span><span class="en">Raid: clear the Shattered Blade out of a Nyx station, on foot</span></td><td class="rk">1</td><td class="num">+150</td><td class="num">72.500</td><td>LBCO Skarnov „Raider Camo“ <span class="de">+ Batterie</span><span class="en">+ battery</span></td></tr>
+          <tr><td><b>Retake Boarded Vessel</b><br><span class="de">Von der Shattered Blade geentertes Schiff zurückerobern</span><span class="en">Retake a ship boarded by the Shattered Blade</span></td><td class="rk">2</td><td class="num">+300</td><td class="num">33.750</td><td>–</td></tr>
+          <tr><td class="line-h" colspan="5">Vanduul Clan Extermination</td></tr>
+          <tr><td><b>Vanduul Strike Group Detected</b><br><span class="de">Stufe 1: Vanduul-Wellen abwehren</span><span class="en">Tier 1: hold off Vanduul waves</span></td><td class="rk">4</td><td class="num">+300</td><td class="num">112.250</td><td>–</td></tr>
+          <tr><td><b>Counterstrike Against Vanduul Raiders</b><br><span class="de">Stufe 2</span><span class="en">Tier 2</span></td><td class="rk">4</td><td class="num">+300</td><td class="num">273.250</td><td><span class="de">Corbel Arme + Beine</span><span class="en">Corbel arms + legs</span></td></tr>
+          <tr><td><b>Intercept Vanduul Fleet</b><br><span class="de">Stufe 3: 3 Wellen, 48 min Zeitlimit</span><span class="en">Tier 3: 3 waves, 48 min limit</span></td><td class="rk">4</td><td class="num">+300</td><td class="num">493.250</td><td><span class="de">Corbel Helm + Torso</span><span class="en">Corbel helmet + core</span></td></tr>
+          <tr><td class="line-h" colspan="5">3-Way Standoff</td></tr>
+          <tr><td><b>Engage Shattered Blade and Vanduul</b><br><span class="de">Stufe 1: du gegen beide, alle gegen alle</span><span class="en">Tier 1: you against both, everyone against everyone</span></td><td class="rk">4</td><td class="num">+300</td><td class="num">112.250</td><td>–</td></tr>
+          <tr><td><b>Neutralize Vanduul and Shattered Blade Threat</b><br><span class="de">Stufe 2</span><span class="en">Tier 2</span></td><td class="rk">4</td><td class="num">+300</td><td class="num">273.250</td><td><span class="de">Palatino Arme + Beine</span><span class="en">Palatino arms + legs</span></td></tr>
+          <tr><td><b>Stop Vanduul and Shattered Blade Hostilities</b><br><span class="de">Stufe 3</span><span class="en">Tier 3</span></td><td class="rk">4</td><td class="num">+300</td><td class="num">493.250</td><td><span class="de">Palatino Helm, Torso, Rucksack</span><span class="en">Palatino helmet, core, backpack</span></td></tr>
+          <tr><td class="line-h" colspan="5">Takedown</td></tr>
+          <tr><td><b>Terminate UEE Threat</b><br><span class="de">Stufe 1: Wellen bekämpfen bis zum Zielschiff</span><span class="en">Tier 1: fight waves until the target ship arrives</span></td><td class="rk">4</td><td class="num">+250</td><td class="num">213.000</td><td>–</td></tr>
+          <tr><td><b>Eradicate UEE Threat</b><br><span class="de">Stufe 2</span><span class="en">Tier 2</span></td><td class="rk">5</td><td class="num">+300</td><td class="num">265.000</td><td>–</td></tr>
+          <tr><td><b>Seek and Destroy Super Stingers</b><br><span class="de">Stufe 3: Vanduul-Jäger (Blade, Glaive, Scythe, Stinger), laut Spieldaten kein Mauler</span><span class="en">Tier 3: Vanduul fighters (Blade, Glaive, Scythe, Stinger), no Mauler per game data</span></td><td class="rk">5</td><td class="num">+300</td><td class="num">403.500</td><td>–</td></tr>
+          <tr><td><b>Interdict Vanduul Maulers</b><br><span class="de">Stufe 4: Mauler-Zerstörer</span><span class="en">Tier 4: Mauler destroyers</span></td><td class="rk">6</td><td class="num">+300</td><td class="num">1.291.250</td><td><span class="de">Tailwind-Fluganzug + Helm</span><span class="en">Tailwind flight suit + helmet</span></td></tr>
+          <tr><td><b>Draw Out Maulers</b><br><span class="de">Stufe 5: Mauler in der ersten Welle, 10–19 Gegner</span><span class="en">Tier 5: Mauler in the first wave, 10–19 hostiles</span></td><td class="rk">6</td><td class="num">+300</td><td class="num">2.004.000</td><td><span class="de">Behring-Kanonen M3A, M4A, M5A</span><span class="en">Behring cannons M3A, M4A, M5A</span></td></tr>
+          <tr><td class="line-h" colspan="5">Cryopod</td></tr>
+          <tr><td><b>Living Vanduul Sample</b><br><span class="de">Cryopod mit lebendem Vanduul bergen und abliefern</span><span class="en">Recover and deliver a cryopod with a living Vanduul</span></td><td class="rk">1</td><td class="num">?</td><td class="num">177.500</td><td><span class="de">zufällig: Testudo „Earthshake“, Pulse-Laserpistole oder Batterie</span><span class="en">random: Testudo "Earthshake", Pulse laser pistol or battery</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--dim);margin-top:10px"><span class="de">Alle Rüstungen, Waffen und Kanonen in der Bauplan-Spalte sind Raider-Camo-Varianten. Laut Spieldaten fällt der Bauplan bei jedem Abschluss (100&nbsp;%). Die Zuordnung der Stufen innerhalb einer Reihe folgt der PTU-Reihenfolge.</span><span class="en">All armor, weapons and cannons in the blueprint column are Raider Camo variants. Per game data the blueprint drops on every completion (100&nbsp;%). The tier order within a line follows the PTU order.</span></p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">◎</span><div><h2><span class="de">Cryopods: Living Vanduul Sample</span><span class="en">Cryopods: Living Vanduul Sample</span></h2><p><span class="de">Der einfachste Einstieg, mit eigenen Regeln.</span><span class="en">The easiest way in, with its own rules.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>📋 <span class="de">Bedingungen</span><span class="en">Requirements</span></h3>
+        <ul class="check">
+          <li><div><b>Jr. Contractor</b><small class="de">Ab Rang 1.</small><small class="en">From rank 1.</small></div></li>
+          <li class="must"><div><b>CrimeStat 0–2</b><small class="de">Mit höherem CrimeStat wird der Vertrag nicht angeboten.</small><small class="en">With a higher CrimeStat the contract isn't offered.</small></div></li>
+          <li><div><b><span class="de">Nicht teilbar, 25 min</span><span class="en">Not shareable, 25 min</span></b><small class="de">Laut Spieldaten ein Spieler je Vertrag, Zeitlimit 25 Minuten.</small><small class="en">Per game data one player per contract, 25-minute limit.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧊 <span class="de">Finden und abliefern</span><span class="en">Find and deliver</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Blaue Verzierung</span><span class="en">Blue trim</span></b><small class="de">Laut Vertragstext erkennt man den Pod mit lebendem Vanduul an der blauen Verzierung am Gehäuse. Im Zweifel den Namen „Cryopod (Living Vanduul)“ prüfen, nicht nur die Farbe.</small><small class="en">Per the contract text the pod with a living Vanduul has blue trim on its casing. When in doubt check the name "Cryopod (Living Vanduul)", not just the colour.</small></div></li>
+          <li><div><b><span class="de">Abgabe am Sprungpunkt</span><span class="en">Delivery at a jump point</span></b><small class="de">Ziel ist der Sprungpunkt Nyx–Pyro oder Nyx–Castra. Der Vertrag zeigt, welcher.</small><small class="en">The destination is the Nyx–Pyro or Nyx–Castra jump point. The contract shows which.</small></div></li>
+          <li><div><b><span class="de">Traktorstrahl, Frachtraum</span><span class="en">Tractor beam, cargo hold</span></b><small class="de">Der Pod muss ins Schiff.</small><small class="en">The pod has to go into the ship.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">↑</span><div><h2><span class="de">Empfohlener Weg</span><span class="en">Suggested path</span></h2><p><span class="de">Unsere Einschätzung, keine feste Reihenfolge.</span><span class="en">Our suggestion, not a fixed order.</span></p></div></div>
+    <ol class="steps">
+      <li class="de"><b>Rang 1:</b> Target Shattered Blade für den Skarnov-Bauplan, nebenher Living Vanduul Sample für Ruf und einen zufälligen Bauplan.</li>
+      <li class="en"><b>Rank 1:</b> Target Shattered Blade for the Skarnov blueprint, plus Living Vanduul Sample for rep and a random blueprint.</li>
+      <li class="de"><b>Rang 2 bis 3:</b> Retake Boarded Vessel bringt doppelten Ruf (+300), aber wenig aUEC. Bis Veteran sind es 15.000 Ruf, das dauert.</li>
+      <li class="en"><b>Rank 2 to 3:</b> Retake Boarded Vessel gives double rep (+300) but little aUEC. Veteran needs 15,000 rep, which takes a while.</li>
+      <li class="de"><b>Rang 4:</b> Clan Extermination und 3-Way Standoff jeweils bis Stufe 3 für die Corbel- und Palatino-Rüstung.</li>
+      <li class="en"><b>Rank 4:</b> Clan Extermination and 3-Way Standoff up to tier 3 each for the Corbel and Palatino armor.</li>
+      <li class="de"><b>Rang 5 bis 6:</b> Takedown-Reihe. Die beiden Mauler-Verträge sind für eine Crew gedacht.</li>
+      <li class="en"><b>Rank 5 to 6:</b> Takedown line. The two Mauler contracts are meant for a crew.</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">A</span><div><h2><span class="de">Ausrüstungs-Checkliste</span><span class="en">Loadout checklist</span></h2><p><span class="de">◆ = Pflicht · ▣ = empfohlen.</span><span class="en">◆ = mandatory · ▣ = recommended.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🎒 <span class="de">Raid und Entern (FPS)</span><span class="en">Raid and boarding (FPS)</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Waffe, Rüstung, Munition</span><span class="en">Weapon, armor, ammo</span></b><small class="de">Target Shattered Blade und Retake Boarded Vessel sind Kämpfe zu Fuß.</small><small class="en">Target Shattered Blade and Retake Boarded Vessel are fights on foot.</small></div></li>
+          <li><div><b>Med-Pens / Med-Gun</b><small class="de">Für längere Gefechte in Stationen und Schiffen.</small><small class="en">For longer fights inside stations and ships.</small></div></li>
+          <li><div><b><span class="de">Schiff zum Hinkommen</span><span class="en">Ship to get there</span></b><small class="de">Für den Raid reicht ein Transportschiff; Raider-Stationen sind per Quantum erreichbar.</small><small class="en">A transport ship is enough for the raid; raid stations are reachable by quantum.</small></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🚀 <span class="de">Vanduul-Wellen und Mauler</span><span class="en">Vanduul waves and Maulers</span></h3>
+        <ul class="check">
+          <li class="must"><div><b><span class="de">Kampfschiff</span><span class="en">Combat ship</span></b><small class="de">Für Clan Extermination, 3-Way Standoff und Takedown.</small><small class="en">For Clan Extermination, 3-Way Standoff and Takedown.</small></div></li>
+          <li class="must"><div><b><span class="de">Aus dem Bugbereich des Maulers bleiben</span><span class="en">Stay out of the Mauler's nose arc</span></b><small class="de">Mit 4.10.3 wurden die Mauler-Waffen deutlich tödlicher, die Hülle dafür schwächer. Großer Frontlaser und obere Waffe sind die Gefahr.</small><small class="en">In 4.10.3 Mauler weapons became much deadlier and its health was reduced. The big forward laser and the top weapon are the danger.</small></div></li>
+          <li><div><b><span class="de">Zeit und Munition einplanen</span><span class="en">Budget time and ammo</span></b><small class="de">Vanduul haben viel Munition und regenerieren schnell; Draw Out Maulers hat laut Spieldaten über 3 Stunden Zeitlimit.</small><small class="en">Vanduul carry plenty of ammo and regenerate fast; Draw Out Maulers has a limit of over 3 hours per game data.</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Häufige Stolpersteine</span><span class="en">Common pitfalls</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Nicht in Nyx</span><span class="en">Not in Nyx</span></b><span class="de">Außerhalb von Nyx tauchen die Verträge nicht auf.</span><span class="en">Outside Nyx the contracts don't show up.</span></div>
+      <div class="trap"><b><span class="de">Rang zu niedrig</span><span class="en">Rank too low</span></b><span class="de">Die meisten Verträge brauchen Veteran (15.000 Ruf) oder mehr. Rufwert im mobiGlas unter InterSec prüfen.</span><span class="en">Most contracts need Veteran (15,000 rep) or more. Check your standing in mobiGlas under InterSec.</span></div>
+      <div class="trap"><b><span class="de">Verträge fehlen trotz Rang</span><span class="en">Contracts missing despite rank</span></b><span class="de">Dann zuerst Vanduul-Tech Smugglers erledigen (siehe Einstieg).</span><span class="en">Then finish Vanduul-Tech Smugglers first (see Getting in).</span></div>
+      <div class="trap"><b><span class="de">Falscher Cryopod</span><span class="en">Wrong cryopod</span></b><span class="de">Es gibt mehrere Pod-Sorten. Auf den Namen „Living Vanduul“ achten.</span><span class="en">There are several pod types. Check for the name "Living Vanduul".</span></div>
+      <div class="trap"><b><span class="de">CrimeStat über 2</span><span class="en">CrimeStat above 2</span></b><span class="de">InterSec ist gesetzestreu; mit hohem CrimeStat gibt es keine Verträge.</span><span class="en">InterSec is lawful; with a high CrimeStat there are no contracts.</span></div>
+      <div class="trap"><b><span class="de">Teilen klappt nicht</span><span class="en">Sharing doesn't work</span></b><span class="de">Die Spieldaten markieren die Verträge als nicht teilbar. Ob Mitspieler trotzdem helfen können, ist noch nicht bestätigt.</span><span class="en">The game data marks the contracts as not shareable. Whether others can still help is not yet confirmed.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Spieldaten 4.10.3-LIVE.13165946, Patchnotes und Community-Guides. Stand 14.11.2026.</span><span class="en">Game data 4.10.3-LIVE.13165946, patch notes and community guides. As of 14 Nov 2026.</span></p></div></div>
+    <div class="src">
+      <a href="https://api.star-citizen.wiki/api/missions?filter[title]=Vanduul" target="_blank" rel="noopener">Star Citizen Wiki API — <span class="de">Missionsdaten 4.10.3 LIVE (Rang, Ruf, Baupläne, Bedingungen)</span><span class="en">mission data 4.10.3 LIVE (rank, rep, blueprints, requirements)</span> ↗</a>
+      <a href="https://starcitizen.tools/Update:Star_Citizen_Alpha_4.10.3" target="_blank" rel="noopener">Star Citizen Wiki — Update Alpha 4.10.3 ↗</a>
+      <a href="https://www.elyxir.gg/news/star-citizen/star-citizen-4103-goes-live-with-galaxy-liberator-and-vanduul-contracts" target="_blank" rel="noopener">Elyxir — 4.10.3 Goes Live (13.11.2026) ↗</a>
+      <a href="https://timesaver.gg/blog/star-citizen-vanduul-incursion-guide-alpha-4-10-3" target="_blank" rel="noopener">Timesaver — Vanduul Incursion Guide (PTU, <span class="de">aUEC-Werte</span><span class="en">aUEC values</span>) ↗</a>
+      <a href="https://expcarry.com/star-citizen-vanduul-incursion-guide" target="_blank" rel="noopener">Expcarry — Vanduul Incursion Guide (PTU) ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.10.3 LIVE (11/2026). aUEC-Beträge sind PTU-Werte. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.10.3 LIVE (11/2026). aUEC amounts are PTU values. Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · Vanduul Incursion · Akte Nyx, o7</span>
+  <span class="en">Field handbook · Vanduul Incursion · Nyx file, o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('vi_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('vi_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('vi_theme',t):localStorage.removeItem('vi_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('vi_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>
