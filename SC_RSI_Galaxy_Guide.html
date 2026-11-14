@@ -1,0 +1,300 @@
+<title>RSI Galaxy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#eef1ee; --panel:#ffffff; --panel2:#e5ebe5; --line:#c9d4cb;
+  --ink:#111812; --dim:#5c685e; --acid:#2f8f3a; --acid-bd:#3aa346;
+  --danger:#b3301f; --danger-bg:#f3dcd6; --intel:#256fb0; --intel-bg:#dbe8f4;
+  --stripe:rgba(47,143,58,.15);
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(20,50,25,.09);
+  --sans:'Barlow',system-ui,sans-serif; --disp:'Oxanium',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b0f0c; --panel:#141b16; --panel2:#0f1511; --line:#28352c; --ink:#e6efe8; --dim:#9db0a2;
+    --acid:#6fe36a; --acid-bd:#3f8f3f; --danger:#f0563a; --danger-bg:#2a1310;
+    --intel:#5aa6f0; --intel-bg:#0f1f2e;
+    --stripe:rgba(111,227,106,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b0f0c; --panel:#141b16; --panel2:#0f1511; --line:#28352c; --ink:#e6efe8; --dim:#9db0a2;
+  --acid:#6fe36a; --acid-bd:#3f8f3f; --danger:#f0563a; --danger-bg:#2a1310;
+  --intel:#5aa6f0; --intel-bg:#0f1f2e;
+  --stripe:rgba(111,227,106,.10); --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;line-height:1.1;margin:0;font-weight:600;letter-spacing:.01em}
+a{color:var(--acid)}
+:focus-visible{outline:2px solid var(--acid);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+.hazard{height:10px;background:repeating-linear-gradient(45deg,var(--acid-bd) 0 16px,transparent 16px 32px);opacity:.85}
+
+header{background:var(--panel2);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 84% -25%,var(--stripe),transparent 60%);pointer-events:none}
+.head-in{padding:26px 0 24px;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--acid);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,54px);font-weight:700;text-transform:uppercase;margin:8px 0 6px;letter-spacing:.02em}
+.lede{color:var(--dim);font-size:clamp(15px,2.3vw,18px);max-width:62ch;font-weight:500}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:14px;flex-wrap:wrap}
+.controls{display:flex;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;border:0;color:var(--dim);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--acid);color:#04170a}
+
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:22px 0}
+.ro{background:var(--panel);padding:13px 15px}
+.ro .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font-family:var(--disp);font-size:18px;font-weight:600;margin-top:3px}
+.ro .v.pay{color:var(--acid)}
+
+section{padding:30px 0;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-h .idx{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--acid);border:1px solid var(--acid-bd);border-radius:6px;padding:2px 8px;flex:none}
+h2{font-size:clamp(21px,3.4vw,28px)}
+.sec-h p{margin:4px 0 0;color:var(--dim);font-size:14px}
+p{margin:0 0 12px}
+.prose{max-width:66ch}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+.card p{margin:0;color:var(--dim);font-size:14px}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.check li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px}
+.check li::before{content:"▣";color:var(--acid);font-size:14px;line-height:1.5;flex:none}
+.check .must::before{content:"◆";color:var(--danger)}
+.check b{font-weight:600}
+.check small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4}
+
+.phase{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line)}
+.phase:first-of-type{border-top:0}
+.pnum{font-family:var(--disp);font-weight:700;font-size:28px;color:var(--acid);line-height:1;width:2.2ch;text-align:right}
+.pnum small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dim);margin-top:6px;font-weight:500}
+.pbody h3{font-size:18px;margin-bottom:4px}
+.pobj{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--intel);text-transform:uppercase;margin-bottom:10px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.steps li{font-size:14.5px}
+.steps li::marker{color:var(--acid);font-family:var(--mono);font-weight:700}
+
+.callout{border-left:4px solid var(--acid);background:var(--panel2);border-radius:0 9px 9px 0;padding:11px 14px;margin:12px 0;font-size:13.8px}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-bg)}
+.callout.intel{border-left-color:var(--intel);background:var(--intel-bg)}
+.callout .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:3px}
+.callout.danger .lbl{color:var(--danger)} .callout.intel .lbl{color:var(--intel)} .callout .lbl.acid{color:var(--acid)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--panel2)}
+td .n{font-family:var(--mono);font-weight:700;color:var(--acid)}
+
+.traps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.trap{background:var(--danger-bg);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 9px 9px 0;padding:12px 14px}
+.trap>b{font-family:var(--disp);font-weight:600;font-size:14.5px;display:block;margin-bottom:3px}
+.trap span{font-size:13px;color:var(--dim)}
+
+.src{font-size:13px;color:var(--dim);display:flex;flex-direction:column;gap:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:12.5px}
+.disc{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-top:14px}
+
+.en{display:none!important}
+[data-lang="en"] .de{display:none!important}
+[data-lang="en"] .en{display:revert!important}
+[data-lang="en"] .check small.en{display:block!important}
+@media (max-width:620px){.phase{gap:12px}.pnum{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.backlink{display:none!important}}
+</style>
+<style>
+td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.st{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.st.live{background:var(--acid);color:#04170a}
+.st.soon{border:1px solid var(--line);color:var(--dim)}
+@media print{.sec-h{break-after:avoid}.phase,.card,.trap,.callout,tr{break-inside:avoid}}
+</style>
+
+<div class="hazard"></div>
+<header>
+  <a class="backlink" href="index.html" style="display:inline-block;margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">&larr; <span class="de">Zum Index</span><span class="en">Back to index</span></a>
+  <span class="dl" style="float:right;font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)"><span class="de">Download: <a href="pdf/SC_RSI_Galaxy_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a> · <a href="pdf/SC_RSI_Galaxy_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a></span><span class="en">Download: <a href="pdf/SC_RSI_Galaxy_Guide_EN.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (EN)</a> · <a href="pdf/SC_RSI_Galaxy_Guide.pdf" style="font-size:13px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--accent,currentColor)">PDF (DE)</a></span></span>
+  <div class="wrap head-in">
+    <div class="eyebrow"><span>🚀</span> <span class="de">Roberts Space Industries · Large · Modular</span><span class="en">Roberts Space Industries · Large · Modular</span></div>
+    <h1>RSI Galaxy</h1>
+    <p class="lede">
+      <span class="de">Kurzer Guide zur Galaxy, flugfähig seit Patch 4.10.3: Geschichte, Funktion und Module, technische Daten und wo du Schiff und Module bekommst.</span>
+      <span class="en">Short guide to the Galaxy, flyable since patch 4.10.3: history, function and modules, technical data and where to get the ship and its modules.</span>
+    </p>
+    <div class="topbar">
+      <div class="eyebrow mono" style="letter-spacing:.12em"><span class="de">Ein Rumpf · wechselbare Module · Crew bis 8</span><span class="en">One hull · swappable modules · crew up to 8</span></div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Sprache / Language"><button id="de" aria-pressed="true">DE</button><button id="en" aria-pressed="false">EN</button></div>
+        <div class="seg" role="group" aria-label="Theme"><button id="t-light" aria-pressed="false" title="Hell">☀</button><button id="t-dark" aria-pressed="false" title="Dunkel">☾</button></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="readout" aria-label="Schiffsdaten">
+    <div class="ro"><div class="k"><span class="de">Klasse</span><span class="en">Class</span></div><div class="v">Large</div></div>
+    <div class="ro"><div class="k">Crew</div><div class="v">6 (max. 8)</div></div>
+    <div class="ro"><div class="k"><span class="de">Fracht</span><span class="en">Cargo</span></div><div class="v">64 / 720 SCU</div></div>
+    <div class="ro"><div class="k"><span class="de">Module live</span><span class="en">Modules live</span></div><div class="v">Cargo · Med Bay</div></div>
+    <div class="ro"><div class="k">Status</div><div class="v pay"><span class="de">flugfähig 4.10.3</span><span class="en">flyable 4.10.3</span></div></div>
+  </div>
+
+  <section style="border-top:0;padding-top:6px">
+    <div class="prose">
+      <p class="de"><b>Kurz gesagt:</b> Die Galaxy ist ein großes Mehrzweckschiff von RSI mit einer zentralen <b>Modulbucht</b>. Was das Schiff kann, hängt vom eingesetzten Modul ab: Fracht oder Krankenstation, später Raffinerie und Basenbau. Rundherum bleiben Brücke, Crew-Quartiere, drei Geschütztürme und ein Heck-Hangar für ein kleines Beiboot gleich.</p>
+      <p class="en"><b>In short:</b> The Galaxy is a large RSI multi-role ship with a central <b>module bay</b>. What the ship does depends on the module fitted: cargo or medical, later refining and base building. Around it, the bridge, crew quarters, three turrets and a rear hangar for a small snub stay the same.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">01</span><div><h2><span class="de">Geschichte</span><span class="en">History</span></h2><p><span class="de">Vom Konzept 2022 bis zum Release im November 2026.</span><span class="en">From the 2022 concept to the November 2026 release.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Wann</span><span class="en">When</span></th><th><span class="de">Was</span><span class="en">What</span></th></tr></thead>
+        <tbody>
+          <tr><td class="num">11/2022</td><td><span class="de">In Spieldateien von 3.17.4 entdeckt, am 24.11. auf der IAE 2952 vorgestellt, Konzeptverkauf ab 26.11. Angekündigt mit drei Modulen: Cargo, Refinery, Med Bay.</span><span class="en">Found in 3.17.4 game files, revealed on 24 Nov at IAE 2952, concept sale from 26 Nov. Announced with three modules: cargo, refinery, med bay.</span></td></tr>
+          <tr><td class="num">12/2022</td><td><span class="de">Fragestunde von CIG: Module laufen nur am Schiff (Strom und Kühlung kommen vom Schiff), keine abgesetzte Bodenbasis.</span><span class="en">CIG Q&amp;A: modules only work on the ship (power and cooling come from it), no detached ground base.</span></td></tr>
+          <tr><td class="num">2025–2026</td><td><span class="de">Pre-Production ab Ende 2025, Whitebox-Gate im Juli 2026, Greybox-Gate im September 2026, Abschluss im Oktober 2026.</span><span class="en">Pre-production from late 2025, whitebox gate July 2026, greybox gate September 2026, final review October 2026.</span></td></tr>
+          <tr><td class="num">09.11.2026</td><td><span class="de">Folge „Behind the Ships“ zur Galaxy.</span><span class="en">Behind the Ships episode on the Galaxy.</span></td></tr>
+          <tr><td class="num">12.11.2026</td><td><span class="de">Patch 4.10.3 LIVE: Galaxy flugfähig, mit Cargo- und Med-Bay-Modul. Ab 13.11. zur IAE 2956 für alle zum Probefliegen.</span><span class="en">Patch 4.10.3 LIVE: Galaxy flyable, with cargo and med bay modules. From 13 Nov open to everyone at IAE 2956 for free flight.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout intel"><span class="lbl"><span class="de">Was sich gegenüber dem Konzept geändert hat</span><span class="en">What changed from the concept</span></span><span class="de">Das Cargo-Modul fasst jetzt <b>656 SCU</b> statt 512, die Med Bay hat <b>8 Betten</b> statt 6. Ältere Zahlen in Guides und unserem Flyer stammen aus dem Konzeptstand.</span><span class="en">The cargo module now holds <b>656 SCU</b> instead of 512, the med bay has <b>8 beds</b> instead of 6. Older figures in guides and our flyer come from the concept stage.</span></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">02</span><div><h2><span class="de">Funktion und Module</span><span class="en">Function and modules</span></h2><p><span class="de">Immer genau ein Modul in der Bucht.</span><span class="en">Always exactly one module in the bay.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Modul</th><th><span class="de">Was es kann</span><span class="en">What it does</span></th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><b>Base</b></td><td><span class="de">Standard, wenn kein anderes Modul drin ist. Verschließt die Bucht, kein Lift. Es bleiben nur die 64 SCU im Hangar.</span><span class="en">Default when no other module is fitted. Seals the bay, no lift. Only the 64 SCU in the hangar remain.</span></td><td><span class="st live">LIVE</span></td></tr>
+          <tr><td><b>Cargo</b></td><td><span class="de">+656 SCU, zusammen 720 SCU. Industrie-Lift und zwei Kräne zum Be- und Entladen.</span><span class="en">+656 SCU, 720 SCU in total. Industrial lift and two cranes for loading.</span></td><td><span class="st live">LIVE</span></td></tr>
+          <tr><td><b>Med Bay</b></td><td><span class="de">8 Betten: 2× Tier 1, 3× Tier 2, 3× Tier 3. Fahrzeuglift und MedGel-Regale. Die einzige Krankenstation an Bord.</span><span class="en">8 beds: 2× tier 1, 3× tier 2, 3× tier 3. Vehicle lift and MedGel shelves. The only medical facility on board.</span></td><td><span class="st live">LIVE</span></td></tr>
+          <tr><td><b>Refinery</b></td><td><span class="de">Raffinerie mit 2 großen Reaktoren und getrenntem Lager für Roh- und Fertigmaterial.</span><span class="en">Refinery with 2 large reactors and separate raw and refined storage.</span></td><td><span class="st soon"><span class="de">angekündigt</span><span class="en">announced</span></span></td></tr>
+          <tr><td><b>Base Building</b></td><td><span class="de">Modul mit Bau-Drohne für Strukturen.</span><span class="en">Module with a construction drone for structures.</span></td><td><span class="st soon"><span class="de">angekündigt</span><span class="en">announced</span></span></td></tr>
+          <tr><td><b>Fabrication</b></td><td><span class="de">Fertigung an Bord (früher „Manufacturing“), ohne Details.</span><span class="en">On-board fabrication (formerly "manufacturing"), no details.</span></td><td><span class="st soon"><span class="de">angekündigt</span><span class="en">announced</span></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>🛬 <span class="de">Heck-Hangar</span><span class="en">Rear hangar</span></h3><p><span class="de">Landepad für ein XX-Small-Schiff, dazu 64 SCU Fracht. Reparieren, Aufmunitionieren und Tanken für das Beiboot.</span><span class="en">Pad for an XX-small ship plus 64 SCU of cargo. Repair, rearm and refuel for the snub.</span></p></div>
+      <div class="card"><h3>👥 Crew</h3><p><span class="de">Gedacht für 6, bis 8 Plätze. Allein fliegbar: Der Pilot kann alle drei Türme auf sich schalten. Eigene Quartiere, Ready Room für den Captain, Messe und Aufenthaltsraum.</span><span class="en">Designed for 6, up to 8 seats. Solo-flyable: the pilot can slave all three turrets. Own quarters, captain's ready room, mess and rec room.</span></p></div>
+      <div class="card"><h3>🔄 <span class="de">Modulwechsel</span><span class="en">Module swap</span></h3><p><span class="de">Geplant ist der Wechsel an Stationen mit passender Einrichtung. Wie das in 4.10.3 genau geht, ist noch nicht bestätigt.</span><span class="en">Swapping is planned at stations with suitable facilities. How it works exactly in 4.10.3 is not yet confirmed.</span></p></div>
+      <div class="card"><h3>🎯 <span class="de">Bewaffnung</span><span class="en">Armament</span></h3><p><span class="de">3 fernbediente Türme mit je 2 Laser-Repeatern S5, dazu 32 Raketen S2. Wehrhafter Transporter, kein Kriegsschiff.</span><span class="en">3 remote turrets with 2 S5 laser repeaters each, plus 32 S2 missiles. A defensible hauler, not a warship.</span></p></div>
+    </div>
+  </section>
+
+  <section style="break-inside:avoid">
+    <div class="sec-h"><span class="idx">03</span><div><h2><span class="de">Technische Daten</span><span class="en">Technical data</span></h2><p><span class="de">Spieldaten 4.10.3-LIVE. Werte ändern sich mit Balancing.</span><span class="en">Game data 4.10.3-LIVE. Values change with balancing.</span></p></div></div>
+    <div class="tablewrap">
+      <table>
+        <tbody>
+          <tr><td><span class="de">Maße (L × B × H)</span><span class="en">Size (L × W × H)</span></td><td class="num">110 × 60 × 25 m</td></tr>
+          <tr><td><span class="de">Masse</span><span class="en">Mass</span></td><td class="num">5.594.511 kg</td></tr>
+          <tr><td><span class="de">Fracht</span><span class="en">Cargo</span></td><td class="num">64 SCU · <span class="de">mit Cargo-Modul</span><span class="en">with cargo module</span> 720 SCU</td></tr>
+          <tr><td>Crew</td><td class="num">6–8 · <span class="de">davon 3 an Waffen</span><span class="en">3 on weapons</span></td></tr>
+          <tr><td><span class="de">Geschwindigkeit</span><span class="en">Speed</span></td><td class="num">SCM 145 m/s · max 950 m/s · Boost 315 m/s</td></tr>
+          <tr><td><span class="de">Schilde / Hülle</span><span class="en">Shields / hull</span></td><td class="num">200.000 / 148.700 HP</td></tr>
+          <tr><td><span class="de">Waffen</span><span class="en">Weapons</span></td><td class="num">3 <span class="de">Türme</span><span class="en">turrets</span> · 6× S5 · 32× S2 <span class="de">Raketen</span><span class="en">missiles</span></td></tr>
+          <tr><td>Quantum</td><td class="num">459.859 km/s · Spool 8,1 s · <span class="de">Tank</span><span class="en">tank</span> 20,9</td></tr>
+          <tr><td><span class="de">Versicherung</span><span class="en">Insurance</span></td><td class="num">Claim 35 min · <span class="de">Express</span><span class="en">expedite</span> 10 min (25.000 aUEC)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">04</span><div><h2><span class="de">Schiff und Module bekommen</span><span class="en">Getting the ship and modules</span></h2><p><span class="de">Stand 14.11.2026.</span><span class="en">As of 14 Nov 2026.</span></p></div></div>
+    <div class="grid g2">
+      <div class="card"><h3>🛒 <span class="de">Im Spiel kaufen</span><span class="en">Buy in game</span></h3><ul class="check">
+        <li class="must"><div><b><span class="de">Schiff: noch nicht</span><span class="en">Ship: not yet</span></b><small class="de">Kein Shop verkauft die Galaxy für aUEC; UEX führt am 14.11. keinen Preis.</small><small class="en">No shop sells the Galaxy for aUEC; UEX lists no price on 14 Nov.</small></div></li>
+        <li class="must"><div><b><span class="de">Module: noch nicht</span><span class="en">Modules: not yet</span></b><small class="de">Kein aUEC-Shop, keine Mission, kein Loot und keine Wikelo-Route für Module bekannt.</small><small class="en">No aUEC shop, mission, loot or Wikelo route known for modules.</small></div></li>
+      </ul></div>
+      <div class="card"><h3>🎟 <span class="de">Probefliegen zur IAE</span><span class="en">Free flight at IAE</span></h3><ul class="check">
+        <li><div><b><span class="de">Bis 27.11.2026, 20:00 UTC</span><span class="en">Until 27 Nov 2026, 20:00 UTC</span></b><small class="de">Mieten am RSI-Stand im Tobin Expo Center, New Babbage (microTech), per Metroloop vom Raumhafen. Laut einer Quelle nur an den RSI-Tagen 13./14.11.; im Spiel prüfen.</small><small class="en">Rent at the RSI kiosk in the Tobin Expo Center, New Babbage (microTech), by Metroloop from the spaceport. One source says only on the RSI days 13/14 Nov; check in game.</small></div></li>
+      </ul></div>
+    </div>
+    <h3 style="margin:20px 0 10px;font-size:17px"><span class="de">Pledge-Store (echtes Geld)</span><span class="en">Pledge store (real money)</span></h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th><span class="de">Paket</span><span class="en">Package</span></th><th><span class="de">enthält</span><span class="en">includes</span></th><th style="text-align:right">Warbond</th></tr></thead>
+        <tbody>
+          <tr><td>Galaxy</td><td><span class="de">Schiff mit Base-Modul (regulär $ 400)</span><span class="en">Ship with base module (regular $ 400)</span></td><td class="num">$ 360</td></tr>
+          <tr><td>Galaxy Freighter</td><td><span class="de">mit Cargo-Modul</span><span class="en">with cargo module</span></td><td class="num">$ 425</td></tr>
+          <tr><td>Galaxy Refinery</td><td><span class="de">mit Refinery-Modul (im Spiel noch nicht verfügbar)</span><span class="en">with refinery module (not yet in game)</span></td><td class="num">$ 435</td></tr>
+          <tr><td>Galaxy Hospital</td><td><span class="de">mit Med-Bay-Modul</span><span class="en">with med bay module</span></td><td class="num">$ 445</td></tr>
+          <tr><td>Galaxy Complete</td><td><span class="de">mit allen drei Modulen</span><span class="en">with all three modules</span></td><td class="num">$ 550</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--dim);margin-top:10px"><span class="de">Warbond-Preise mit 10 Jahren Versicherung, Stand 14.11.2026; das Paket „Complete“ enthält laut Name alle drei Module. Kein Kaufrat: Alle Module lassen sich vorher kostenlos zur IAE ausprobieren, soweit verfügbar.</span><span class="en">Warbond prices with 10-year insurance, as of 14 Nov 2026; the "Complete" pack contains all three modules by its name. Not buying advice: try the modules for free at IAE first, where available.</span></p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">✕</span><div><h2><span class="de">Gut zu wissen</span><span class="en">Good to know</span></h2></div></div>
+    <div class="traps">
+      <div class="trap"><b><span class="de">Base-Modul ist fast leer</span><span class="en">Base module is nearly empty</span></b><span class="de">Ohne Cargo-Modul bleiben nur 64 SCU im Hangar.</span><span class="en">Without the cargo module only 64 SCU remain in the hangar.</span></div>
+      <div class="trap"><b><span class="de">Refinery noch nicht im Spiel</span><span class="en">Refinery not in game yet</span></b><span class="de">Das Modul ist im Pledge-Store zu haben, im Spiel aber erst angekündigt.</span><span class="en">The module is in the pledge store but only announced in game.</span></div>
+      <div class="trap"><b><span class="de">Respawn an Bord</span><span class="en">Respawn on board</span></b><span class="de">Die Med Bay hat Tier-1-Betten; ob man dort respawnen kann, ist nicht bestätigt.</span><span class="en">The med bay has tier 1 beds; whether you can respawn there is not confirmed.</span></div>
+      <div class="trap"><b><span class="de">Werte im Wandel</span><span class="en">Values in flux</span></b><span class="de">Das Rüstungssystem im PTU 5.0 kann Schilde und Hülle noch verändern.</span><span class="en">The armor system in PTU 5.0 may still change shields and hull.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="idx">↗</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2><p><span class="de">Stand 14.11.2026.</span><span class="en">As of 14 Nov 2026.</span></p></div></div>
+    <div class="src">
+      <a href="https://api.star-citizen.wiki/api/v3/vehicles/galaxy" target="_blank" rel="noopener">Star Citizen Wiki API — Galaxy, <span class="de">Spieldaten 4.10.3-LIVE, Pledge-Pakete</span><span class="en">game data 4.10.3-LIVE, pledge packages</span> ↗</a>
+      <a href="https://starcitizen.tools/Galaxy" target="_blank" rel="noopener">Star Citizen Wiki — Galaxy ↗</a>
+      <a href="https://starcitizen.tools/Comm-Link:Q%26A_-_RSI_Galaxy" target="_blank" rel="noopener">Star Citizen Wiki — Q&amp;A RSI Galaxy (2022) ↗</a>
+      <a href="https://starcitizen.tools/Update:Star_Citizen_Alpha_4.10.3" target="_blank" rel="noopener">Star Citizen Wiki — Update Alpha 4.10.3 ↗</a>
+      <a href="https://uexcorp.space" target="_blank" rel="noopener">UEX — <span class="de">Ingame-Preise (kein Galaxy-Eintrag am 14.11.)</span><span class="en">in-game prices (no Galaxy entry on 14 Nov)</span> ↗</a>
+    </div>
+    <div class="disc"><span class="de">Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Stand: Patch 4.10.3 LIVE (11/2026). Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</span><span class="en">Unofficial fan handbook. Not affiliated with Cloud Imperium Games. As of patch 4.10.3 LIVE (11/2026). Star Citizen® is a trademark of CIG. All data without warranty.</span></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="de">Feldhandbuch · RSI Galaxy · o7</span>
+  <span class="en">Field handbook · RSI Galaxy · o7</span>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, main=document.body;
+  function setLang(l){ main.setAttribute('data-lang',l);
+    document.getElementById('de').setAttribute('aria-pressed', l==='de');
+    document.getElementById('en').setAttribute('aria-pressed', l==='en');
+    root.setAttribute('lang', l); try{localStorage.setItem('gal_lang',l);}catch(e){}
+  }
+  document.getElementById('de').addEventListener('click',function(){setLang('de');});
+  document.getElementById('en').addEventListener('click',function(){setLang('en');});
+  var sl='de'; try{sl=localStorage.getItem('gal_lang')||'de';}catch(e){} setLang(sl);
+  function setTheme(t){ if(t) root.setAttribute('data-theme',t); else root.removeAttribute('data-theme');
+    document.getElementById('t-light').setAttribute('aria-pressed', t==='light');
+    document.getElementById('t-dark').setAttribute('aria-pressed', t==='dark');
+    try{ t?localStorage.setItem('gal_theme',t):localStorage.removeItem('gal_theme'); }catch(e){}
+  }
+  document.getElementById('t-light').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='light'?null:'light'); });
+  document.getElementById('t-dark').addEventListener('click',function(){ setTheme(root.getAttribute('data-theme')==='dark'?null:'dark'); });
+  var st=null; try{st=localStorage.getItem('gal_theme');}catch(e){} if(st) setTheme(st);
+})();
+</script>
