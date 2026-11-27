@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SC Nichtkäufliche Komponenten</title>
-<meta name="description" content="Guide zu Star-Citizen-Schiffskomponenten, die es in keinem Shop gibt: Bauplan-Quellen, Auftraggeber, Events, Fundorte (Stand 4.10.2).">
+<meta name="description" content="Guide zu Star-Citizen-Schiffskomponenten, die es in keinem Shop gibt: Bauplan-Quellen, Auftraggeber, Events, Fundorte (Stand 4.10.3).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -94,13 +94,13 @@
     <p class="eyebrow"><span class="de">Crafting-Guide · Komponenten</span><span class="en">Crafting Guide · Components</span></p>
     <h1><span class="de">Nichtkäufliche Komponenten</span><span class="en">Non-Purchasable Components</span> <span style="color:var(--muted)">// <span class="de">Bezugsquellen</span><span class="en">Sources</span></span></h1>
     <div class="lede">
-<div class="de"><p><strong>Stand:</strong> Alpha <strong>4.10.2</strong> (Spieldaten vom 22.10.2026). Quellen siehe unten. Crafting und Mission-Pools ändern sich mit jedem Patch – vor dem Farmen im Spiel gegenprüfen.</p>
+<div class="de"><p><strong>Stand:</strong> Alpha <strong>4.10.3</strong> (Spieldaten vom 26.11.2026). Quellen siehe unten. Crafting und Mission-Pools ändern sich mit jedem Patch – vor dem Farmen im Spiel gegenprüfen.</p>
 <blockquote>
-<p><strong>Kurz gesagt:</strong> Von 560 geprüften Schiffskomponenten gibt es <strong>217 in keinem Shop</strong>. Davon sind 126 für Spieler relevant (der Rest sind interne NPC-/Schiffsvarianten). Für <strong>60</strong> nennen die Daten <strong>Missionen als Bauplan-Quelle</strong>, <strong>7</strong> stammen aus einem <strong>abgelaufenen Event</strong>, <strong>41</strong> haben einen Bauplan <strong>ohne bekannte Quelle</strong>, und <strong>18</strong> sind <strong>weder kaufbar noch craftbar</strong> – die findet man nur in Schiffen.</p>
+<p><strong>Kurz gesagt:</strong> Von 571 geprüften Schiffskomponenten haben <strong>214 keinen Kaufpreis in den Daten</strong>. Davon sind 119 für Spieler relevant (der Rest sind interne NPC-/Schiffsvarianten und gleichnamige Zweiteinträge kaufbarer Teile). Für <strong>56</strong> nennen die Daten <strong>Missionen als Bauplan-Quelle</strong>, <strong>7</strong> stammen aus einem <strong>abgelaufenen Event</strong>, <strong>42</strong> haben einen Bauplan <strong>ohne bekannte Quelle</strong>, und <strong>14</strong> sind <strong>weder kaufbar noch craftbar</strong> – die findet man nur in Schiffen.</p>
 </blockquote></div>
-<div class="en"><p><strong>As of:</strong> Alpha <strong>4.10.2</strong> (game data from 22 Oct 2026). Sources below. Crafting and mission pools change with every patch – check in game before farming.</p>
+<div class="en"><p><strong>As of:</strong> Alpha <strong>4.10.3</strong> (game data from 26 Nov 2026). Sources below. Crafting and mission pools change with every patch – check in game before farming.</p>
 <blockquote>
-<p><strong>In short:</strong> Of 560 ship components checked, <strong>217 are in no shop</strong>. 126 of those matter to players (the rest are internal NPC/ship variants). For <strong>60</strong>, the data names <strong>missions as the blueprint source</strong>, <strong>7</strong> came from an <strong>expired event</strong>, <strong>41</strong> have a blueprint <strong>with no known source</strong>, and <strong>18</strong> are <strong>neither purchasable nor craftable</strong> – those can only be found in ships.</p>
+<p><strong>In short:</strong> Of 571 ship components checked, <strong>214 have no purchase price in the data</strong>. 119 of those matter to players (the rest are internal NPC/ship variants and same-named second entries of purchasable parts). For <strong>56</strong>, the data names <strong>missions as the blueprint source</strong>, <strong>7</strong> came from an <strong>expired event</strong>, <strong>42</strong> have a blueprint <strong>with no known source</strong>, and <strong>14</strong> are <strong>neither purchasable nor craftable</strong> – those can only be found in ships.</p>
 </blockquote></div>
     </div>
     <div class="toolbar">
@@ -115,16 +115,18 @@
   <section id="s1">
     <div class="sec-h"><span class="idx">01</span><div><h2><span class="de">Was heißt „nicht käuflich“ – und wie ich das geprüft habe</span><span class="en">What &quot;non-purchasable&quot; means – and how I checked</span></h2></div></div>
     <div class="sec-b">
-<div class="de"><p>Ich habe über die Wiki-API (<code>api.star-citizen.wiki</code>) alle Schiffskomponenten der Typen Schild, Power Plant, Cooler, Quantum Drive, Radar, Schiffswaffe, Mining-Laser, Traktorstrahl und Salvage-Kopf abgefragt. <strong>Nicht käuflich</strong> heißt hier: kein Eintrag in den Shop-Daten <strong>und</strong> kein Kaufpreis bei UEX.</p>
+<div class="de"><p>Ich habe über die Wiki-API (<code>api.star-citizen.wiki</code>) alle Schiffskomponenten der Typen Schild, Power Plant, Cooler, Quantum Drive, Radar, Schiffswaffe, Mining-Laser, Traktorstrahl, Salvage-Kopf und Salvage-Modul abgefragt. <strong>Nicht käuflich</strong> heißt hier: kein Eintrag in den Shop-Daten <strong>und</strong> kein Kaufpreis bei UEX.</p>
 <ul>
 <li>Das ist eine <strong>Auswertung der Datenlage</strong>, keine Garantie. Ein Shop kann die Ware haben, ohne dass die Datenbank es weiß.</li>
-<li>Rund 90 der 217 sind NPC-/Schiffs-interne Varianten (z. B. „Mauler Shield Generator“, „Main Powerplant“). Die sind für dich nicht beschaffbar und stehen <strong>nicht</strong> in den Tabellen unten.</li>
+<li>95 der 214 sind NPC-/Schiffs-interne Varianten (z. B. „Mauler Shield Generator“, „Main Powerplant“) oder gleichnamige Zweiteinträge kaufbarer Teile. Sie stehen <strong>nicht</strong> in den Tabellen unten.</li>
+<li><strong>Berichtigung vom 27.11.2026:</strong> 13 Komponenten standen bisher als nicht käuflich in den Tabellen, obwohl UEX für sie Kaufpreise führt: die Repeater CF-227 Badger, CF-447 Rhino, CF-557 Galdereen, CF-667 Mammoth, Attrition-4 und GVSR, dazu Tarantula GT-870 Mark 3, M8A Cannon, Revenant Gatling, PyroBurst Scattergun, Mining-Laser Arbor MH1, Power Plant Radix und Radar Ecouter. Ursache: Die Daten führen gleichnamige Varianten als getrennte Einträge. Die 13 sind gestrichen. Für zehn davon nennen die Daten zusätzlich einen Bauplan aus Missionen (alle außer GVSR, PyroBurst und Ecouter) – die kannst du kaufen oder bauen. AllStop und Glacis standen doppelt (3.3 und 3.4); sie haben einen Bauplan und stehen jetzt nur noch in 3.3.</li>
 <li>Klassen (Military, Stealth, Civilian, Industrial, Competition) und Grades (A–D) sind im <a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">Wiki</a> erklärt: Grade A ist die beste Stufe; Military hat die höchste Leistung bei großer Signatur, Stealth wenig Signatur bei mittlerer Leistung.</li>
 </ul></div>
-<div class="en"><p>I queried the wiki API (<code>api.star-citizen.wiki</code>) for all ship components of the types shield, power plant, cooler, quantum drive, radar, ship weapon, mining laser, tractor beam and salvage head. <strong>Non-purchasable</strong> here means: no entry in the shop data <strong>and</strong> no purchase price at UEX.</p>
+<div class="en"><p>I queried the wiki API (<code>api.star-citizen.wiki</code>) for all ship components of the types shield, power plant, cooler, quantum drive, radar, ship weapon, mining laser, tractor beam, salvage head and salvage module. <strong>Non-purchasable</strong> here means: no entry in the shop data <strong>and</strong> no purchase price at UEX.</p>
 <ul>
 <li>This is an <strong>analysis of the available data</strong>, not a guarantee. A shop may stock an item without the database knowing.</li>
-<li>Around 90 of the 217 are internal NPC/ship variants (e.g. "Mauler Shield Generator", "Main Powerplant"). You cannot obtain them, and they are <strong>not</strong> in the tables below.</li>
+<li>95 of the 214 are internal NPC/ship variants (e.g. "Mauler Shield Generator", "Main Powerplant") or same-named second entries of purchasable parts. They are <strong>not</strong> in the tables below.</li>
+<li><strong>Correction of 27 Nov 2026:</strong> 13 components were listed as non-purchasable in the tables although UEX has purchase prices for them: the repeaters CF-227 Badger, CF-447 Rhino, CF-557 Galdereen, CF-667 Mammoth, Attrition-4 and GVSR, plus Tarantula GT-870 Mark 3, M8A Cannon, Revenant Gatling, PyroBurst Scattergun, mining laser Arbor MH1, power plant Radix and radar Ecouter. Cause: the data lists same-named variants as separate entries. The 13 have been removed. For ten of them the data also names a blueprint from missions (all except GVSR, PyroBurst and Ecouter) – you can buy or build those. AllStop and Glacis were listed twice (3.3 and 3.4); they have a blueprint and now appear in 3.3 only.</li>
 <li>Classes (Military, Stealth, Civilian, Industrial, Competition) and grades (A–D) are explained in the <a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">wiki</a>: grade A is the best tier; Military has the highest output with a large signature, Stealth has a low signature with mid-range output.</li>
 </ul></div>
     </div>
@@ -183,28 +185,28 @@
 <td>„Protect/Defend Fuel Tanks and Escort Employees“ (Yellow/Orange/Red)</td>
 <td>Contractor bis Veteran Contractor</td>
 <td>Stanton, Pyro, Nyx</td>
-<td>Cooler Glacier/Avalanche/Blizzard, Civilian-Cooler Draug/Elsen/Kragen, Schild FR-86, Power Plant Radiance, Repeater CF-227 Badger, Attrition-4, CF-447 Rhino, CF-557 Galdereen, CF-667 Mammoth</td>
+<td>Cooler Glacier/Avalanche/Blizzard, Civilian-Cooler Draug/Elsen/Kragen, Schild FR-86, Power Plant Radiance</td>
 </tr>
 <tr>
 <td><strong>Eckhart Security</strong></td>
 <td>Security-/Eskortverträge, „Ambush“-Reihe, „High-Risk Bounty“</td>
 <td>Contractor bis Sr. Security Contractor</td>
 <td>Stanton, Nyx</td>
-<td>Stealth-Schilde Mirage/Veil/Sheut/Umbra, Power Plants Slipstream/Eclipse/GammaMax, Fierell Cascade, UltraFlux, MegaFlux, Revenant Gatling</td>
+<td>Stealth-Schilde Mirage/Veil/Sheut/Umbra, Power Plants Slipstream/Eclipse/GammaMax, Fierell Cascade, UltraFlux, MegaFlux</td>
 </tr>
 <tr>
 <td><strong>Headhunters</strong></td>
 <td>Bounty-Verträge („Simple Hit“, „Kill Order“, „Primo Target“ …) und „Defend … From Mercs“</td>
 <td>Neutral bis Elite Contractor</td>
 <td>Pyro (Bounty), Stanton/Pyro/Nyx</td>
-<td>Stealth-Cooler SnowBlind/NightFall, Schild 6CA ‘Bila’, Singe Cannon S1–S3, Tarantula GT-870 Mk 3, M8A Cannon</td>
+<td>Stealth-Cooler SnowBlind/NightFall, Schild 6CA ‘Bila’, Singe Cannon S1–S3</td>
 </tr>
 <tr>
 <td><strong>InterSec Defense Solutions</strong></td>
-<td>„Tactical Strike Group Needed“, „Strategic Bombing“, „Assist People’s Alliance Vessel Tranquility“</td>
-<td>keine Angabe in den Daten</td>
-<td>–</td>
-<td>Cooler Polar/Permafrost/Tempest, Power Plants JS-300/400/500, QuadraCell MX, Schilde ForceWall/CoverAll/FullBlock</td>
+<td>„Tactical Strike Group Needed“, „Strategic Bombing“, „Assist People’s Alliance Vessel Tranquility“; neu mit 4.10.3: „Draw Out Maulers“</td>
+<td>keine Angabe in den Daten; „Draw Out Maulers“: Elite Contractor</td>
+<td>„Draw Out Maulers“: Nyx; sonst keine Angabe</td>
+<td>Cooler Polar/Permafrost/Tempest, Power Plants JS-300/400/500, QuadraCell MX, Schilde ForceWall/CoverAll/FullBlock; aus „Draw Out Maulers“: M3A/M4A/M5A Cannon „Raider Camo“</td>
 </tr>
 <tr>
 <td><strong>Hockrow Agency</strong></td>
@@ -218,14 +220,21 @@
 <td>Blackbox Retrieval, Mining-/Salvage-/Scan-Verträge</td>
 <td>Associate, Trusted Associate</td>
 <td>Nyx</td>
-<td>„Hazard-Zone“-Repeater (CF-117/227/337), Mining-Laser Arbor MH1 und Pitman</td>
+<td>„Hazard-Zone“-Repeater (CF-117/227/337), Mining-Laser Pitman, Scraper-Module Comer und Hart</td>
 </tr>
 <tr>
 <td><strong>Shubin Interstellar</strong></td>
 <td>„Purchase Order: Ship Mined Ore“ (Lrg, Mjr, XL, Special)</td>
 <td>Contractor bis Head Contractor</td>
 <td>Stanton, Pyro, Nyx</td>
-<td>Radar BroadSpec und BroadSpec-Max, Mining-Laser Arbor MH1 und Pitman</td>
+<td>Radar BroadSpec und BroadSpec-Max, Mining-Laser Pitman</td>
+</tr>
+<tr>
+<td><strong>Adagio Holdings</strong></td>
+<td>„Adagio Holdings in Need of Salvagers“, „Salvager Needed …“ (Small, Med., Lrg.)</td>
+<td>Neutral bis Elite Contractor</td>
+<td>Stanton, Pyro, Nyx</td>
+<td>Scraper-Module Comer und Hart</td>
 </tr>
 <tr>
 <td><strong>Ling Family Hauling</strong></td>
@@ -247,14 +256,14 @@
 <ul>
 <li><strong>Leichter Einstieg bei Stealth-Quantum-Drives:</strong> Ling Hauling verlangt nur Trainee/Rookie.</li>
 <li><strong>Militär-Quantum-Drives sind das langfristigste Ziel:</strong> Covalex braucht den Master-Rang.</li>
-<li><strong>Foxwell und Eckhart</strong> decken den Großteil der Kampf-Komponenten ab (Cooler, Schilde, Power Plants, Repeater).</li>
-<li>Die <strong>Hazard-Zone-Repeater</strong> und die Mining-Laser kommen vom Battaglia-Strang in Nyx (siehe auch <code>Pyro_Nyx_Questgeber_Guide</code>).</li>
+<li><strong>Foxwell und Eckhart</strong> decken den Großteil der Kampf-Komponenten ab (Cooler, Schilde, Power Plants).</li>
+<li>Die <strong>Hazard-Zone-Repeater</strong> und der Mining-Laser Pitman kommen vom Battaglia-Strang in Nyx (siehe auch <code>Pyro_Nyx_Questgeber_Guide</code>).</li>
 <li><strong>Welcher Rang genau für welche Komponente nötig ist</strong>, lässt sich aus den Daten nicht sauber ableiten – die Ränge oben sind die Spanne über alle Verträge des Auftraggebers.</li>
 </ul>
 <h3>Weg B – Events</h3>
 <p>Im Event <a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">„The Return of Xenothreat“</a> (4.8.3, 02.–15.07.) gab es Baupläne als Fortschrittsbelohnung: bei 60 % QuadraCell und QuadraCell MT, bei 85 % FR-66 und FR-76, bei 100 % NDB-26/28/30. Das Event ist <strong>vorbei</strong>. Wer die Baupläne damals nicht freigeschaltet hat, bekommt sie nur über eine Wiederholung des Events. Wer sie hat, behält sie dauerhaft.</p>
 <h3>Weg C – Fund und Ausbau aus Schiffen</h3>
-<p>18 Komponenten sind weder kaufbar noch craftbar (Liste in 3.4, z. B. AllStop, Sukoran, Suldrath, Helios, Sovereign, BriskAir, Delphi). Für sie gibt es <strong>keinen Bauplan</strong>, also bleibt nur, sie irgendwo zu finden.</p>
+<p>14 Komponenten sind weder kaufbar noch craftbar (Liste in 3.4, z. B. Sukoran, Suldrath, Helios, Sovereign, BriskAir, Delphi). Für sie gibt es <strong>keinen Bauplan</strong>, also bleibt nur, sie irgendwo zu finden.</p>
 <p>Was zu dem Weg belegt ist:</p>
 <ul>
 <li>Mit Salvage-Werkzeug (Precision-Traktorstrahl) lassen sich Waffen, Schilde, Quantum Drives und andere Module aus Wracks ziehen, wenn man über eine Komponenten-Bucht herankommt. Stand dieser Aussage ist laut <a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/comm-links/19070">Comm-Link</a> <strong>Alpha 4.4</strong>: Komponenten bis Größe 2.</li>
@@ -314,28 +323,28 @@
 <td>"Protect/Defend Fuel Tanks and Escort Employees" (Yellow/Orange/Red)</td>
 <td>Contractor to Veteran Contractor</td>
 <td>Stanton, Pyro, Nyx</td>
-<td>Coolers Glacier/Avalanche/Blizzard, Civilian coolers Draug/Elsen/Kragen, shield FR-86, power plant Radiance, repeaters CF-227 Badger, Attrition-4, CF-447 Rhino, CF-557 Galdereen, CF-667 Mammoth</td>
+<td>Coolers Glacier/Avalanche/Blizzard, Civilian coolers Draug/Elsen/Kragen, shield FR-86, power plant Radiance</td>
 </tr>
 <tr>
 <td><strong>Eckhart Security</strong></td>
 <td>Security/escort contracts, "Ambush" series, "High-Risk Bounty"</td>
 <td>Contractor to Sr. Security Contractor</td>
 <td>Stanton, Nyx</td>
-<td>Stealth shields Mirage/Veil/Sheut/Umbra, power plants Slipstream/Eclipse/GammaMax, Fierell Cascade, UltraFlux, MegaFlux, Revenant Gatling</td>
+<td>Stealth shields Mirage/Veil/Sheut/Umbra, power plants Slipstream/Eclipse/GammaMax, Fierell Cascade, UltraFlux, MegaFlux</td>
 </tr>
 <tr>
 <td><strong>Headhunters</strong></td>
 <td>Bounty contracts ("Simple Hit", "Kill Order", "Primo Target" …) and "Defend … From Mercs"</td>
 <td>Neutral to Elite Contractor</td>
 <td>Pyro (bounty), Stanton/Pyro/Nyx</td>
-<td>Stealth coolers SnowBlind/NightFall, shield 6CA 'Bila', Singe Cannon S1–S3, Tarantula GT-870 Mk 3, M8A Cannon</td>
+<td>Stealth coolers SnowBlind/NightFall, shield 6CA 'Bila', Singe Cannon S1–S3</td>
 </tr>
 <tr>
 <td><strong>InterSec Defense Solutions</strong></td>
-<td>"Tactical Strike Group Needed", "Strategic Bombing", "Assist People's Alliance Vessel Tranquility"</td>
-<td>not given in the data</td>
-<td>–</td>
-<td>Coolers Polar/Permafrost/Tempest, power plants JS-300/400/500, QuadraCell MX, shields ForceWall/CoverAll/FullBlock</td>
+<td>"Tactical Strike Group Needed", "Strategic Bombing", "Assist People's Alliance Vessel Tranquility"; new with 4.10.3: "Draw Out Maulers"</td>
+<td>not given in the data; "Draw Out Maulers": Elite Contractor</td>
+<td>"Draw Out Maulers": Nyx; otherwise not given</td>
+<td>Coolers Polar/Permafrost/Tempest, power plants JS-300/400/500, QuadraCell MX, shields ForceWall/CoverAll/FullBlock; from "Draw Out Maulers": M3A/M4A/M5A Cannon "Raider Camo"</td>
 </tr>
 <tr>
 <td><strong>Hockrow Agency</strong></td>
@@ -349,14 +358,21 @@
 <td>Blackbox Retrieval, mining/salvage/scan contracts</td>
 <td>Associate, Trusted Associate</td>
 <td>Nyx</td>
-<td>"Hazard-Zone" repeaters (CF-117/227/337), mining lasers Arbor MH1 and Pitman</td>
+<td>"Hazard-Zone" repeaters (CF-117/227/337), mining laser Pitman, scraper modules Comer and Hart</td>
 </tr>
 <tr>
 <td><strong>Shubin Interstellar</strong></td>
 <td>"Purchase Order: Ship Mined Ore" (Lrg, Mjr, XL, Special)</td>
 <td>Contractor to Head Contractor</td>
 <td>Stanton, Pyro, Nyx</td>
-<td>Radars BroadSpec and BroadSpec-Max, mining lasers Arbor MH1 and Pitman</td>
+<td>Radars BroadSpec and BroadSpec-Max, mining laser Pitman</td>
+</tr>
+<tr>
+<td><strong>Adagio Holdings</strong></td>
+<td>"Adagio Holdings in Need of Salvagers", "Salvager Needed …" (Small, Med., Lrg.)</td>
+<td>Neutral to Elite Contractor</td>
+<td>Stanton, Pyro, Nyx</td>
+<td>Scraper modules Comer and Hart</td>
 </tr>
 <tr>
 <td><strong>Ling Family Hauling</strong></td>
@@ -378,14 +394,14 @@
 <ul>
 <li><strong>Easy entry for stealth quantum drives:</strong> Ling Hauling only requires Trainee/Rookie.</li>
 <li><strong>Military quantum drives are the long-term goal:</strong> Covalex requires Master rank.</li>
-<li><strong>Foxwell and Eckhart</strong> cover most of the combat components (coolers, shields, power plants, repeaters).</li>
-<li>The <strong>Hazard-Zone repeaters</strong> and the mining lasers come from the Battaglia line in Nyx (see also <code>Pyro_Nyx_Questgeber_Guide</code>).</li>
+<li><strong>Foxwell and Eckhart</strong> cover most of the combat components (coolers, shields, power plants).</li>
+<li>The <strong>Hazard-Zone repeaters</strong> and the mining laser Pitman come from the Battaglia line in Nyx (see also <code>Pyro_Nyx_Questgeber_Guide</code>).</li>
 <li><strong>Exactly which rank a given component needs</strong> cannot be derived cleanly from the data – the ranks above are the range across all of a giver's contracts.</li>
 </ul>
 <h3>Way B – Events</h3>
 <p>The event <a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">"The Return of Xenothreat"</a> (4.8.3, 2–15 July) gave blueprints as progress rewards: QuadraCell and QuadraCell MT at 60 %, FR-66 and FR-76 at 85 %, NDB-26/28/30 at 100 %. The event is <strong>over</strong>. If you did not unlock the blueprints back then, you can only get them if the event is repeated. If you have them, you keep them permanently.</p>
 <h3>Way C – Finding and removing components from ships</h3>
-<p>18 components are neither purchasable nor craftable (list in 3.4, e.g. AllStop, Sukoran, Suldrath, Helios, Sovereign, BriskAir, Delphi). There is <strong>no blueprint</strong> for them, so all that is left is to find them somewhere.</p>
+<p>14 components are neither purchasable nor craftable (list in 3.4, e.g. Sukoran, Suldrath, Helios, Sovereign, BriskAir, Delphi). There is <strong>no blueprint</strong> for them, so all that is left is to find them somewhere.</p>
 <p>What is documented:</p>
 <ul>
 <li>With salvage tools (precision tractor beam) you can pull weapons, shields, quantum drives and other modules out of wrecks, if you can reach them through a component bay. According to the <a target="_blank" rel="noopener" href="https://api.star-citizen.wiki/comm-links/19070">comm-link</a>, this statement dates from <strong>Alpha 4.4</strong>: components up to size 2.</li>
@@ -777,6 +793,14 @@
 <td>S1</td>
 <td>A</td>
 <td>–</td>
+<td>M3A Cannon Raider Camo</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Schiffswaffe</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
 <td>Singe Cannon (S1)</td>
 <td>Headhunters</td>
 </tr>
@@ -793,8 +817,8 @@
 <td>S2</td>
 <td>A</td>
 <td>–</td>
-<td>CF-227 Badger Repeater</td>
-<td>Foxwell</td>
+<td>M4A Cannon Raider Camo</td>
+<td>InterSec</td>
 </tr>
 <tr>
 <td>Schiffswaffe</td>
@@ -817,72 +841,16 @@
 <td>S3</td>
 <td>A</td>
 <td>–</td>
-<td>Singe Cannon (S3)</td>
-<td>Headhunters</td>
+<td>M5A Cannon Raider Camo</td>
+<td>InterSec</td>
 </tr>
 <tr>
 <td>Schiffswaffe</td>
 <td>S3</td>
 <td>A</td>
 <td>–</td>
-<td>Tarantula GT-870 Mark 3 Cannon</td>
+<td>Singe Cannon (S3)</td>
 <td>Headhunters</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S4</td>
-<td>A</td>
-<td>–</td>
-<td>Attrition-4 Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S4</td>
-<td>A</td>
-<td>–</td>
-<td>CF-447 Rhino Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S4</td>
-<td>A</td>
-<td>–</td>
-<td>Revenant Gatling</td>
-<td>Eckhart</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S5</td>
-<td>A</td>
-<td>–</td>
-<td>CF-557 Galdereen Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S6</td>
-<td>A</td>
-<td>–</td>
-<td>CF-667 Mammoth Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S6</td>
-<td>A</td>
-<td>–</td>
-<td>M8A Cannon</td>
-<td>Headhunters</td>
-</tr>
-<tr>
-<td>Mining-Laser</td>
-<td>S1</td>
-<td>A</td>
-<td>–</td>
-<td>Arbor MH1 Mining Laser</td>
-<td>Battaglia, Shubin</td>
 </tr>
 <tr>
 <td>Mining-Laser</td>
@@ -891,6 +859,22 @@
 <td>–</td>
 <td>Pitman Mining Laser</td>
 <td>Battaglia, Shubin</td>
+</tr>
+<tr>
+<td>Salvage-Modul</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Comer Scraper Module</td>
+<td>Adagio, Battaglia</td>
+</tr>
+<tr>
+<td>Salvage-Modul</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Hart Scraper Module</td>
+<td>Adagio, Battaglia</td>
 </tr>
 </tbody>
 </table></div>
@@ -1025,6 +1009,13 @@
 <td>A</td>
 <td>Industrial</td>
 <td>Algid</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Exotherm</td>
 </tr>
 <tr>
 <td>Cooler</td>
@@ -1226,8 +1217,22 @@
 <td>Schild</td>
 <td>S4</td>
 <td>A</td>
+<td>–</td>
+<td>Deterrent</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S4</td>
+<td>A</td>
 <td>Industrial</td>
 <td>Glacis</td>
+</tr>
+<tr>
+<td>Schild</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Holdstrong</td>
 </tr>
 <tr>
 <td>Schild</td>
@@ -1241,21 +1246,7 @@
 <td>S2</td>
 <td>A</td>
 <td>–</td>
-<td>GVSR Repeater</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S2</td>
-<td>A</td>
-<td>–</td>
 <td>Thlilye Laser Gatling</td>
-</tr>
-<tr>
-<td>Schiffswaffe</td>
-<td>S3</td>
-<td>A</td>
-<td>–</td>
-<td>PyroBurst Scattergun</td>
 </tr>
 <tr>
 <td>Schiffswaffe</td>
@@ -1298,13 +1289,6 @@
 <td>B</td>
 <td>Military</td>
 <td>BriskAir IC-30</td>
-</tr>
-<tr>
-<td>Power Plant</td>
-<td>S0</td>
-<td>C</td>
-<td>Civilian</td>
-<td>Radix</td>
 </tr>
 <tr>
 <td>Power Plant</td>
@@ -1357,13 +1341,6 @@
 </tr>
 <tr>
 <td>Radar</td>
-<td>S1</td>
-<td>C</td>
-<td>Military</td>
-<td>Ecouter</td>
-</tr>
-<tr>
-<td>Radar</td>
 <td>S2</td>
 <td>B</td>
 <td>Military</td>
@@ -1381,13 +1358,6 @@
 <td>S1</td>
 <td>C</td>
 <td>Military</td>
-<td>AllStop</td>
-</tr>
-<tr>
-<td>Schild</td>
-<td>S1</td>
-<td>C</td>
-<td>Military</td>
 <td>Suldrath</td>
 </tr>
 <tr>
@@ -1396,13 +1366,6 @@
 <td>C</td>
 <td>Military</td>
 <td>Sukoran</td>
-</tr>
-<tr>
-<td>Schild</td>
-<td>S4</td>
-<td>A</td>
-<td>Industrial</td>
-<td>Glacis</td>
 </tr>
 </tbody>
 </table></div></div>
@@ -1784,6 +1747,14 @@
 <td>S1</td>
 <td>A</td>
 <td>–</td>
+<td>M3A Cannon Raider Camo</td>
+<td>InterSec</td>
+</tr>
+<tr>
+<td>Ship weapon</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
 <td>Singe Cannon (S1)</td>
 <td>Headhunters</td>
 </tr>
@@ -1800,8 +1771,8 @@
 <td>S2</td>
 <td>A</td>
 <td>–</td>
-<td>CF-227 Badger Repeater</td>
-<td>Foxwell</td>
+<td>M4A Cannon Raider Camo</td>
+<td>InterSec</td>
 </tr>
 <tr>
 <td>Ship weapon</td>
@@ -1824,72 +1795,16 @@
 <td>S3</td>
 <td>A</td>
 <td>–</td>
-<td>Singe Cannon (S3)</td>
-<td>Headhunters</td>
+<td>M5A Cannon Raider Camo</td>
+<td>InterSec</td>
 </tr>
 <tr>
 <td>Ship weapon</td>
 <td>S3</td>
 <td>A</td>
 <td>–</td>
-<td>Tarantula GT-870 Mark 3 Cannon</td>
+<td>Singe Cannon (S3)</td>
 <td>Headhunters</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S4</td>
-<td>A</td>
-<td>–</td>
-<td>Attrition-4 Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S4</td>
-<td>A</td>
-<td>–</td>
-<td>CF-447 Rhino Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S4</td>
-<td>A</td>
-<td>–</td>
-<td>Revenant Gatling</td>
-<td>Eckhart</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S5</td>
-<td>A</td>
-<td>–</td>
-<td>CF-557 Galdereen Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S6</td>
-<td>A</td>
-<td>–</td>
-<td>CF-667 Mammoth Repeater</td>
-<td>Foxwell</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S6</td>
-<td>A</td>
-<td>–</td>
-<td>M8A Cannon</td>
-<td>Headhunters</td>
-</tr>
-<tr>
-<td>Mining laser</td>
-<td>S1</td>
-<td>A</td>
-<td>–</td>
-<td>Arbor MH1 Mining Laser</td>
-<td>Battaglia, Shubin</td>
 </tr>
 <tr>
 <td>Mining laser</td>
@@ -1898,6 +1813,22 @@
 <td>–</td>
 <td>Pitman Mining Laser</td>
 <td>Battaglia, Shubin</td>
+</tr>
+<tr>
+<td>Salvage module</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Comer Scraper Module</td>
+<td>Adagio, Battaglia</td>
+</tr>
+<tr>
+<td>Salvage module</td>
+<td>S1</td>
+<td>A</td>
+<td>–</td>
+<td>Hart Scraper Module</td>
+<td>Adagio, Battaglia</td>
 </tr>
 </tbody>
 </table></div>
@@ -2032,6 +1963,13 @@
 <td>A</td>
 <td>Industrial</td>
 <td>Algid</td>
+</tr>
+<tr>
+<td>Cooler</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Exotherm</td>
 </tr>
 <tr>
 <td>Cooler</td>
@@ -2233,8 +2171,22 @@
 <td>Shield</td>
 <td>S4</td>
 <td>A</td>
+<td>–</td>
+<td>Deterrent</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S4</td>
+<td>A</td>
 <td>Industrial</td>
 <td>Glacis</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>S4</td>
+<td>A</td>
+<td>–</td>
+<td>Holdstrong</td>
 </tr>
 <tr>
 <td>Shield</td>
@@ -2248,21 +2200,7 @@
 <td>S2</td>
 <td>A</td>
 <td>–</td>
-<td>GVSR Repeater</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S2</td>
-<td>A</td>
-<td>–</td>
 <td>Thlilye Laser Gatling</td>
-</tr>
-<tr>
-<td>Ship weapon</td>
-<td>S3</td>
-<td>A</td>
-<td>–</td>
-<td>PyroBurst Scattergun</td>
 </tr>
 <tr>
 <td>Ship weapon</td>
@@ -2305,13 +2243,6 @@
 <td>B</td>
 <td>Military</td>
 <td>BriskAir IC-30</td>
-</tr>
-<tr>
-<td>Power plant</td>
-<td>S0</td>
-<td>C</td>
-<td>Civilian</td>
-<td>Radix</td>
 </tr>
 <tr>
 <td>Power plant</td>
@@ -2364,13 +2295,6 @@
 </tr>
 <tr>
 <td>Radar</td>
-<td>S1</td>
-<td>C</td>
-<td>Military</td>
-<td>Ecouter</td>
-</tr>
-<tr>
-<td>Radar</td>
 <td>S2</td>
 <td>B</td>
 <td>Military</td>
@@ -2388,13 +2312,6 @@
 <td>S1</td>
 <td>C</td>
 <td>Military</td>
-<td>AllStop</td>
-</tr>
-<tr>
-<td>Shield</td>
-<td>S1</td>
-<td>C</td>
-<td>Military</td>
 <td>Suldrath</td>
 </tr>
 <tr>
@@ -2403,13 +2320,6 @@
 <td>C</td>
 <td>Military</td>
 <td>Sukoran</td>
-</tr>
-<tr>
-<td>Shield</td>
-<td>S4</td>
-<td>A</td>
-<td>Industrial</td>
-<td>Glacis</td>
 </tr>
 </tbody>
 </table></div></div>
@@ -2423,16 +2333,16 @@
 <li><strong>Ränge aufbauen:</strong> Foxwell und Eckhart fangen bei Contractor an. Ling Hauling ist der leichteste Einstieg (Trainee).</li>
 <li><strong>Wiederholen statt hoffen:</strong> Der Pool ist Zufall; du bekommst einen Bauplan aus dem Pool, nicht zwingend deinen Wunsch-Bauplan.</li>
 <li><strong>Material vorher besorgen:</strong> Rezept und Mindestqualität zeigt der Item Fabricator; Details im <code>Crafting_Bauplaene_Guide</code>.</li>
-<li><strong>Nach Patches neu prüfen:</strong> Pools, Ränge und Verträge wechseln. Die Zahlen hier sind der Stand 4.10.2.</li>
-<li><strong>Ohne Quelle ≠ unmöglich:</strong> 41 Baupläne haben keine bekannte Quelle in den Daten. Dass sie später kommen, ist eine Vermutung; belegen kann ich es nicht.</li>
+<li><strong>Nach Patches neu prüfen:</strong> Pools, Ränge und Verträge wechseln. Die Zahlen hier sind der Stand 4.10.3.</li>
+<li><strong>Ohne Quelle ≠ unmöglich:</strong> 42 Baupläne haben keine bekannte Quelle in den Daten. Dass sie später kommen, ist eine Vermutung; belegen kann ich es nicht.</li>
 </ol></div>
 <div class="en"><ol>
 <li><strong>Pick the target first, then the mission giver:</strong> Look up the component in table 3.1, note the giver, and repeat that giver's contracts.</li>
 <li><strong>Build ranks:</strong> Foxwell and Eckhart start at Contractor. Ling Hauling is the easiest entry (Trainee).</li>
 <li><strong>Repeat instead of hoping:</strong> The pool is random; you get one blueprint from the pool, not necessarily the one you want.</li>
 <li><strong>Get materials beforehand:</strong> The Item Fabricator shows the recipe and minimum quality; details in <code>Crafting_Bauplaene_Guide</code>.</li>
-<li><strong>Re-check after patches:</strong> Pools, ranks and contracts change. The numbers here are as of 4.10.2.</li>
-<li><strong>No source ≠ impossible:</strong> 41 blueprints have no known source in the data. That they arrive later is a guess; I cannot prove it.</li>
+<li><strong>Re-check after patches:</strong> Pools, ranks and contracts change. The numbers here are as of 4.10.3.</li>
+<li><strong>No source ≠ impossible:</strong> 42 blueprints have no known source in the data. That they arrive later is a guess; I cannot prove it.</li>
 </ol></div>
     </div>
   </section>
@@ -2442,7 +2352,7 @@
 <div class="de"><ul>
 <li>Ob „100 % Pool-Chance“ in der Praxis <strong>genau einen</strong> Bauplan pro Vertrag bedeutet. Ich lese das so, weil die Wiki-Seite zur Mission „Recover Vanduul Tech“ dasselbe beschreibt (ein Bauplan aus einem Pool).</li>
 <li>Welcher Rang für welche Komponente nötig ist (siehe oben).</li>
-<li>Ob alle 60 Mission-Quellen im Spiel gerade aktiv angeboten werden. Verträge wechseln.</li>
+<li>Ob alle 56 Mission-Quellen im Spiel gerade aktiv angeboten werden. Verträge wechseln.</li>
 <li>Ob Komponenten ohne Shop-Eintrag in einem Shop erscheinen, den die Datenbank nicht kennt.</li>
 <li>Ob ein bereits bekannter Bauplan erneut fallen kann.</li>
 <li>Wie Ausbau und Loot in 4.10 genau laufen (Weg C).</li>
@@ -2450,7 +2360,7 @@
 <div class="en"><ul>
 <li>Whether "100 % pool chance" really means <strong>exactly one</strong> blueprint per contract. I read it that way because the wiki page for the mission "Recover Vanduul Tech" describes the same thing (one blueprint from a pool).</li>
 <li>Which rank is needed for which component (see above).</li>
-<li>Whether all 60 mission sources are currently offered in game. Contracts rotate.</li>
+<li>Whether all 56 mission sources are currently offered in game. Contracts rotate.</li>
 <li>Whether components without a shop entry appear in a shop the database does not know.</li>
 <li>Whether an already known blueprint can drop again.</li>
 <li>How removing and looting components works in 4.10 exactly (Way C).</li>
@@ -2461,7 +2371,8 @@
     <div class="sec-h"><span class="idx">06</span><div><h2><span class="de">Quellen</span><span class="en">Sources</span></h2></div></div>
     <div class="sec-b">
 <div class="de"><ul>
-<li>Star Citizen Wiki API: Baupläne, Items, Missionen (<code>api.star-citizen.wiki</code>), Datenstand 4.10.2-LIVE</li>
+<li>Star Citizen Wiki API: Baupläne, Items, Missionen (<code>api.star-citizen.wiki</code>), Datenstand 4.10.3-LIVE (Build 13165946), Kaufpreise darin von UEX</li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Star_Citizen_Alpha_4.10.3">Star Citizen Wiki – Alpha 4.10.3</a> (neue InterSec-Verträge)</li>
 <li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Blueprint">Star Citizen Wiki – Blueprint</a></li>
 <li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">Star Citizen Wiki – Ship component</a></li>
 <li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">Star Citizen Wiki – Return of Xenothreat</a></li>
@@ -2472,7 +2383,8 @@
 </ul>
 <p><em>Inoffizielles Fan-Handbuch. Nicht mit Cloud Imperium Games verbunden. Star Citizen® ist eine Marke von CIG. Alle Angaben ohne Gewähr.</em></p></div>
 <div class="en"><ul>
-<li>Star Citizen Wiki API: blueprints, items, missions (<code>api.star-citizen.wiki</code>), data as of 4.10.2-LIVE</li>
+<li>Star Citizen Wiki API: blueprints, items, missions (<code>api.star-citizen.wiki</code>), data as of 4.10.3-LIVE (build 13165946), purchase prices in it from UEX</li>
+<li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Star_Citizen_Alpha_4.10.3">Star Citizen Wiki – Alpha 4.10.3</a> (new InterSec contracts)</li>
 <li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Blueprint">Star Citizen Wiki – Blueprint</a></li>
 <li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Ship_component">Star Citizen Wiki – Ship component</a></li>
 <li><a target="_blank" rel="noopener" href="https://starcitizen.tools/Return_of_Xenothreat">Star Citizen Wiki – Return of Xenothreat</a></li>
@@ -2486,7 +2398,7 @@
   </section>
 
   <footer>
-    <p><span class="de">Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Daten patch-abhängig (Stand 4.10.2) — alle Angaben ohne Gewähr.</span><span class="en">Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. Data is patch-dependent (as of 4.10.2) — no guarantee.</span></p>
+    <p><span class="de">Inoffiziell, nicht mit CIG verbunden. Star Citizen® ist eine Marke von CIG. Daten patch-abhängig (Stand 4.10.3) — alle Angaben ohne Gewähr.</span><span class="en">Unofficial, not affiliated with CIG. Star Citizen® is a trademark of CIG. Data is patch-dependent (as of 4.10.3) — no guarantee.</span></p>
   </footer>
 </div>
 <script>
